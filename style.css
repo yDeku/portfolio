@@ -40,19 +40,36 @@ nav a:hover {
 
 /* hero */
 .hero {
-  padding: 120px 0 60px;
+  padding: 120px 0 70px;
 }
 
 .hero h2 {
   font-size: 48px;
   line-height: 1.1;
-  max-width: 700px;
+  max-width: 750px;
 }
 
 .hero p {
   margin-top: 20px;
   color: #777;
   max-width: 500px;
+}
+
+/* feature */
+.feature {
+  padding: 40px 0;
+}
+
+.feature-box {
+  padding: 24px;
+  border-radius: 12px;
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.badge {
+  font-size: 12px;
+  color: #888;
 }
 
 /* section */
@@ -84,15 +101,6 @@ section {
 
 .card:hover {
   border-color: rgba(255,255,255,0.2);
-}
-
-.card h4 {
-  margin-bottom: 6px;
-}
-
-.card p {
-  font-size: 14px;
-  color: #777;
 }
 
 /* contact */
