@@ -1,98 +1,22 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YDK — Systems Developer</title>
-
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-
-<body>
-
-<header>
-  <div class="container nav">
-    <h1>YDK</h1>
-    <nav>
-      <a href="#projects">Projetos</a>
-      <a href="#contact">Contato</a>
-    </nav>
-  </div>
-</header>
-
-<main>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <h2>
-      Sistemas escaláveis para Minecraft & Web
-    </h2>
-
-    <p>
-      APIs, automações e estruturas modulares focadas em performance.
-    </p>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="container">
-    <h3 class="section-title">Projetos</h3>
-
-    <div class="grid">
-
-      <div class="card">
-        <h4>API Engine</h4>
-        <p>Base para sistemas dinâmicos.</p>
-      </div>
-
-      <div class="card">
-        <h4>Skill System</h4>
-        <p>Habilidades customizadas.</p>
-      </div>
-
-      <div class="card">
-        <h4>Addon Core</h4>
-        <p>Arquitetura modular.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
 <section id="contact">
   <div class="container">
     <h3 class="section-title">Contato</h3>
 
-    <div class="contact-box" id="discord">
+    <div class="contacts">
 
-      <!-- avatar -->
-      <img src="assets/discord.png" class="avatar">
+      <!-- Discord -->
+      <div class="contact-inline" id="discord">
+        <img src="assets/discord.png" class="contact-icon">
+        <strong>anakinsky01</strong>
+      </div>
 
-      <!-- ícone discord -->
-      <svg class="discord-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#5865F2" viewBox="0 0 24 24">
-        <path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515..."/>
-      </svg>
-
-      <!-- nome -->
-      <strong>anakinsky01</strong>
+      <!-- WhatsApp -->
+      <div class="contact-inline" id="whatsapp">
+        <img src="assets/whatsapp.png" class="contact-icon">
+        <strong>+55 00 00000-0000</strong>
+      </div>
 
     </div>
 
   </div>
 </section>
-
-</main>
-
-<footer>
-  <div class="container">
-    <p>© 2026 YDK</p>
-  </div>
-</footer>
-
-<script src="script.js"></script>
-</body>
-</html>
