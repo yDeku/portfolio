@@ -6,17 +6,15 @@
 }
 
 /* BACKGROUND PREMIUM */
-body {
-  font-family: 'Poppins', sans-serif;
-  color: white;
-  overflow-x: hidden;
-
-  background: linear-gradient(
-    to top,
-    #000000 0%,
-    #0b0b0b 40%,
-    #111111 100%
-  );
+body::before {
+  content: "";
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0,212,255,0.15), transparent);
+  top: -200px;
+  right: -200px;
+  z-index: -1;
 }
 
 /* ANIMAÇÃO BG */
