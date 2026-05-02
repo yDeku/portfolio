@@ -35,8 +35,8 @@ img {
   z-index: 1000;
   background: linear-gradient(
     to bottom,
-    rgba(3, 3, 3, 0.78),
-    rgba(3, 3, 3, 0.18),
+    rgba(3, 3, 3, 0.82),
+    rgba(3, 3, 3, 0.24),
     transparent
   );
   backdrop-filter: blur(10px);
@@ -46,7 +46,7 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 22px 0;
+  padding: clamp(14px, 2vw, 22px) 0;
 }
 
 /* LOGO */
@@ -57,7 +57,7 @@ img {
 }
 
 .brand-logo {
-  width: 96px;
+  width: clamp(72px, 8vw, 96px);
   height: auto;
   filter: drop-shadow(0 0 14px rgba(255, 38, 38, 0.22));
   transition: 0.25s ease;
@@ -71,8 +71,8 @@ img {
 /* MENU BUTTON */
 .menu-button {
   position: relative;
-  width: 52px;
-  height: 52px;
+  width: clamp(42px, 4vw, 52px);
+  height: clamp(42px, 4vw, 52px);
   border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.14);
   background: rgba(255,255,255,0.04);
@@ -161,7 +161,9 @@ img {
 .home {
   position: relative;
   min-height: 100vh;
-  padding: 130px 0 90px;
+  min-height: 100svh;
+  min-height: 100dvh;
+  padding: clamp(95px, 12vh, 135px) 0 clamp(55px, 8vh, 90px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -188,8 +190,8 @@ img {
 }
 
 .glow-one {
-  width: 540px;
-  height: 540px;
+  width: clamp(260px, 42vw, 540px);
+  height: clamp(260px, 42vw, 540px);
   background: rgba(255, 25, 25, 0.16);
   top: 20%;
   left: 50%;
@@ -197,8 +199,8 @@ img {
 }
 
 .glow-two {
-  width: 340px;
-  height: 340px;
+  width: clamp(180px, 28vw, 340px);
+  height: clamp(180px, 28vw, 340px);
   background: rgba(255, 0, 0, 0.10);
   bottom: 6%;
   right: 10%;
@@ -220,9 +222,11 @@ img {
   text-align: center;
 }
 
+/* LOGO CENTRAL */
 .hero-logo-wrap {
   position: relative;
-  width: min(680px, 88vw);
+  width: clamp(280px, 58vw, 640px);
+  max-height: 52vh;
   margin: 0 auto;
 }
 
@@ -237,7 +241,8 @@ img {
 
 .hero-logo {
   width: 100%;
-  height: auto;
+  max-height: 52vh;
+  object-fit: contain;
   margin: 0 auto;
   filter:
     drop-shadow(0 0 22px rgba(255, 35, 35, 0.32))
@@ -245,11 +250,11 @@ img {
 }
 
 .hero-subtitle {
-  margin-top: 30px;
+  margin-top: clamp(18px, 4vh, 30px);
   color: #f1f1f1;
-  font-size: 15px;
+  font-size: clamp(11px, 1.25vw, 15px);
   font-weight: 900;
-  letter-spacing: 0.24em;
+  letter-spacing: clamp(0.11em, 1.6vw, 0.24em);
   text-transform: uppercase;
   line-height: 1.8;
   text-shadow: 0 0 18px rgba(255, 45, 45, 0.18);
@@ -260,7 +265,7 @@ img {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin-top: 30px;
+  margin-top: clamp(20px, 4vh, 30px);
 }
 
 .btn {
@@ -305,7 +310,7 @@ img {
 /* SECTIONS */
 .section {
   position: relative;
-  padding: 105px 0;
+  padding: clamp(78px, 10vw, 105px) 0;
   border-top: 1px solid rgba(255,255,255,0.045);
 }
 
@@ -331,7 +336,7 @@ img {
 }
 
 .section-header h2 {
-  font-size: 36px;
+  font-size: clamp(28px, 4vw, 36px);
   line-height: 1.05;
   letter-spacing: -0.05em;
   font-weight: 800;
@@ -347,7 +352,7 @@ img {
 /* PROJECT */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 16px;
 }
 
@@ -541,54 +546,105 @@ img {
   transform: translateY(0);
 }
 
-/* RESPONSIVE */
+/* TELAS BAIXAS / F11 */
+@media (max-height: 760px) {
+  .home {
+    padding-top: 92px;
+    padding-bottom: 42px;
+  }
+
+  .hero-logo-wrap {
+    width: clamp(260px, 48vw, 520px);
+  }
+
+  .hero-logo {
+    max-height: 42vh;
+  }
+
+  .hero-subtitle {
+    margin-top: 18px;
+    font-size: 12px;
+  }
+
+  .hero-actions {
+    margin-top: 18px;
+  }
+}
+
+/* RESPONSIVO TABLET / CELULAR */
 @media (max-width: 768px) {
   .container {
     width: min(100% - 36px, 1120px);
   }
 
   .nav {
-    padding: 18px 0;
+    padding: 16px 0;
   }
 
   .brand-logo {
-    width: 78px;
+    width: 76px;
   }
 
   .menu-button {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border-radius: 14px;
   }
 
+  .menu-panel {
+    top: 70px;
+    right: 18px;
+    width: 170px;
+  }
+
   .home {
-    padding: 120px 0 80px;
+    padding: 105px 0 70px;
+    align-items: center;
   }
 
   .hero-logo-wrap {
-    width: min(500px, 92vw);
+    width: min(430px, 92vw);
+  }
+
+  .hero-logo {
+    max-height: 42vh;
   }
 
   .hero-subtitle {
-    font-size: 12px;
-    letter-spacing: 0.14em;
+    max-width: 330px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    line-height: 1.9;
   }
 
   .hero-actions {
     flex-direction: column;
     align-items: center;
+    gap: 10px;
   }
 
   .btn {
     width: 165px;
   }
 
-  .section {
-    padding: 78px 0;
+  .section-header p {
+    font-size: 14px;
   }
 
-  .section-header h2 {
-    font-size: 28px;
+  .project-card {
+    padding: 20px;
+  }
+
+  .project-top {
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 26px;
+  }
+
+  .project-card h3 {
+    font-size: 24px;
   }
 
   .contacts {
@@ -600,5 +656,39 @@ img {
   .contact-icon {
     width: 42px !important;
     height: 42px !important;
+  }
+}
+
+/* CELULAR PEQUENO */
+@media (max-width: 420px) {
+  .container {
+    width: min(100% - 28px, 1120px);
+  }
+
+  .brand-logo {
+    width: 68px;
+  }
+
+  .menu-button {
+    width: 42px;
+    height: 42px;
+  }
+
+  .home {
+    padding-top: 95px;
+  }
+
+  .hero-logo-wrap {
+    width: min(360px, 94vw);
+  }
+
+  .hero-subtitle {
+    font-size: 10px;
+    letter-spacing: 0.10em;
+  }
+
+  .btn {
+    width: 150px;
+    font-size: 13px;
   }
 }
