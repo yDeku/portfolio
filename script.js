@@ -33,5 +33,5 @@ discord.addEventListener('click', () => {
 const whatsapp = document.getElementById('whatsapp');
 
 whatsapp.addEventListener('click', () => {
-  window.open('https://wa.me/5500000000000', '_blank');
+  window.open('https://wa.me/5582993233461', '_blank');
 });
