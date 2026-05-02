@@ -1,12 +1,7 @@
-// SCROLL REVEAL
-const elements = document.querySelectorAll('.fade');
+// copiar discord
+const discord = document.getElementById('discord');
 
-window.addEventListener('scroll', () => {
-  elements.forEach(el => {
-    const top = el.getBoundingClientRect().top;
-
-    if (top < window.innerHeight - 50) {
-      el.classList.add('show');
-    }
-  });
+discord.addEventListener('click', () => {
+  navigator.clipboard.writeText('Deku#0001');
+  discord.innerText = "Copiado!";
 });
