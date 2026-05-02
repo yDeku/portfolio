@@ -22,11 +22,13 @@ const menuPanel = document.getElementById('menuPanel');
 if (menuButton && menuPanel) {
   menuButton.addEventListener('click', () => {
     menuPanel.classList.toggle('active');
+    menuButton.classList.toggle('active');
   });
 
   menuPanel.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       menuPanel.classList.remove('active');
+      menuButton.classList.remove('active');
     });
   });
 
@@ -36,6 +38,7 @@ if (menuButton && menuPanel) {
 
     if (!clickedInsideMenu && !clickedButton) {
       menuPanel.classList.remove('active');
+      menuButton.classList.remove('active');
     }
   });
 }
