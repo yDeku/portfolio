@@ -117,6 +117,15 @@ section {
   border-color: rgba(255,255,255,0.2);
 }
 
+.avatar {
+  transition: 0.3s;
+}
+
+.contact-box:hover .avatar {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(88,101,242,0.5);
+}
+
 /* footer */
 footer {
   margin-top: 60px;
