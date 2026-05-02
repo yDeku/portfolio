@@ -82,21 +82,38 @@ section {
   border-color: rgba(255,255,255,0.2);
 }
 
-/* CONTACT */
-.contact-box {
+/* container dos contatos */
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* linha do contato */
+.contact-inline {
   display: flex;
   align-items: center;
   gap: 10px;
-
-  padding: 12px;
-  border-radius: 10px;
-  background: #111;
-  border: 1px solid rgba(255,255,255,0.05);
   cursor: pointer;
 }
 
-.contact-box:hover {
-  border-color: rgba(255,255,255,0.2);
+/* ícones maiores */
+.contact-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* texto */
+.contact-inline strong {
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* hover */
+.contact-inline:hover strong {
+  color: #fff;
 }
 
 /* avatar */
