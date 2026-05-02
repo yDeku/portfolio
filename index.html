@@ -3,55 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ydk | Developer</title>
+<title>Deku — Developer</title>
 
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <header>
-  <div class="container header-content">
-    <h1>ydk.dev</h1>
+  <div class="container nav">
+    <h1>Deku</h1>
     <nav>
-      <a href="#home">Home</a>
       <a href="#projects">Projetos</a>
       <a href="#contact">Contato</a>
     </nav>
   </div>
 </header>
 
+<main>
+
 <!-- HERO -->
-<section id="home" class="hero fade">
+<section class="hero">
   <div class="container">
-    <h2>Frontend & API Developer</h2>
-    <p>Crio sistemas avançados para Minecraft, APIs e experiências modernas.</p>
-    <button class="btn">Ver Projetos</button>
+    <h2>
+      Construindo sistemas avançados para Minecraft & Web
+    </h2>
+
+    <p>
+      Desenvolvedor focado em APIs, automações e experiências modernas.
+      Especializado em addons e sistemas escaláveis.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">Ver projetos</a>
+    </div>
   </div>
 </section>
 
 <!-- PROJECTS -->
 <section id="projects">
   <div class="container">
-    <h2 class="fade">Projetos</h2>
-    <p class="section-sub fade">Alguns dos meus trabalhos recentes</p>
+    <h3 class="section-title">Projetos</h3>
 
-    <div class="projects">
+    <div class="grid">
 
-      <div class="card fade">
-        <h3>API Engine</h3>
-        <p>Framework para sistemas dinâmicos e escaláveis.</p>
+      <div class="card">
+        <h4>API Engine</h4>
+        <p>Framework para criação de sistemas dinâmicos e escaláveis.</p>
       </div>
 
-      <div class="card fade">
-        <h3>Skill System</h3>
-        <p>Sistema de habilidades customizadas avançadas.</p>
+      <div class="card">
+        <h4>Skill System</h4>
+        <p>Sistema de habilidades customizadas com efeitos avançados.</p>
       </div>
 
-      <div class="card fade">
-        <h3>Addon Builder</h3>
-        <p>Ferramenta modular para criação de addons.</p>
+      <div class="card">
+        <h4>Addon Builder</h4>
+        <p>Ferramenta modular para criação de addons organizados.</p>
       </div>
 
     </div>
@@ -59,29 +68,24 @@
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="fade">
+<section id="contact">
   <div class="container">
-    <h2>Contato</h2>
-    <p class="section-sub">Entre em contato para projetos ou parcerias</p>
-  </div>
-  <div class="discord-badge" id="discord">
-  
-  <div class="discord-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#5865F2" viewBox="0 0 24 24">
-      <path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.444.864-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.249.077.077 0 0 0-.079-.037 19.736 19.736 0 0 0-4.885 1.515.07.07 0 0 0-.032.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 6.029 3.053.078.078 0 0 0 .084-.027c.463-.63.876-1.295 1.226-1.994a.076.076 0 0 0-.041-.105 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.927 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.099.246.197.373.291a.077.077 0 0 1-.006.128 12.299 12.299 0 0 1-1.873.892.076.076 0 0 0-.04.105c.36.699.773 1.364 1.225 1.994a.076.076 0 0 0 .084.028 19.876 19.876 0 0 0 6.03-3.054.077.077 0 0 0 .03-.055c.5-5.177-.838-9.674-3.548-13.66a.061.061 0 0 0-.031-.03Z"/>
-    </svg>
-  </div>
+    <h3 class="section-title">Contato</h3>
 
-  <div class="discord-info">
-    <span class="discord-name">anakinsku01</span>
-  </div>
+    <div class="contact-box" id="discord">
+      <span>Discord</span>
+      <strong>Deku#0001</strong>
+    </div>
 
-</div>
+  </div>
 </section>
 
+</main>
 
 <footer>
-  © 2026 Deku.dev
+  <div class="container">
+    <p>© 2026 Deku</p>
+  </div>
 </footer>
 
 <script src="script.js"></script>
