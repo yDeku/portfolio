@@ -1,6 +1,6 @@
 const discord = document.getElementById('discord');
 
 discord.addEventListener('click', () => {
-  navigator.clipboard.writeText('Deku#0001');
+  navigator.clipboard.writeText('anakinsky01');
   discord.innerText = "Copiado!";
 });
