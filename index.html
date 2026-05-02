@@ -1,22 +1,127 @@
-<section id="contact">
-  <div class="container">
-    <h3 class="section-title">Contato</h3>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YDK — Systems Developer</title>
 
-    <div class="contacts">
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
 
-      <!-- Discord -->
-      <div class="contact-inline" id="discord">
-        <img src="assets/discord.png" class="contact-icon">
-        <strong>anakinsky01</strong>
-      </div>
+<body>
 
-      <!-- WhatsApp -->
-      <div class="contact-inline" id="whatsapp">
-        <img src="assets/whatsapp.png" class="contact-icon">
-        <strong>+55 00 00000-0000</strong>
-      </div>
+<header>
+  <div class="container nav">
+    <h1>YDK</h1>
 
-    </div>
-
+    <nav>
+      <a href="#projects">Projetos</a>
+      <a href="#contact">Contato</a>
+    </nav>
   </div>
-</section>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero reveal">
+    <div class="container">
+      <span class="eyebrow">Systems Developer</span>
+
+      <h2>Sistemas escaláveis para Minecraft & Web</h2>
+
+      <p>
+        APIs, automações e estruturas modulares focadas em performance,
+        organização e experiência moderna.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">Projetos</a>
+        <a href="#contact" class="btn-secondary">Contato</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE -->
+  <section class="feature reveal">
+    <div class="container">
+      <div class="feature-card">
+        <span>Projeto em destaque</span>
+        <h3>API Engine</h3>
+        <p>
+          Base modular para criação de sistemas dinâmicos e escaláveis
+          dentro do Minecraft Bedrock.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <h3 class="section-title reveal">Projetos</h3>
+
+      <div class="grid">
+
+        <div class="card reveal">
+          <h4>Skill System</h4>
+          <p>Framework para habilidades customizadas.</p>
+        </div>
+
+        <div class="card reveal">
+          <h4>Addon Core</h4>
+          <p>Arquitetura organizada para addons.</p>
+        </div>
+
+        <div class="card reveal">
+          <h4>Event Engine</h4>
+          <p>Sistema para eventos dinâmicos.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h3 class="section-title reveal">Contato</h3>
+
+      <div class="contacts reveal">
+
+        <!-- Discord -->
+        <div class="contact-inline" id="discord">
+          <img src="assets/discord.png" class="contact-icon" alt="Discord">
+          <div class="contact-text">
+            <span>Discord</span>
+            <strong>anakinsky01</strong>
+          </div>
+          <small class="contact-feedback">copiar</small>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="contact-inline" id="whatsapp">
+          <img src="assets/whatsapp.png" class="contact-icon" alt="WhatsApp">
+          <div class="contact-text">
+            <span>WhatsApp</span>
+            <strong>+55 00 00000-0000</strong>
+          </div>
+          <small class="contact-feedback">abrir</small>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2026 YDK</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
