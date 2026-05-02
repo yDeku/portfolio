@@ -40,36 +40,16 @@ nav a:hover {
 
 /* hero */
 .hero {
-  padding: 120px 0 70px;
+  padding: 120px 0 60px;
 }
 
 .hero h2 {
-  font-size: 48px;
-  line-height: 1.1;
-  max-width: 750px;
+  font-size: 44px;
 }
 
 .hero p {
-  margin-top: 20px;
+  margin-top: 15px;
   color: #777;
-  max-width: 500px;
-}
-
-/* feature */
-.feature {
-  padding: 40px 0;
-}
-
-.feature-box {
-  padding: 24px;
-  border-radius: 12px;
-  background: #111;
-  border: 1px solid rgba(255,255,255,0.06);
-}
-
-.badge {
-  font-size: 12px;
-  color: #888;
 }
 
 /* section */
@@ -90,23 +70,25 @@ section {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-/* cards */
+/* card */
 .card {
   padding: 16px;
   border-radius: 10px;
   background: #111;
   border: 1px solid rgba(255,255,255,0.05);
-  transition: 0.2s;
 }
 
 .card:hover {
   border-color: rgba(255,255,255,0.2);
 }
 
-/* contact */
+/* CONTACT */
 .contact-box {
-  margin-top: 10px;
-  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px;
   border-radius: 10px;
   background: #111;
   border: 1px solid rgba(255,255,255,0.05);
@@ -117,13 +99,17 @@ section {
   border-color: rgba(255,255,255,0.2);
 }
 
+/* avatar */
 .avatar {
-  transition: 0.3s;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.contact-box:hover .avatar {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(88,101,242,0.5);
+/* discord icon */
+.discord-icon {
+  opacity: 0.8;
 }
 
 /* footer */
