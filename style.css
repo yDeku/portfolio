@@ -372,3 +372,15 @@ footer {
     height: 40px;
   }
 }
+/* CORREÇÃO DAS IMAGENS DOS CONTATOS */
+.contact-icon {
+  width: 44px !important;
+  height: 44px !important;
+  object-fit: contain;
+  display: block;
+}
+
+/* segurança para nenhuma imagem estourar */
+img {
+  max-width: 100%;
+}
