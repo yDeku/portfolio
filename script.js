@@ -29,6 +29,15 @@ if (menuButton && menuPanel) {
       menuPanel.classList.remove('active');
     });
   });
+
+  document.addEventListener('click', (event) => {
+    const clickedInsideMenu = menuPanel.contains(event.target);
+    const clickedButton = menuButton.contains(event.target);
+
+    if (!clickedInsideMenu && !clickedButton) {
+      menuPanel.classList.remove('active');
+    }
+  });
 }
 
 // Discord copiar
@@ -38,7 +47,7 @@ if (discord) {
   discord.addEventListener('click', () => {
     navigator.clipboard.writeText('anakinsky01');
 
-    const feedback = discord.querySelector('.contact-feedback');
+    const feedback = discord.querySelector('.contact-action');
     feedback.textContent = 'copied';
 
     setTimeout(() => {
