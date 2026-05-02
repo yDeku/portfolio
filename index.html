@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Deku | Developer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.4);
+      padding: 15px 50px;
+      display: flex;
+      justify-content: space-between;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    nav a {
+      color: #ccc;
+      margin-left: 20px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 120px 50px;
+    }
+
+    /* HERO */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero h2 {
+      font-size: 48px;
+      margin-bottom: 10px;
+      animation: fadeUp 1s ease;
+    }
+
+    .hero p {
+      color: #aaa;
+      max-width: 500px;
+      animation: fadeUp 1.3s ease;
+    }
+
+    .btn {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border-radius: 30px;
+      background: linear-gradient(45deg, #6a5cff, #00d4ff);
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* PROJECTS */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 15px;
+      transition: 0.3s;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media(max-width: 768px) {
+      header {
+        padding: 15px 20px;
+      }
+
+      section {
+        padding: 100px 20px;
+      }
+
+      .hero h2 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Deku.dev</h1>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#projects">Projetos</a>
+    <a href="#contact">Contato</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <h2>Desenvolvedor de APIs & Sistemas</h2>
+  <p>
+    Crio sistemas avançados para Minecraft utilizando JSON, APIs e automações.
+    Focado em performance, organização e experiência.
+  </p>
+  <button class="btn">Ver Projetos</button>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <h2 style="margin-bottom:20px;">Projetos</h2>
+
+  <div class="projects">
+
+    <div class="card">
+      <h3>API de Itens Custom</h3>
+      <p>Sistema avançado para criação de itens dinâmicos no Minecraft.</p>
+    </div>
+
+    <div class="card">
+      <h3>Sistema de Habilidades</h3>
+      <p>Framework completo para habilidades customizadas com efeitos.</p>
+    </div>
+
+    <div class="card">
+      <h3>Addon Modular</h3>
+      <p>Estrutura organizada para addons escaláveis e reutilizáveis.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2>Contato</h2>
+  <p style="color:#aaa;">Entre em contato para projetos ou parcerias.</p>
+</section>
+
+<footer>
+  © 2026 Deku.dev
+</footer>
+
+<script>
+  // Scroll animation
+  const cards = document.querySelectorAll('.card');
+
+  window.addEventListener('scroll', () => {
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 50) {
+        card.classList.add('show');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
