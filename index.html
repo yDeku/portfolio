@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YDK — MCBE Developer</title>
 
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=13">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
@@ -17,6 +17,12 @@
         <img src="assets/logo.png" alt="YDK Developer" class="brand-logo">
       </a>
 
+      <nav class="desktop-nav">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
       <button class="menu-button" id="menuButton" aria-label="Open menu">
         <span></span>
         <span></span>
@@ -25,6 +31,7 @@
 
     <div class="menu-panel" id="menuPanel">
       <a href="#home">Home</a>
+      <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </div>
@@ -43,13 +50,32 @@
           <img src="assets/logo.png" alt="YDK Developer" class="hero-logo">
         </div>
 
+        <p class="hero-text">
+          Custom Minecraft Bedrock systems.
+        </p>
+
         <p class="hero-subtitle">
-          MCBE DEVELOPER · API · JSON UI · MOLANG
+          MCBE · API · JSON UI · MOLANG
         </p>
 
         <div class="hero-actions">
           <a href="#projects" class="btn btn-primary">Projects</a>
           <a href="#contact" class="btn btn-secondary">Contact</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section about-section">
+      <div class="container">
+        <div class="about-card reveal">
+          <span class="section-label">About</span>
+
+          <h2>MCBE Developer</h2>
+
+          <p>
+            I make Minecraft Bedrock systems focused on UI, abilities and gameplay.
+          </p>
         </div>
       </div>
     </section>
@@ -79,14 +105,8 @@
 
               <div class="project-cover-info">
                 <h3>Star Wars</h3>
-                <p>A custom Minecraft Bedrock project.</p>
+                <p>Lightsabers, abilities and custom gameplay.</p>
               </div>
-            </div>
-
-            <div class="project-content">
-              <p>
-                Lightsabers, abilities and gameplay features inspired by Star Wars.
-              </p>
             </div>
           </article>
 
@@ -107,7 +127,7 @@
 
         <div class="contacts reveal">
 
-          <div class="contact-item" id="discord">
+          <div class="contact-card" id="discord">
             <img src="assets/discord.png" alt="Discord" class="contact-icon">
 
             <div class="contact-info">
@@ -118,7 +138,7 @@
             <small class="contact-action">copy</small>
           </div>
 
-          <div class="contact-item" id="whatsapp">
+          <div class="contact-card" id="whatsapp">
             <img src="assets/whatsapp.png" alt="WhatsApp" class="contact-icon">
 
             <div class="contact-info">
@@ -137,11 +157,12 @@
   </main>
 
   <footer class="footer">
-    <div class="container">
-      <p>© 2026 YDK</p>
+    <div class="container footer-content">
+      <p>YDK — MCBE Developer</p>
+      <span>© 2026</span>
     </div>
   </footer>
 
-  <script src="script.js?v=12"></script>
+  <script src="script.js?v=13"></script>
 </body>
 </html>
