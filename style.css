@@ -1,215 +1,135 @@
-/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* BODY (CORRIGIDO) */
 body {
-  font-family: 'Poppins', sans-serif;
-  color: white;
-  overflow-x: hidden;
-
-  background: linear-gradient(
-    to top,
-    #000000,
-    #0b0b0b,
-    #111111
-  );
+  font-family: 'Inter', sans-serif;
+  background: #0a0a0a;
+  color: #fff;
 }
 
-/* EFEITO GLOW */
-body::before {
-  content: "";
-  position: fixed;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(0,212,255,0.12), transparent);
-  top: -200px;
-  right: -200px;
-  z-index: 0;
-}
-
-/* CONTAINER */
+/* layout */
 .container {
   max-width: 1100px;
   margin: auto;
   padding: 0 20px;
-  position: relative;
-  z-index: 1;
 }
 
-/* HEADER */
+/* header */
 header {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  backdrop-filter: blur(10px);
-  background: rgba(0,0,0,0.6);
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  z-index: 1000;
 }
 
-.header-content {
+.nav {
   display: flex;
   justify-content: space-between;
-  padding: 15px 0;
+  padding: 18px 0;
 }
 
 nav a {
+  margin-left: 20px;
   color: #aaa;
-  margin-left: 18px;
   text-decoration: none;
-  transition: 0.3s;
 }
 
 nav a:hover {
-  color: white;
+  color: #fff;
 }
 
-/* SECTION */
-section {
-  padding: 80px 0;
-}
-
-/* HERO */
+/* hero */
 .hero {
-  padding-top: 120px;
+  padding: 100px 0 60px;
 }
 
 .hero h2 {
-  font-size: 38px;
+  font-size: 40px;
+  max-width: 700px;
+  line-height: 1.2;
 }
 
 .hero p {
-  color: #aaa;
-  margin: 10px 0 20px;
-}
-
-/* BOTÃO (CORRIGIDO) */
-.btn {
-  padding: 10px 25px;
-  border-radius: 25px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
-  color: white;
-
-  transition: all 0.25s ease;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(59,130,246,0.4);
-}
-
-/* TITULO */
-h2 {
-  font-size: 26px;
-}
-
-.section-sub {
+  margin-top: 15px;
   color: #888;
-  font-size: 13px;
-  margin-bottom: 25px;
+  max-width: 500px;
 }
 
-/* GRID */
-.projects {
+.hero-actions {
+  margin-top: 25px;
+}
+
+.btn-primary {
+  padding: 10px 20px;
+  background: #fff;
+  color: #000;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.btn-primary:hover {
+  opacity: 0.8;
+}
+
+/* section */
+section {
+  padding: 60px 0;
+}
+
+.section-title {
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #aaa;
+}
+
+/* grid */
+.grid {
   display: grid;
+  gap: 14px;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
 }
 
-/* CARD */
+/* card */
 .card {
-  padding: 18px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.04);
+  padding: 16px;
+  border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(10px);
-  transition: 0.3s;
+  background: #111;
+  transition: 0.2s;
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(0,212,255,0.3);
+  border-color: rgba(255,255,255,0.15);
 }
 
-/* TEXTO CARD */
-.card h3 {
+.card h4 {
   margin-bottom: 6px;
 }
 
 .card p {
-  font-size: 13px;
-  color: #aaa;
-}
-
-/* SCROLL */
-.fade {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: 0.8s ease;
-}
-
-.fade.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 40px;
-  color: #666;
-}
-
-/* DISCORD BADGE */
-.discord-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-
-  padding: 10px 14px;
-  border-radius: 12px;
-
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-
-  backdrop-filter: blur(10px);
-
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.discord-badge:hover {
-  transform: translateY(-2px);
-  border-color: rgba(88,101,242,0.5);
-  box-shadow: 0 0 20px rgba(88,101,242,0.25);
-}
-
-.discord-info {
-  display: flex;
-  gap: 4px;
+  color: #888;
   font-size: 14px;
 }
 
-.discord-name {
-  color: white;
-  font-weight: 500;
+/* contact */
+.contact-box {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 10px;
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer;
 }
 
-.discord-tag {
-  color: #888;
+.contact-box:hover {
+  border-color: rgba(255,255,255,0.2);
 }
 
-/* RESPONSIVO */
-@media(max-width:768px) {
-  .hero h2 {
-    font-size: 28px;
-  }
+/* footer */
+footer {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 30px 0;
+  margin-top: 40px;
+  color: #666;
 }
