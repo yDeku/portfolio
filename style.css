@@ -166,3 +166,47 @@ footer {
     font-size: 28px;
   }
 }
+.discord-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(10px);
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.discord-badge:hover {
+  transform: translateY(-2px);
+  border-color: rgba(88,101,242,0.5);
+  box-shadow: 0 0 20px rgba(88,101,242,0.25);
+}
+
+/* Ícone */
+.discord-icon {
+  display: flex;
+  align-items: center;
+}
+
+/* Texto */
+.discord-info {
+  display: flex;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.discord-name {
+  color: white;
+  font-weight: 500;
+}
+
+.discord-tag {
+  color: #888;
+}
