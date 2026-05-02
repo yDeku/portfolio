@@ -125,7 +125,7 @@ header {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at center, rgba(120, 70, 255, 0.12), transparent 30%),
+    radial-gradient(circle at center, rgba(255, 0, 60, 0.14), transparent 30%),
     radial-gradient(circle at top, rgba(255,255,255,0.04), transparent 35%),
     #030303;
 }
@@ -150,24 +150,12 @@ header {
   text-align: center;
 }
 
-.est-badge {
-  display: inline-block;
-  padding: 5px 12px;
-  margin-bottom: 28px;
-  border: 1px solid rgba(255,255,255,0.45);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.22em;
-  background: rgba(0,0,0,0.35);
-}
-
 .hero-logo {
   width: min(720px, 90vw);
   height: auto;
   display: block;
   margin: 0 auto;
-  filter: drop-shadow(0 0 28px rgba(130, 80, 255, 0.18));
+  filter: drop-shadow(0 0 30px rgba(255, 0, 50, 0.28));
 }
 
 .home-subtitle {
@@ -179,31 +167,41 @@ header {
   text-transform: uppercase;
 }
 
-.enter-button {
-  display: inline-flex;
-  align-items: center;
+.home-actions {
+  display: flex;
   justify-content: center;
-  gap: 14px;
   margin-top: 28px;
-  padding: 18px 42px;
+}
+
+/* BOTÕES */
+.btn-primary,
+.btn-secondary {
+  padding: 9px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.btn-primary {
   background: #fff;
   color: #000;
-  text-decoration: none;
-  font-size: 20px;
-  font-weight: 800;
-  font-style: italic;
-  letter-spacing: 0.08em;
-  box-shadow: 0 0 35px rgba(255,255,255,0.16);
-  transition: 0.25s ease;
+  font-weight: 600;
 }
 
-.enter-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 45px rgba(255,255,255,0.26);
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255,255,255,0.12);
 }
 
-.enter-button span {
-  font-style: normal;
+.btn-secondary {
+  color: #ccc;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.22);
 }
 
 /* SECTIONS */
@@ -405,11 +403,6 @@ img {
     font-size: 12px;
     letter-spacing: 0.18em;
     line-height: 1.8;
-  }
-
-  .enter-button {
-    padding: 14px 32px;
-    font-size: 16px;
   }
 
   .contacts {
