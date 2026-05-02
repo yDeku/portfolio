@@ -9,9 +9,14 @@
 body {
   font-family: 'Poppins', sans-serif;
   color: white;
-  background: linear-gradient(-45deg, #0b0b0b, #111, #0b0b0b, #050505);
-  background-size: 400% 400%;
-  animation: bg 12s ease infinite;
+  overflow-x: hidden;
+
+  background: linear-gradient(
+    to top,
+    #000000 0%,
+    #0b0b0b 40%,
+    #111111 100%
+  );
 }
 
 /* ANIMAÇÃO BG */
