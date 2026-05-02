@@ -59,11 +59,11 @@ if (discord) {
   });
 }
 
-// WhatsApp abrir
-const whatsapp = document.getElementById('whatsapp');
+// YouTube abrir
+const youtube = document.getElementById('youtube');
 
-if (whatsapp) {
-  whatsapp.addEventListener('click', () => {
-    window.open('https://wa.me/5582993233461', '_blank');
+if (youtube) {
+  youtube.addEventListener('click', () => {
+    window.open('https://www.youtube.com/@ydekuh', '_blank');
   });
 }
