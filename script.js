@@ -15,7 +15,7 @@ function revealOnScroll() {
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
 
-// Menu
+// Menu mobile
 const menuButton = document.getElementById('menuButton');
 const menuPanel = document.getElementById('menuPanel');
 
