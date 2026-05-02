@@ -1,110 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YDK — Systems Developer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>YDK — MCBE Developer</title>
+
+  <link rel="stylesheet" href="style.css?v=5">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<header>
-  <div class="container nav">
-    <a href="#home" class="logo-link">
-      <img src="assets/logo.png" alt="YDK Developer" class="site-logo">
-    </a>
+  <header class="header">
+    <div class="container nav">
+      <a href="#home" class="brand">
+        <img src="assets/logo.png" alt="YDK Developer" class="brand-logo">
+      </a>
 
-    <button class="menu-button" id="menuButton" aria-label="Abrir menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </div>
-
-  <div class="menu-panel" id="menuPanel">
-    <a href="#home">Home</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-  </div>
-</header>
-
-<main>
-
-  <!-- HOME / INTRO -->
-  <section id="home" class="home-section">
-    <div class="home-bg"></div>
-
-    <div class="home-content reveal">
-      <img src="assets/logo.png" alt="YDK Developer" class="hero-logo">
-
-      <p class="home-subtitle">
-        MCBE DEVELOPER · API · JSON UI · MOLANG
-      </p>
-
-      <div class="home-actions">
-        <a href="#projects" class="btn-primary">Enter</a>
-      </div>
+      <button class="menu-button" id="menuButton" aria-label="Abrir menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
-  </section>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="container">
-      <h3 class="section-title reveal">Projects</h3>
+    <div class="menu-panel" id="menuPanel">
+      <a href="#home">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
 
-      <div class="grid">
-        <div class="card reveal">
-          <h4>Star Wars</h4>
-          <p>Coming soon...</p>
+  <main>
+
+    <!-- HOME -->
+    <section id="home" class="home">
+      <div class="background-grid"></div>
+      <div class="red-glow glow-one"></div>
+      <div class="red-glow glow-two"></div>
+
+      <div class="container home-content reveal">
+        <div class="hero-logo-wrap">
+          <img src="assets/logo.png" alt="YDK Developer" class="hero-logo">
+        </div>
+
+        <p class="hero-subtitle">
+          MCBE DEVELOPER · API · JSON UI · MOLANG
+        </p>
+
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="#contact" class="btn btn-secondary">Contact</a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="container">
-      <h3 class="section-title reveal">Contact</h3>
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <div class="container">
 
-      <div class="contacts reveal">
+        <div class="section-header reveal">
+          <span class="section-label">Projects</span>
+          <h2>Building systems for Minecraft Bedrock.</h2>
+          <p>
+            Focused on APIs, custom systems, JSON UI and Molang-based experiences.
+          </p>
+        </div>
 
-        <div class="contact-inline" id="discord">
-          <img src="assets/discord.png" class="contact-icon" alt="Discord">
+        <div class="projects-grid">
 
-          <div class="contact-text">
-            <span>Discord</span>
-            <strong>anakinsky01</strong>
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-type">Featured Project</span>
+              <span class="project-status">Coming soon</span>
+            </div>
+
+            <h3>Star Wars</h3>
+
+            <p>
+              A Minecraft Bedrock project focused on custom systems, immersive mechanics
+              and modular architecture.
+            </p>
+
+            <div class="project-tags">
+              <span>MCBE</span>
+              <span>API</span>
+              <span>JSON UI</span>
+              <span>Molang</span>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
+
+        <div class="section-header reveal">
+          <span class="section-label">Contact</span>
+          <h2>Let’s build something.</h2>
+          <p>
+            Reach out through Discord or WhatsApp.
+          </p>
+        </div>
+
+        <div class="contacts reveal">
+
+          <div class="contact-item" id="discord">
+            <img src="assets/discord.png" alt="Discord" class="contact-icon">
+
+            <div class="contact-info">
+              <span>Discord</span>
+              <strong>anakinsky01</strong>
+            </div>
+
+            <small class="contact-action">copy</small>
           </div>
 
-          <small class="contact-feedback">copy</small>
-        </div>
+          <div class="contact-item" id="whatsapp">
+            <img src="assets/whatsapp.png" alt="WhatsApp" class="contact-icon">
 
-        <div class="contact-inline" id="whatsapp">
-          <img src="assets/whatsapp.png" class="contact-icon" alt="WhatsApp">
+            <div class="contact-info">
+              <span>WhatsApp</span>
+              <strong>+55 82 9 9323-3461</strong>
+            </div>
 
-          <div class="contact-text">
-            <span>WhatsApp</span>
-            <strong>+55 82 9 9323-3461</strong>
+            <small class="contact-action">open</small>
           </div>
 
-          <small class="contact-feedback">open</small>
         </div>
 
       </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 YDK. All rights reserved.</p>
     </div>
-  </section>
+  </footer>
 
-</main>
-
-<footer>
-  <div class="container">
-    <p>© 2026 YDK</p>
-  </div>
-</footer>
-
-<script src="script.js"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>
