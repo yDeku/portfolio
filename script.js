@@ -15,23 +15,43 @@ function revealOnScroll() {
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
 
+// Menu
+const menuButton = document.getElementById('menuButton');
+const menuPanel = document.getElementById('menuPanel');
+
+if (menuButton && menuPanel) {
+  menuButton.addEventListener('click', () => {
+    menuPanel.classList.toggle('active');
+  });
+
+  menuPanel.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      menuPanel.classList.remove('active');
+    });
+  });
+}
+
 // Discord copiar
 const discord = document.getElementById('discord');
 
-discord.addEventListener('click', () => {
-  navigator.clipboard.writeText('anakinsky01');
+if (discord) {
+  discord.addEventListener('click', () => {
+    navigator.clipboard.writeText('anakinsky01');
 
-  const feedback = discord.querySelector('.contact-feedback');
-  feedback.textContent = 'copiado';
+    const feedback = discord.querySelector('.contact-feedback');
+    feedback.textContent = 'copied';
 
-  setTimeout(() => {
-    feedback.textContent = 'copiar';
-  }, 1500);
-});
+    setTimeout(() => {
+      feedback.textContent = 'copy';
+    }, 1500);
+  });
+}
 
 // WhatsApp abrir
 const whatsapp = document.getElementById('whatsapp');
 
-whatsapp.addEventListener('click', () => {
-  window.open('https://wa.me/5582993233461', '_blank');
-});
+if (whatsapp) {
+  whatsapp.addEventListener('click', () => {
+    window.open('https://wa.me/5582993233461', '_blank');
+  });
+}
