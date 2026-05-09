@@ -430,89 +430,26 @@ main {
 .projects-carousel {
   position: relative;
   z-index: 20;
-  width: min(100%, 1040px);
-  height: 430px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 72px 44px;
-  perspective: 1200px;
+  padding: 0 64px;
 }
 
 .carousel-window {
-  position: relative;
   width: 100%;
-  height: 360px;
-  overflow: visible;
+  overflow: hidden;
+  border-radius: 24px;
 }
 
 .carousel-track {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
+  display: flex;
+  gap: 20px;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
 .carousel-slide {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: min(520px, 68vw);
-  transform: translateX(-50%);
-  transition:
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.45s ease,
-    filter 0.45s ease;
-  will-change: transform, opacity, filter;
-}
-
-.carousel-slide.is-active {
-  z-index: 5;
-  opacity: 1;
-  filter: blur(0);
-  pointer-events: auto;
-}
-
-.carousel-slide.is-left,
-.carousel-slide.is-right {
-  z-index: 3;
-  opacity: 0.52;
-  filter: blur(0.5px);
-  pointer-events: auto;
-}
-
-.carousel-slide.is-hidden {
-  z-index: 1;
-  opacity: 0;
-  pointer-events: none;
-  filter: blur(2px);
-}
-
-.carousel-slide.is-active .project-card {
-  animation: activeCardFloat 5s ease-in-out infinite;
-}
-
-.carousel-slide.is-left .project-card,
-.carousel-slide.is-right .project-card {
-  animation: sideCardFloat 6s ease-in-out infinite;
-}
-
-@keyframes activeCardFloat {
-  0%, 100% {
-    transform: translateY(0) rotateX(0deg);
-  }
-
-  50% {
-    transform: translateY(-4px) rotateX(1deg);
-  }
-}
-
-@keyframes sideCardFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-3px);
-  }
+  flex: 0 0 min(360px, 78vw);
 }
 
 .project-card {
@@ -528,6 +465,7 @@ main {
 }
 
 .project-card:hover {
+  transform: translateY(-5px);
   border-color: rgba(255, 70, 70, 0.28);
   box-shadow:
     0 30px 70px rgba(0,0,0,0.50),
@@ -536,7 +474,7 @@ main {
 
 .project-cover {
   position: relative;
-  aspect-ratio: 16 / 9.2;
+  aspect-ratio: 16 / 9.5;
   overflow: hidden;
 }
 
@@ -594,7 +532,7 @@ main {
 }
 
 .project-cover-info h3 {
-  font-size: clamp(24px, 3.4vw, 31px);
+  font-size: clamp(23px, 3vw, 30px);
   line-height: 1;
   letter-spacing: -0.05em;
   margin-bottom: 8px;
@@ -625,10 +563,10 @@ main {
   transform: translateX(4px);
 }
 
-/* CAROUSEL CONTROLS */
+/* CAROUSEL BUTTONS */
 .carousel-button {
   position: absolute;
-  top: 38%;
+  top: 50%;
   z-index: 30;
   width: 48px;
   height: 48px;
@@ -650,53 +588,37 @@ main {
 
 .carousel-button span {
   color: #fff;
-  font-size: 30px;
+  font-size: 31px;
   line-height: 1;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   pointer-events: none;
 }
 
+.carousel-button-left {
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.carousel-button-right {
+  right: 0;
+  transform: translateY(-50%);
+}
+
 .carousel-button:hover {
-  transform: translateY(-2px);
   border-color: rgba(255,255,255,0.28);
   background: rgba(255,255,255,0.06);
 }
 
+.carousel-button-left:hover {
+  transform: translateY(-50%) translateY(-2px);
+}
+
+.carousel-button-right:hover {
+  transform: translateY(-50%) translateY(-2px);
+}
+
 .carousel-button:active {
-  transform: scale(0.96);
-}
-
-.carousel-button-left {
-  left: 8px;
-}
-
-.carousel-button-right {
-  right: 8px;
-}
-
-.carousel-dots {
-  position: absolute;
-  left: 50%;
-  bottom: 8px;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
-  z-index: 26;
-}
-
-.carousel-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  background: rgba(255,255,255,0.20);
-  transition: 0.25s ease;
-}
-
-.carousel-dot.active {
-  width: 22px;
-  background: rgba(255, 80, 80, 0.72);
+  transform: translateY(-50%) scale(0.96);
 }
 
 /* CONTACT */
@@ -897,19 +819,19 @@ main {
   }
 
   .projects-carousel {
-    width: 100%;
-    height: 390px;
-    padding: 0 0 44px;
-    perspective: 900px;
+    padding: 0 0 58px;
   }
 
   .carousel-window {
-    height: 320px;
     overflow: hidden;
   }
 
+  .carousel-track {
+    gap: 14px;
+  }
+
   .carousel-slide {
-    width: min(330px, 78vw);
+    flex-basis: min(310px, 82vw);
   }
 
   .carousel-button {
@@ -922,14 +844,21 @@ main {
 
   .carousel-button-left {
     left: 0;
+    transform: none;
   }
 
   .carousel-button-right {
     right: 0;
+    transform: none;
   }
 
-  .carousel-dots {
-    bottom: 15px;
+  .carousel-button-left:hover,
+  .carousel-button-right:hover {
+    transform: translateY(-2px);
+  }
+
+  .carousel-button:active {
+    transform: scale(0.96);
   }
 
   .project-cover {
@@ -994,6 +923,10 @@ main {
   .hero-subtitle {
     font-size: 10px;
     letter-spacing: 0.10em;
+  }
+
+  .carousel-slide {
+    flex-basis: min(285px, 84vw);
   }
 
   .project-cover-info h3 {
