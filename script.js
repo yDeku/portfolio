@@ -35,8 +35,8 @@ if (constellationCanvas) {
   resizeCanvas();
 
   const particles = [];
-  const particleAmount = 30;
-  const connectionDistance = 130;
+  const particleAmount = 36;
+  const connectionDistance = 95;
 
   function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
@@ -46,10 +46,10 @@ if (constellationCanvas) {
     return {
       x: randomBetween(0, width),
       y: randomBetween(0, height),
-      vx: randomBetween(-0.18, 0.18),
-      vy: randomBetween(-0.18, 0.18),
-      size: randomBetween(1, 2),
-      opacity: randomBetween(0.18, 0.6)
+      vx: randomBetween(-0.12, 0.12),
+      vy: randomBetween(-0.12, 0.12),
+      size: randomBetween(0.8, 1.6),
+      opacity: randomBetween(0.12, 0.42)
     };
   }
 
@@ -92,13 +92,13 @@ if (constellationCanvas) {
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < connectionDistance) {
-          const opacity = (1 - distance / connectionDistance) * 0.14;
+          const opacity = (1 - distance / connectionDistance) * 0.08;
 
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p2.x, p2.y);
           ctx.strokeStyle = `rgba(255, 55, 55, ${opacity})`;
-          ctx.lineWidth = 1;
+          ctx.lineWidth = 0.8;
           ctx.stroke();
         }
       }
@@ -113,8 +113,8 @@ if (constellationCanvas) {
       ctx.fill();
 
       ctx.beginPath();
-      ctx.arc(particle.x, particle.y, particle.size * 3, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 35, 35, ${particle.opacity * 0.06})`;
+      ctx.arc(particle.x, particle.y, particle.size * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 35, 35, ${particle.opacity * 0.04})`;
       ctx.fill();
     });
   }
