@@ -24,130 +24,63 @@ if (constellationCanvas) {
   let width = window.innerWidth;
   let height = window.innerHeight;
 
-  constellationCanvas.width = width;
-  constellationCanvas.height = height;
-
-  let mouseX = width / 2;
-  let mouseY = height / 2;
-  let mouseActive = false;
-
-  const particles = [];
-  const backgroundParticleAmount = 85;
-  const maxParticles = 120;
-  const connectionDistance = 135;
-  const mouseRadius = 230;
-
-  function randomBetween(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  function createBackgroundParticle() {
-    return {
-      x: randomBetween(0, width),
-      y: randomBetween(0, height),
-      vx: randomBetween(-0.22, 0.22),
-      vy: randomBetween(-0.22, 0.22),
-      size: randomBetween(1, 2.1),
-      opacity: randomBetween(0.18, 0.65),
-      life: Infinity,
-      mouseParticle: false
-    };
-  }
-
-  function createMouseParticle() {
-    return {
-      x: mouseX + randomBetween(-120, 120),
-      y: mouseY + randomBetween(-120, 120),
-      vx: randomBetween(-0.55, 0.55),
-      vy: randomBetween(-0.55, 0.55),
-      size: randomBetween(1.1, 2.4),
-      opacity: randomBetween(0.35, 0.9),
-      life: randomBetween(80, 150),
-      mouseParticle: true
-    };
-  }
-
-  function fillBackgroundParticles() {
-    particles.length = 0;
-
-    for (let i = 0; i < backgroundParticleAmount; i++) {
-      particles.push(createBackgroundParticle());
-    }
-  }
-
-  fillBackgroundParticles();
-
-  window.addEventListener('mousemove', (event) => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-    mouseActive = true;
-
-    for (let i = 0; i < 2; i++) {
-      particles.push(createMouseParticle());
-    }
-
-    if (particles.length > maxParticles) {
-      particles.splice(backgroundParticleAmount, particles.length - maxParticles);
-    }
-  });
-
-  document.addEventListener('mouseleave', () => {
-    mouseActive = false;
-  });
-
-  window.addEventListener('resize', () => {
+  function resizeCanvas() {
     width = window.innerWidth;
     height = window.innerHeight;
 
     constellationCanvas.width = width;
     constellationCanvas.height = height;
+  }
 
-    fillBackgroundParticles();
+  resizeCanvas();
+
+  const particles = [];
+  const particleAmount = 90;
+  const connectionDistance = 130;
+
+  function randomBetween(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function createParticle() {
+    return {
+      x: randomBetween(0, width),
+      y: randomBetween(0, height),
+      vx: randomBetween(-0.18, 0.18),
+      vy: randomBetween(-0.18, 0.18),
+      size: randomBetween(1, 2),
+      opacity: randomBetween(0.18, 0.6)
+    };
+  }
+
+  function fillParticles() {
+    particles.length = 0;
+
+    for (let i = 0; i < particleAmount; i++) {
+      particles.push(createParticle());
+    }
+  }
+
+  fillParticles();
+
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    fillParticles();
   });
 
   function updateParticles() {
-    particles.forEach((particle, index) => {
+    particles.forEach((particle) => {
       particle.x += particle.vx;
       particle.y += particle.vy;
 
-      if (!particle.mouseParticle) {
-        if (particle.x < -20) particle.x = width + 20;
-        if (particle.x > width + 20) particle.x = -20;
-        if (particle.y < -20) particle.y = height + 20;
-        if (particle.y > height + 20) particle.y = -20;
-      }
-
-      if (mouseActive) {
-        const dx = mouseX - particle.x;
-        const dy = mouseY - particle.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance < mouseRadius) {
-          particle.x -= dx * 0.003;
-          particle.y -= dy * 0.003;
-        }
-      }
-
-      if (particle.mouseParticle) {
-        particle.life -= 0.7;
-        particle.opacity *= 0.992;
-
-        if (
-          particle.life <= 0 ||
-          particle.x < -100 ||
-          particle.x > width + 100 ||
-          particle.y < -100 ||
-          particle.y > height + 100
-        ) {
-          particles.splice(index, 1);
-        }
-      }
+      if (particle.x < -20) particle.x = width + 20;
+      if (particle.x > width + 20) particle.x = -20;
+      if (particle.y < -20) particle.y = height + 20;
+      if (particle.y > height + 20) particle.y = -20;
     });
   }
 
-  function drawParticles() {
-    ctx.clearRect(0, 0, width, height);
-
+  function drawConnections() {
     for (let i = 0; i < particles.length; i++) {
       const p1 = particles[i];
 
@@ -159,37 +92,37 @@ if (constellationCanvas) {
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < connectionDistance) {
-          let lineOpacity = (1 - distance / connectionDistance) * 0.16;
-
-          if (p1.mouseParticle || p2.mouseParticle) {
-            lineOpacity *= 1.8;
-          }
+          const opacity = (1 - distance / connectionDistance) * 0.14;
 
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(255, 55, 55, ${lineOpacity})`;
+          ctx.strokeStyle = `rgba(255, 55, 55, ${opacity})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
       }
     }
+  }
 
+  function drawParticles() {
     particles.forEach((particle) => {
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 105, 105, ${particle.opacity})`;
+      ctx.fillStyle = `rgba(255, 110, 110, ${particle.opacity})`;
       ctx.fill();
 
       ctx.beginPath();
-      ctx.arc(particle.x, particle.y, particle.size * 3.2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 35, 35, ${particle.opacity * 0.08})`;
+      ctx.arc(particle.x, particle.y, particle.size * 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 35, 35, ${particle.opacity * 0.06})`;
       ctx.fill();
     });
   }
 
   function animateConstellation() {
+    ctx.clearRect(0, 0, width, height);
     updateParticles();
+    drawConnections();
     drawParticles();
     requestAnimationFrame(animateConstellation);
   }
