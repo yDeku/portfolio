@@ -38,6 +38,35 @@ img {
   display: block;
 }
 
+/* MOUSE LIGHT */
+.mouse-light {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 900;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 45, 45, 0.18) 0%,
+      rgba(255, 30, 30, 0.10) 28%,
+      rgba(255, 30, 30, 0.045) 48%,
+      transparent 72%
+    );
+  filter: blur(2px);
+  mix-blend-mode: screen;
+}
+
+.mouse-light.active {
+  opacity: 1;
+}
+
 /* CONTAINER */
 .container {
   width: min(1120px, calc(100% - 48px));
@@ -644,6 +673,10 @@ img {
 
 /* MOBILE */
 @media (max-width: 768px) {
+  .mouse-light {
+    display: none;
+  }
+
   .container {
     width: min(100% - 36px, 1120px);
   }
