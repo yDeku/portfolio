@@ -46,7 +46,7 @@ img {
   height: 100%;
   pointer-events: none;
   z-index: 850;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 /* CONTAINER */
