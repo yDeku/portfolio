@@ -35,8 +35,8 @@ if (constellationCanvas) {
   resizeCanvas();
 
   const particles = [];
-  const particleAmount = 36;
-  const connectionDistance = 95;
+  const particleAmount = 42;
+  const connectionDistance = 155;
 
   function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
@@ -49,7 +49,7 @@ if (constellationCanvas) {
       vx: randomBetween(-0.12, 0.12),
       vy: randomBetween(-0.12, 0.12),
       size: randomBetween(0.8, 1.6),
-      opacity: randomBetween(0.12, 0.42)
+      opacity: randomBetween(0.14, 0.45)
     };
   }
 
@@ -92,7 +92,7 @@ if (constellationCanvas) {
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < connectionDistance) {
-          const opacity = (1 - distance / connectionDistance) * 0.08;
+          const opacity = (1 - distance / connectionDistance) * 0.09;
 
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
