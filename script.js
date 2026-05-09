@@ -222,6 +222,78 @@ if (constellationCanvas) {
   animateConstellation();
 }
 
+// Carrossel de projetos
+const carouselTrack = document.getElementById('carouselTrack');
+const carouselPrev = document.getElementById('carouselPrev');
+const carouselNext = document.getElementById('carouselNext');
+const carouselDots = document.querySelectorAll('.carousel-dot');
+
+let currentSlide = 0;
+let carouselInterval;
+
+function updateCarousel() {
+  if (!carouselTrack) return;
+
+  carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+  carouselDots.forEach((dot, index) => {
+    dot.classList.toggle('active', index === currentSlide);
+  });
+}
+
+function goToSlide(index) {
+  const totalSlides = carouselDots.length;
+
+  if (index < 0) {
+    currentSlide = totalSlides - 1;
+  } else if (index >= totalSlides) {
+    currentSlide = 0;
+  } else {
+    currentSlide = index;
+  }
+
+  updateCarousel();
+}
+
+function startCarouselAutoplay() {
+  stopCarouselAutoplay();
+
+  carouselInterval = setInterval(() => {
+    goToSlide(currentSlide + 1);
+  }, 4500);
+}
+
+function stopCarouselAutoplay() {
+  if (carouselInterval) {
+    clearInterval(carouselInterval);
+  }
+}
+
+if (carouselTrack && carouselPrev && carouselNext) {
+  carouselPrev.addEventListener('click', () => {
+    goToSlide(currentSlide - 1);
+    startCarouselAutoplay();
+  });
+
+  carouselNext.addEventListener('click', () => {
+    goToSlide(currentSlide + 1);
+    startCarouselAutoplay();
+  });
+
+  carouselDots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      goToSlide(index);
+      startCarouselAutoplay();
+    });
+  });
+
+  carouselTrack.addEventListener('mouseenter', stopCarouselAutoplay);
+  carouselTrack.addEventListener('mouseleave', startCarouselAutoplay);
+
+  updateCarousel();
+  startCarouselAutoplay();
+}
+
 // Menu mobile
 const menuButton = document.getElementById('menuButton');
 const menuPanel = document.getElementById('menuPanel');
