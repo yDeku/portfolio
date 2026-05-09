@@ -222,13 +222,13 @@ if (constellationCanvas) {
   animateConstellation();
 }
 
-// Carrossel simples, lado a lado e girando lentamente
+// Carrossel centralizado, lado a lado e girando lentamente
 const carouselTrack = document.getElementById('carouselTrack');
 const carouselPrev = document.getElementById('carouselPrev');
 const carouselNext = document.getElementById('carouselNext');
 const projectsCarousel = document.getElementById('projectsCarousel');
 
-let carouselIndex = 0;
+let carouselIndex = 1;
 let carouselTimer = null;
 let slideStep = 0;
 let originalSlidesCount = 0;
@@ -240,15 +240,21 @@ function setupCarousel() {
   const originalSlides = Array.from(carouselTrack.querySelectorAll('.carousel-slide'));
   originalSlidesCount = originalSlides.length;
 
-  originalSlides.forEach((slide) => {
-    const clone = slide.cloneNode(true);
-    clone.classList.add('carousel-clone');
-    carouselTrack.appendChild(clone);
-  });
+  if (originalSlidesCount <= 1) return;
+
+  const firstClone = originalSlides[0].cloneNode(true);
+  const lastClone = originalSlides[originalSlidesCount - 1].cloneNode(true);
+
+  firstClone.classList.add('carousel-clone');
+  lastClone.classList.add('carousel-clone');
+
+  carouselTrack.appendChild(firstClone);
+  carouselTrack.insertBefore(lastClone, originalSlides[0]);
 
   carouselReady = true;
 
   updateSlideStep();
+  updateActiveSlide();
   moveCarousel(false);
   startCarousel();
 }
@@ -265,45 +271,79 @@ function updateSlideStep() {
   slideStep = firstSlide.offsetWidth + gap;
 }
 
+function getCenterOffset() {
+  if (!carouselTrack || !projectsCarousel) return 0;
+
+  const windowElement = projectsCarousel.querySelector('.carousel-window');
+  const firstSlide = carouselTrack.querySelector('.carousel-slide');
+
+  if (!windowElement || !firstSlide) return 0;
+
+  const windowWidth = windowElement.offsetWidth;
+  const slideWidth = firstSlide.offsetWidth;
+
+  return (windowWidth - slideWidth) / 2;
+}
+
 function moveCarousel(animated = true) {
   if (!carouselTrack) return;
 
+  const centerOffset = getCenterOffset();
+  const position = carouselIndex * slideStep - centerOffset;
+
   carouselTrack.style.transition = animated
-    ? 'transform 0.75s cubic-bezier(0.22, 1, 0.36, 1)'
+    ? 'transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)'
     : 'none';
 
-  carouselTrack.style.transform = `translateX(-${carouselIndex * slideStep}px)`;
+  carouselTrack.style.transform = `translateX(-${position}px)`;
+}
+
+function updateActiveSlide() {
+  if (!carouselTrack) return;
+
+  const slides = carouselTrack.querySelectorAll('.carousel-slide');
+
+  slides.forEach((slide) => {
+    slide.classList.remove('is-active');
+  });
+
+  if (slides[carouselIndex]) {
+    slides[carouselIndex].classList.add('is-active');
+  }
 }
 
 function nextCarousel() {
+  if (!carouselReady) return;
+
   carouselIndex++;
+
+  updateActiveSlide();
   moveCarousel(true);
 
-  if (carouselIndex >= originalSlidesCount) {
+  if (carouselIndex === originalSlidesCount + 1) {
     setTimeout(() => {
-      carouselIndex = 0;
+      carouselIndex = 1;
+      updateActiveSlide();
       moveCarousel(false);
-    }, 760);
+    }, 860);
   }
 }
 
 function prevCarousel() {
-  if (carouselIndex === 0) {
-    carouselIndex = originalSlidesCount;
-    moveCarousel(false);
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        carouselIndex--;
-        moveCarousel(true);
-      });
-    });
-
-    return;
-  }
+  if (!carouselReady) return;
 
   carouselIndex--;
+
+  updateActiveSlide();
   moveCarousel(true);
+
+  if (carouselIndex === 0) {
+    setTimeout(() => {
+      carouselIndex = originalSlidesCount;
+      updateActiveSlide();
+      moveCarousel(false);
+    }, 860);
+  }
 }
 
 function startCarousel() {
@@ -311,7 +351,7 @@ function startCarousel() {
 
   carouselTimer = setInterval(() => {
     nextCarousel();
-  }, 4200);
+  }, 4300);
 }
 
 function stopCarousel() {
@@ -322,7 +362,11 @@ function stopCarousel() {
 }
 
 if (carouselTrack && carouselPrev && carouselNext) {
-  setupCarousel();
+  window.addEventListener('load', () => {
+    setupCarousel();
+    updateSlideStep();
+    moveCarousel(false);
+  });
 
   carouselNext.addEventListener('click', () => {
     nextCarousel();
