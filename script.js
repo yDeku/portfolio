@@ -15,6 +15,52 @@ function revealOnScroll() {
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
 
+// Animação de luz seguindo o mouse
+const mouseLight = document.getElementById('mouseLight');
+
+let mouseX = 0;
+let mouseY = 0;
+
+let lightX = 0;
+let lightY = 0;
+
+let mouseIsMoving = false;
+let hideMouseTimeout;
+
+if (mouseLight) {
+  document.addEventListener('mousemove', (event) => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+
+    mouseIsMoving = true;
+    mouseLight.classList.add('active');
+
+    clearTimeout(hideMouseTimeout);
+
+    hideMouseTimeout = setTimeout(() => {
+      mouseIsMoving = false;
+      mouseLight.classList.remove('active');
+    }, 1800);
+  });
+
+  document.addEventListener('mouseleave', () => {
+    mouseIsMoving = false;
+    mouseLight.classList.remove('active');
+  });
+
+  function animateMouseLight() {
+    lightX += (mouseX - lightX) * 0.12;
+    lightY += (mouseY - lightY) * 0.12;
+
+    mouseLight.style.left = `${lightX}px`;
+    mouseLight.style.top = `${lightY}px`;
+
+    requestAnimationFrame(animateMouseLight);
+  }
+
+  animateMouseLight();
+}
+
 // Menu mobile
 const menuButton = document.getElementById('menuButton');
 const menuPanel = document.getElementById('menuPanel');
