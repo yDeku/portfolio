@@ -35,8 +35,10 @@ if (constellationCanvas) {
   resizeCanvas();
 
   const particles = [];
-  const particleAmount = 42;
-  const connectionDistance = 155;
+
+  // Poucas partículas, mas com boa distância de conexão
+  const particleAmount = 46;
+  const connectionDistance = 240;
 
   function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
@@ -46,10 +48,10 @@ if (constellationCanvas) {
     return {
       x: randomBetween(0, width),
       y: randomBetween(0, height),
-      vx: randomBetween(-0.12, 0.12),
-      vy: randomBetween(-0.12, 0.12),
-      size: randomBetween(0.8, 1.6),
-      opacity: randomBetween(0.14, 0.45)
+      vx: randomBetween(-0.10, 0.10),
+      vy: randomBetween(-0.10, 0.10),
+      size: randomBetween(1, 1.8),
+      opacity: randomBetween(0.22, 0.55)
     };
   }
 
@@ -73,10 +75,10 @@ if (constellationCanvas) {
       particle.x += particle.vx;
       particle.y += particle.vy;
 
-      if (particle.x < -20) particle.x = width + 20;
-      if (particle.x > width + 20) particle.x = -20;
-      if (particle.y < -20) particle.y = height + 20;
-      if (particle.y > height + 20) particle.y = -20;
+      if (particle.x < -30) particle.x = width + 30;
+      if (particle.x > width + 30) particle.x = -30;
+      if (particle.y < -30) particle.y = height + 30;
+      if (particle.y > height + 30) particle.y = -30;
     });
   }
 
@@ -92,13 +94,13 @@ if (constellationCanvas) {
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < connectionDistance) {
-          const opacity = (1 - distance / connectionDistance) * 0.09;
+          const opacity = (1 - distance / connectionDistance) * 0.18;
 
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(255, 55, 55, ${opacity})`;
-          ctx.lineWidth = 0.8;
+          ctx.strokeStyle = `rgba(255, 65, 65, ${opacity})`;
+          ctx.lineWidth = 1;
           ctx.stroke();
         }
       }
@@ -109,21 +111,23 @@ if (constellationCanvas) {
     particles.forEach((particle) => {
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 110, 110, ${particle.opacity})`;
+      ctx.fillStyle = `rgba(255, 120, 120, ${particle.opacity})`;
       ctx.fill();
 
       ctx.beginPath();
-      ctx.arc(particle.x, particle.y, particle.size * 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 35, 35, ${particle.opacity * 0.04})`;
+      ctx.arc(particle.x, particle.y, particle.size * 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 35, 35, ${particle.opacity * 0.06})`;
       ctx.fill();
     });
   }
 
   function animateConstellation() {
     ctx.clearRect(0, 0, width, height);
+
     updateParticles();
     drawConnections();
     drawParticles();
+
     requestAnimationFrame(animateConstellation);
   }
 
