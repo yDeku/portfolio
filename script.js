@@ -15,7 +15,7 @@ function revealOnScroll() {
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
 
-// Constelação conectando obrigatoriamente no cursor
+// Constelação com conexões temporárias no cursor
 const constellationCanvas = document.getElementById('constellationCanvas');
 
 if (constellationCanvas) {
@@ -29,13 +29,19 @@ if (constellationCanvas) {
   let mouseY = height / 2;
   let mouseActive = false;
 
+  let lastLinkTime = 0;
+
   const particles = [];
+  const cursorLinks = [];
 
   const particleAmount = 55;
   const backgroundConnectionDistance = 145;
 
-  // Quantos pontos vão conectar no cursor
-  const cursorConnections = 9;
+  const cursorConnectionDistance = 280;
+  const cursorLinksPerMove = 3;
+  const maxCursorLinks = 22;
+  const cursorLinkDuration = 900;
+  const cursorLinkCooldown = 55;
 
   function resizeCanvas() {
     width = window.innerWidth;
@@ -62,12 +68,13 @@ if (constellationCanvas) {
       vx: randomBetween(-0.10, 0.10),
       vy: randomBetween(-0.10, 0.10),
       size: randomBetween(1.1, 2),
-      opacity: randomBetween(0.32, 0.7)
+      opacity: randomBetween(0.28, 0.62)
     };
   }
 
   function createParticles() {
     particles.length = 0;
+    cursorLinks.length = 0;
 
     for (let i = 0; i < particleAmount; i++) {
       particles.push(createParticle());
@@ -82,10 +89,60 @@ if (constellationCanvas) {
     createParticles();
   });
 
+  function getDistance(x1, y1, x2, y2) {
+    const dx = x1 - x2;
+    const dy = y1 - y2;
+
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  function createCursorLinks() {
+    const now = performance.now();
+
+    if (now - lastLinkTime < cursorLinkCooldown) return;
+
+    lastLinkTime = now;
+
+    const nearbyParticles = particles
+      .map((particle, index) => {
+        return {
+          particle,
+          index,
+          distance: getDistance(mouseX, mouseY, particle.x, particle.y)
+        };
+      })
+      .filter((item) => item.distance < cursorConnectionDistance)
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, cursorLinksPerMove);
+
+    nearbyParticles.forEach((item) => {
+      const alreadyLinked = cursorLinks.some((link) => {
+        return link.particle === item.particle && link.life > 250;
+      });
+
+      if (alreadyLinked) return;
+
+      cursorLinks.push({
+        particle: item.particle,
+        startX: mouseX,
+        startY: mouseY,
+        life: cursorLinkDuration,
+        maxLife: cursorLinkDuration,
+        offset: randomBetween(-10, 10)
+      });
+    });
+
+    if (cursorLinks.length > maxCursorLinks) {
+      cursorLinks.splice(0, cursorLinks.length - maxCursorLinks);
+    }
+  }
+
   function updateMousePosition(event) {
     mouseX = event.clientX;
     mouseY = event.clientY;
     mouseActive = true;
+
+    createCursorLinks();
   }
 
   window.addEventListener('mousemove', updateMousePosition);
@@ -107,6 +164,16 @@ if (constellationCanvas) {
     });
   }
 
+  function updateCursorLinks() {
+    for (let i = cursorLinks.length - 1; i >= 0; i--) {
+      cursorLinks[i].life -= 16;
+
+      if (cursorLinks[i].life <= 0) {
+        cursorLinks.splice(i, 1);
+      }
+    }
+  }
+
   function drawBackgroundConnections() {
     for (let i = 0; i < particles.length; i++) {
       const p1 = particles[i];
@@ -114,12 +181,10 @@ if (constellationCanvas) {
       for (let j = i + 1; j < particles.length; j++) {
         const p2 = particles[j];
 
-        const dx = p1.x - p2.x;
-        const dy = p1.y - p2.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        const distance = getDistance(p1.x, p1.y, p2.x, p2.y);
 
         if (distance < backgroundConnectionDistance) {
-          const opacity = (1 - distance / backgroundConnectionDistance) * 0.09;
+          const opacity = (1 - distance / backgroundConnectionDistance) * 0.07;
 
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
@@ -141,62 +206,63 @@ if (constellationCanvas) {
 
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.size * 3, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 35, 35, ${particle.opacity * 0.08})`;
+      ctx.fillStyle = `rgba(255, 35, 35, ${particle.opacity * 0.06})`;
       ctx.fill();
     });
   }
 
-  function drawCursorConnections() {
-    if (!mouseActive) return;
+  function drawCursorLinks() {
+    cursorLinks.forEach((link) => {
+      const progress = link.life / link.maxLife;
+      const particle = link.particle;
 
-    const nearestParticles = particles
-      .map((particle) => {
-        const dx = particle.x - mouseX;
-        const dy = particle.y - mouseY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+      const opacity = progress * 0.48;
+      const breakProgress = 1 - progress;
 
-        return {
-          particle,
-          distance
-        };
-      })
-      .sort((a, b) => a.distance - b.distance)
-      .slice(0, cursorConnections);
+      const startX = link.startX + (mouseX - link.startX) * 0.25;
+      const startY = link.startY + (mouseY - link.startY) * 0.25;
 
-    nearestParticles.forEach((item, index) => {
-      const particle = item.particle;
+      const endX = particle.x;
+      const endY = particle.y;
 
-      const opacity = Math.max(0.18, 0.65 - index * 0.055);
+      const midX = (startX + endX) / 2 + Math.sin(breakProgress * Math.PI) * link.offset;
+      const midY = (startY + endY) / 2 + Math.cos(breakProgress * Math.PI) * link.offset;
 
       ctx.beginPath();
-      ctx.moveTo(mouseX, mouseY);
-      ctx.lineTo(particle.x, particle.y);
-      ctx.strokeStyle = `rgba(255, 80, 80, ${opacity})`;
-      ctx.lineWidth = 1.2;
+      ctx.moveTo(startX, startY);
+      ctx.quadraticCurveTo(midX, midY, endX, endY);
+      ctx.strokeStyle = `rgba(255, 85, 85, ${opacity})`;
+      ctx.lineWidth = 1.15;
       ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(endX, endY, particle.size + progress * 1.4, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 95, 95, ${opacity * 0.7})`;
+      ctx.fill();
     });
 
-    ctx.beginPath();
-    ctx.arc(mouseX, mouseY, 3.2, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255, 120, 120, 1)';
-    ctx.fill();
+    if (mouseActive) {
+      ctx.beginPath();
+      ctx.arc(mouseX, mouseY, 2.4, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 120, 120, 0.85)';
+      ctx.fill();
 
-    ctx.beginPath();
-    ctx.arc(mouseX, mouseY, 18, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255, 35, 35, 0.14)';
-    ctx.fill();
+      ctx.beginPath();
+      ctx.arc(mouseX, mouseY, 13, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 35, 35, 0.09)';
+      ctx.fill();
+    }
   }
 
   function animateConstellation() {
     ctx.clearRect(0, 0, width, height);
 
     updateParticles();
+    updateCursorLinks();
 
     drawBackgroundConnections();
     drawParticles();
-
-    // Desenha por último para as linhas do cursor ficarem por cima
-    drawCursorConnections();
+    drawCursorLinks();
 
     requestAnimationFrame(animateConstellation);
   }
