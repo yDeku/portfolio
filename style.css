@@ -430,24 +430,89 @@ main {
 .projects-carousel {
   position: relative;
   z-index: 20;
-  width: min(620px, 100%);
+  width: min(100%, 1040px);
+  height: 430px;
   margin: 0 auto;
-  padding: 0 52px 34px;
+  padding: 0 72px 44px;
+  perspective: 1200px;
 }
 
 .carousel-window {
-  overflow: hidden;
-  border-radius: 22px;
+  position: relative;
+  width: 100%;
+  height: 360px;
+  overflow: visible;
 }
 
 .carousel-track {
-  display: flex;
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
 }
 
 .carousel-slide {
-  min-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(520px, 68vw);
+  transform: translateX(-50%);
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease,
+    filter 0.45s ease;
+  will-change: transform, opacity, filter;
+}
+
+.carousel-slide.is-active {
+  z-index: 5;
+  opacity: 1;
+  filter: blur(0);
+  pointer-events: auto;
+}
+
+.carousel-slide.is-left,
+.carousel-slide.is-right {
+  z-index: 3;
+  opacity: 0.52;
+  filter: blur(0.5px);
+  pointer-events: auto;
+}
+
+.carousel-slide.is-hidden {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+.carousel-slide.is-active .project-card {
+  animation: activeCardFloat 5s ease-in-out infinite;
+}
+
+.carousel-slide.is-left .project-card,
+.carousel-slide.is-right .project-card {
+  animation: sideCardFloat 6s ease-in-out infinite;
+}
+
+@keyframes activeCardFloat {
+  0%, 100% {
+    transform: translateY(0) rotateX(0deg);
+  }
+
+  50% {
+    transform: translateY(-4px) rotateX(1deg);
+  }
+}
+
+@keyframes sideCardFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
 }
 
 .project-card {
@@ -463,7 +528,6 @@ main {
 }
 
 .project-card:hover {
-  transform: translateY(-5px);
   border-color: rgba(255, 70, 70, 0.28);
   box-shadow:
     0 30px 70px rgba(0,0,0,0.50),
@@ -564,43 +628,56 @@ main {
 /* CAROUSEL CONTROLS */
 .carousel-button {
   position: absolute;
-  top: 42%;
-  transform: translateY(-50%);
-  z-index: 25;
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(10,10,10,0.82);
-  color: #fff;
-  cursor: pointer;
-  font-size: 28px;
-  line-height: 1;
-  display: grid;
-  place-items: center;
-  transition: 0.25s ease;
+  top: 38%;
+  z-index: 30;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.04);
   backdrop-filter: blur(14px);
-  box-shadow: 0 16px 35px rgba(0,0,0,0.35);
+  cursor: pointer;
+  transition: 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 10px 30px rgba(0,0,0,0.25);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.carousel-button span {
+  color: #fff;
+  font-size: 30px;
+  line-height: 1;
+  transform: translateY(-1px);
+  pointer-events: none;
 }
 
 .carousel-button:hover {
-  transform: translateY(-50%) scale(1.06);
-  border-color: rgba(255,80,80,0.32);
-  background: rgba(20,20,20,0.92);
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.06);
+}
+
+.carousel-button:active {
+  transform: scale(0.96);
 }
 
 .carousel-button-left {
-  left: 0;
+  left: 8px;
 }
 
 .carousel-button-right {
-  right: 0;
+  right: 8px;
 }
 
 .carousel-dots {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  bottom: 8px;
   transform: translateX(-50%);
   display: flex;
   gap: 8px;
@@ -821,15 +898,26 @@ main {
 
   .projects-carousel {
     width: 100%;
-    padding: 0 0 34px;
+    height: 390px;
+    padding: 0 0 44px;
+    perspective: 900px;
+  }
+
+  .carousel-window {
+    height: 320px;
+    overflow: hidden;
+  }
+
+  .carousel-slide {
+    width: min(330px, 78vw);
   }
 
   .carousel-button {
     top: auto;
-    bottom: -5px;
-    width: 36px;
-    height: 36px;
-    font-size: 24px;
+    bottom: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
   }
 
   .carousel-button-left {
@@ -838,6 +926,10 @@ main {
 
   .carousel-button-right {
     right: 0;
+  }
+
+  .carousel-dots {
+    bottom: 15px;
   }
 
   .project-cover {
