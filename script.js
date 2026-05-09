@@ -15,7 +15,7 @@ function revealOnScroll() {
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
 
-// Efeito de constelações no background todo
+// Efeito de constelação conectando no cursor
 const constellationCanvas = document.getElementById('constellationCanvas');
 
 if (constellationCanvas) {
@@ -25,11 +25,15 @@ if (constellationCanvas) {
   let height = window.innerHeight;
   let pixelRatio = window.devicePixelRatio || 1;
 
+  let mouseX = null;
+  let mouseY = null;
+  let mouseActive = false;
+
   const particles = [];
 
-  const particleAmount = 38;
-  const nearestConnections = 3;
-  const maxConnectionDistance = 520;
+  const particleAmount = 48;
+  const particleConnectionDistance = 145;
+  const mouseConnectionDistance = 230;
 
   function resizeCanvas() {
     width = window.innerWidth;
@@ -53,10 +57,10 @@ if (constellationCanvas) {
     return {
       x: randomBetween(0, width),
       y: randomBetween(0, height),
-      vx: randomBetween(-0.08, 0.08),
-      vy: randomBetween(-0.08, 0.08),
-      size: randomBetween(1.1, 1.9),
-      opacity: randomBetween(0.28, 0.65)
+      vx: randomBetween(-0.12, 0.12),
+      vy: randomBetween(-0.12, 0.12),
+      size: randomBetween(1, 1.8),
+      opacity: randomBetween(0.22, 0.55)
     };
   }
 
@@ -76,60 +80,84 @@ if (constellationCanvas) {
     fillParticles();
   });
 
+  window.addEventListener('mousemove', (event) => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    mouseActive = true;
+  });
+
+  document.addEventListener('mouseleave', () => {
+    mouseActive = false;
+    mouseX = null;
+    mouseY = null;
+  });
+
   function updateParticles() {
     particles.forEach((particle) => {
       particle.x += particle.vx;
       particle.y += particle.vy;
 
-      if (particle.x < -40) particle.x = width + 40;
-      if (particle.x > width + 40) particle.x = -40;
-      if (particle.y < -40) particle.y = height + 40;
-      if (particle.y > height + 40) particle.y = -40;
+      if (particle.x < -30) particle.x = width + 30;
+      if (particle.x > width + 30) particle.x = -30;
+      if (particle.y < -30) particle.y = height + 30;
+      if (particle.y > height + 30) particle.y = -30;
     });
   }
 
-  function drawConnections() {
-    const drawnLines = new Set();
+  function drawParticleConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      const p1 = particles[i];
 
-    particles.forEach((p1, index) => {
-      const distances = [];
-
-      particles.forEach((p2, secondIndex) => {
-        if (index === secondIndex) return;
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
 
         const dx = p1.x - p2.x;
         const dy = p1.y - p2.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        distances.push({
-          particle: p2,
-          index: secondIndex,
-          distance
-        });
-      });
+        if (distance < particleConnectionDistance) {
+          const opacity = (1 - distance / particleConnectionDistance) * 0.08;
 
-      distances.sort((a, b) => a.distance - b.distance);
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(255, 65, 65, ${opacity})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+  }
 
-      distances.slice(0, nearestConnections).forEach((item) => {
-        const lineId = [index, item.index].sort((a, b) => a - b).join('-');
+  function drawMouseConnections() {
+    if (!mouseActive || mouseX === null || mouseY === null) return;
 
-        if (drawnLines.has(lineId)) return;
-        drawnLines.add(lineId);
+    particles.forEach((particle) => {
+      const dx = particle.x - mouseX;
+      const dy = particle.y - mouseY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
 
-        const distance = item.distance;
-        const p2 = item.particle;
-
-        const distanceOpacity = 1 - Math.min(distance / maxConnectionDistance, 1);
-        const opacity = Math.max(0.08, distanceOpacity * 0.22);
+      if (distance < mouseConnectionDistance) {
+        const opacity = (1 - distance / mouseConnectionDistance) * 0.35;
 
         ctx.beginPath();
-        ctx.moveTo(p1.x, p1.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.strokeStyle = `rgba(255, 65, 65, ${opacity})`;
+        ctx.moveTo(particle.x, particle.y);
+        ctx.lineTo(mouseX, mouseY);
+        ctx.strokeStyle = `rgba(255, 75, 75, ${opacity})`;
         ctx.lineWidth = 1;
         ctx.stroke();
-      });
+      }
     });
+
+    ctx.beginPath();
+    ctx.arc(mouseX, mouseY, 2.2, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 90, 90, 0.8)';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(mouseX, mouseY, 9, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 35, 35, 0.08)';
+    ctx.fill();
   }
 
   function drawParticles() {
@@ -140,8 +168,8 @@ if (constellationCanvas) {
       ctx.fill();
 
       ctx.beginPath();
-      ctx.arc(particle.x, particle.y, particle.size * 3.2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 35, 35, ${particle.opacity * 0.08})`;
+      ctx.arc(particle.x, particle.y, particle.size * 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 35, 35, ${particle.opacity * 0.06})`;
       ctx.fill();
     });
   }
@@ -150,7 +178,8 @@ if (constellationCanvas) {
     ctx.clearRect(0, 0, width, height);
 
     updateParticles();
-    drawConnections();
+    drawParticleConnections();
+    drawMouseConnections();
     drawParticles();
 
     requestAnimationFrame(animateConstellation);
