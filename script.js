@@ -35,7 +35,7 @@ if (constellationCanvas) {
   resizeCanvas();
 
   const particles = [];
-  const particleAmount = 90;
+  const particleAmount = 30;
   const connectionDistance = 130;
 
   function randomBetween(min, max) {
