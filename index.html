@@ -1,236 +1,85 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YDK — MCBE Developer</title>
+<div class="projects-carousel reveal" id="projectsCarousel">
 
-  <link rel="stylesheet" href="style.css?v=35">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-</head>
+  <button class="carousel-button carousel-button-left" id="carouselPrev" aria-label="Previous project">
+    <span>‹</span>
+  </button>
 
-<body>
+  <div class="carousel-window">
+    <div class="carousel-track" id="carouselTrack">
 
-  <canvas class="constellation-canvas" id="constellationCanvas"></canvas>
+      <article class="project-card carousel-slide">
+        <div class="project-cover">
+          <img src="assets/starwars-preview.png" alt="Star Wars project preview">
 
-  <header class="header">
-    <div class="container nav">
-      <a href="#home" class="brand">
-        <img src="assets/logo.png" alt="YDK Developer" class="brand-logo">
-      </a>
+          <div class="project-overlay"></div>
 
-      <nav class="desktop-nav">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
+          <div class="project-badges">
+            <span class="project-badge">Project</span>
+            <span class="project-badge status">In development</span>
+          </div>
 
-      <button class="menu-button" id="menuButton" aria-label="Open menu">
-        <span></span>
-        <span></span>
-      </button>
+          <div class="project-cover-info">
+            <h3>Star Wars</h3>
+            <p>Inspirated on Star Wars Saga</p>
+          </div>
+        </div>
+
+        <div class="project-bottom">
+          <a href="#contact" class="project-link">
+            Ask about this project
+          </a>
+        </div>
+      </article>
+
+      <article class="project-card carousel-slide">
+        <div class="project-cover">
+          <img src="assets/logo.png" alt="Combat system preview">
+
+          <div class="project-overlay"></div>
+
+          <div class="project-badges">
+            <span class="project-badge">System</span>
+            <span class="project-badge status">Prototype</span>
+          </div>
+
+          <div class="project-cover-info">
+            <h3>Combat System</h3>
+            <p>Custom combos, effects and abilities.</p>
+          </div>
+        </div>
+
+        <div class="project-bottom">
+          <a href="#contact" class="project-link">
+            Ask about this system
+          </a>
+        </div>
+      </article>
+
+      <article class="project-card carousel-slide">
+        <div class="project-cover">
+          <img src="assets/logo.png" alt="Parkour system preview">
+
+          <div class="project-overlay"></div>
+
+          <div class="project-badges">
+            <span class="project-badge">Parkour</span>
+            <span class="project-badge status">Concept</span>
+          </div>
+
+          <div class="project-cover-info">
+            <h3>Parkour System</h3>
+            <p>Wall run, ledge grab and smooth movement.</p>
+          </div>
+        </div>
+
+        <div class="project-bottom">
+          <a href="#contact" class="project-link">
+            Ask about this system
+          </a>
+        </div>
+      </article>
+
     </div>
+  </div>
 
-    <div class="menu-panel" id="menuPanel">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </header>
-
-  <main>
-
-    <!-- HOME -->
-    <section id="home" class="home">
-      <div class="background-grid"></div>
-      <div class="red-glow glow-one"></div>
-      <div class="red-glow glow-two"></div>
-
-      <div class="container home-content reveal">
-        <div class="hero-logo-wrap">
-          <img src="assets/logo.png" alt="YDK Developer" class="hero-logo">
-        </div>
-
-        <p class="hero-text">
-          Custom Minecraft Bedrock systems.
-        </p>
-
-        <p class="hero-subtitle">
-          MCBE · API · JSON UI · MOLANG
-        </p>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="about-strip">
-      <div class="container">
-        <div class="about-inline reveal">
-          <span>About</span>
-          <p>
-            I make Minecraft Bedrock systems.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section id="projects" class="section">
-      <div class="container">
-
-        <div class="section-header reveal">
-          <span class="section-label">Projects</span>
-          <h2>Projects I’m making.</h2>
-          <p>Custom projects for Minecraft Bedrock.</p>
-        </div>
-
-        <div class="projects-carousel reveal" id="projectsCarousel">
-
-          <button class="carousel-button carousel-button-left" id="carouselPrev" aria-label="Previous project">
-            <span>‹</span>
-          </button>
-
-          <div class="carousel-window">
-            <div class="carousel-track" id="carouselTrack">
-
-              <article class="project-card carousel-slide">
-                <div class="project-cover">
-                  <img src="assets/starwars-preview.png" alt="Star Wars project preview">
-
-                  <div class="project-overlay"></div>
-
-                  <div class="project-badges">
-                    <span class="project-badge">Project</span>
-                    <span class="project-badge status">In development</span>
-                  </div>
-
-                  <div class="project-cover-info">
-                    <h3>Star Wars</h3>
-                    <p>Inspirated on Star Wars Saga</p>
-                  </div>
-                </div>
-
-                <div class="project-bottom">
-                  <a href="#contact" class="project-link">
-                    Ask about this project
-                  </a>
-                </div>
-              </article>
-
-              <article class="project-card carousel-slide">
-                <div class="project-cover">
-                  <img src="assets/logo.png" alt="Combat system preview">
-
-                  <div class="project-overlay"></div>
-
-                  <div class="project-badges">
-                    <span class="project-badge">System</span>
-                    <span class="project-badge status">Prototype</span>
-                  </div>
-
-                  <div class="project-cover-info">
-                    <h3>Combat System</h3>
-                    <p>Custom combos, effects and abilities.</p>
-                  </div>
-                </div>
-
-                <div class="project-bottom">
-                  <a href="#contact" class="project-link">
-                    Ask about this system
-                  </a>
-                </div>
-              </article>
-
-              <article class="project-card carousel-slide">
-                <div class="project-cover">
-                  <img src="assets/logo.png" alt="Parkour system preview">
-
-                  <div class="project-overlay"></div>
-
-                  <div class="project-badges">
-                    <span class="project-badge">Parkour</span>
-                    <span class="project-badge status">Concept</span>
-                  </div>
-
-                  <div class="project-cover-info">
-                    <h3>Parkour System</h3>
-                    <p>Wall run, ledge grab and smooth movement.</p>
-                  </div>
-                </div>
-
-                <div class="project-bottom">
-                  <a href="#contact" class="project-link">
-                    Ask about this system
-                  </a>
-                </div>
-              </article>
-
-            </div>
-          </div>
-
-          <button class="carousel-button carousel-button-right" id="carouselNext" aria-label="Next project">
-            <span>›</span>
-          </button>
-
-          <div class="carousel-dots" id="carouselDots">
-            <button class="carousel-dot active" aria-label="Go to slide 1"></button>
-            <button class="carousel-dot" aria-label="Go to slide 2"></button>
-            <button class="carousel-dot" aria-label="Go to slide 3"></button>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="section contact-section">
-      <div class="container">
-
-        <div class="section-header reveal">
-          <span class="section-label">Contact</span>
-          <h2>Want to talk?</h2>
-          <p>Send me a message.</p>
-        </div>
-
-        <div class="contacts reveal">
-
-          <div class="contact-card" id="discord">
-            <img src="assets/discord.png" alt="Discord" class="contact-icon">
-
-            <div class="contact-info">
-              <span>Discord</span>
-              <strong>anakinsky01</strong>
-            </div>
-
-            <small class="contact-action">copy</small>
-          </div>
-
-          <div class="contact-card" id="youtube">
-            <img src="assets/youtube.png" alt="YouTube" class="contact-icon">
-
-            <div class="contact-info">
-              <span>YouTube</span>
-              <strong>@ydekuh</strong>
-            </div>
-
-            <small class="contact-action">open</small>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-content">
-      <p>YDK — MCBE Developer</p>
-      <span>© 2026</span>
-    </div>
-  </footer>
-
-  <script src="script.js?v=35"></script>
-</body>
-</html>
+</div>
