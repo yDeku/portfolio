@@ -222,19 +222,82 @@ if (constellationCanvas) {
   animateConstellation();
 }
 
-// Carrossel de projetos
+// Carrossel 3D de projetos
 const carouselTrack = document.getElementById('carouselTrack');
 const carouselPrev = document.getElementById('carouselPrev');
 const carouselNext = document.getElementById('carouselNext');
+const carouselSlides = document.querySelectorAll('.carousel-slide');
 const carouselDots = document.querySelectorAll('.carousel-dot');
+const projectsCarousel = document.getElementById('projectsCarousel');
 
 let currentSlide = 0;
 let carouselInterval;
 
-function updateCarousel() {
-  if (!carouselTrack) return;
+function getCarouselSideDistance() {
+  if (window.innerWidth <= 768) {
+    return 210;
+  }
 
-  carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+  return 360;
+}
+
+function updateCarousel() {
+  if (!carouselTrack || carouselSlides.length === 0) return;
+
+  const totalSlides = carouselSlides.length;
+  const sideDistance = getCarouselSideDistance();
+
+  carouselSlides.forEach((slide, index) => {
+    let offset = index - currentSlide;
+
+    if (offset > totalSlides / 2) {
+      offset -= totalSlides;
+    }
+
+    if (offset < -totalSlides / 2) {
+      offset += totalSlides;
+    }
+
+    slide.classList.remove('is-active', 'is-left', 'is-right', 'is-hidden');
+
+    if (offset === 0) {
+      slide.classList.add('is-active');
+      slide.style.transform = `
+        translateX(-50%)
+        translateX(0px)
+        translateZ(80px)
+        rotateY(0deg)
+        scale(1)
+      `;
+    } else if (offset === -1) {
+      slide.classList.add('is-left');
+      slide.style.transform = `
+        translateX(-50%)
+        translateX(-${sideDistance}px)
+        translateZ(-90px)
+        rotateY(18deg)
+        scale(0.78)
+      `;
+    } else if (offset === 1) {
+      slide.classList.add('is-right');
+      slide.style.transform = `
+        translateX(-50%)
+        translateX(${sideDistance}px)
+        translateZ(-90px)
+        rotateY(-18deg)
+        scale(0.78)
+      `;
+    } else {
+      slide.classList.add('is-hidden');
+      slide.style.transform = `
+        translateX(-50%)
+        translateX(${offset > 0 ? sideDistance + 120 : -sideDistance - 120}px)
+        translateZ(-180px)
+        rotateY(${offset > 0 ? -28 : 28}deg)
+        scale(0.65)
+      `;
+    }
+  });
 
   carouselDots.forEach((dot, index) => {
     dot.classList.toggle('active', index === currentSlide);
@@ -242,7 +305,7 @@ function updateCarousel() {
 }
 
 function goToSlide(index) {
-  const totalSlides = carouselDots.length;
+  const totalSlides = carouselSlides.length;
 
   if (index < 0) {
     currentSlide = totalSlides - 1;
@@ -260,7 +323,7 @@ function startCarouselAutoplay() {
 
   carouselInterval = setInterval(() => {
     goToSlide(currentSlide + 1);
-  }, 4500);
+  }, 5200);
 }
 
 function stopCarouselAutoplay() {
@@ -269,7 +332,7 @@ function stopCarouselAutoplay() {
   }
 }
 
-if (carouselTrack && carouselPrev && carouselNext) {
+if (carouselTrack && carouselPrev && carouselNext && carouselSlides.length > 0) {
   carouselPrev.addEventListener('click', () => {
     goToSlide(currentSlide - 1);
     startCarouselAutoplay();
@@ -287,8 +350,12 @@ if (carouselTrack && carouselPrev && carouselNext) {
     });
   });
 
-  carouselTrack.addEventListener('mouseenter', stopCarouselAutoplay);
-  carouselTrack.addEventListener('mouseleave', startCarouselAutoplay);
+  if (projectsCarousel) {
+    projectsCarousel.addEventListener('mouseenter', stopCarouselAutoplay);
+    projectsCarousel.addEventListener('mouseleave', startCarouselAutoplay);
+  }
+
+  window.addEventListener('resize', updateCarousel);
 
   updateCarousel();
   startCarouselAutoplay();
