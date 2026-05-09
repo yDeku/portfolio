@@ -436,20 +436,35 @@ main {
 }
 
 .carousel-window {
+  position: relative;
   width: 100%;
   overflow: hidden;
-  border-radius: 24px;
+  padding: 10px 0 24px;
 }
 
 .carousel-track {
   display: flex;
-  gap: 20px;
-  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  align-items: stretch;
+  gap: 24px;
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
 
 .carousel-slide {
   flex: 0 0 min(360px, 78vw);
+  opacity: 0.48;
+  transform: scale(0.9);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease,
+    filter 0.45s ease;
+  filter: saturate(0.75);
+}
+
+.carousel-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+  filter: saturate(1);
 }
 
 .project-card {
@@ -609,10 +624,7 @@ main {
   background: rgba(255,255,255,0.06);
 }
 
-.carousel-button-left:hover {
-  transform: translateY(-50%) translateY(-2px);
-}
-
+.carousel-button-left:hover,
 .carousel-button-right:hover {
   transform: translateY(-50%) translateY(-2px);
 }
@@ -823,7 +835,7 @@ main {
   }
 
   .carousel-window {
-    overflow: hidden;
+    padding: 8px 0 20px;
   }
 
   .carousel-track {
