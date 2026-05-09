@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YDK — MCBE Developer</title>
 
-  <link rel="stylesheet" href="style.css?v=22">
+  <link rel="stylesheet" href="style.css?v=33">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
@@ -84,31 +84,99 @@
           <p>Custom projects for Minecraft Bedrock.</p>
         </div>
 
-        <div class="projects-grid">
+        <div class="projects-carousel reveal" id="projectsCarousel">
 
-          <article class="project-card showcase-card reveal">
-            <div class="project-cover">
-              <img src="assets/starwars-preview.png" alt="Star Wars project preview">
+          <button class="carousel-button carousel-button-left" id="carouselPrev" aria-label="Previous project">
+            ‹
+          </button>
 
-              <div class="project-overlay"></div>
+          <div class="carousel-window">
+            <div class="carousel-track" id="carouselTrack">
 
-              <div class="project-badges">
-                <span class="project-badge">Project</span>
-                <span class="project-badge status">In development</span>
-              </div>
+              <article class="project-card carousel-slide">
+                <div class="project-cover">
+                  <img src="assets/starwars-preview.png" alt="Star Wars project preview">
 
-              <div class="project-cover-info">
-                <h3>Star Wars</h3>
-                <p>Inspirated on Star Wars Saga</p>
-              </div>
+                  <div class="project-overlay"></div>
+
+                  <div class="project-badges">
+                    <span class="project-badge">Project</span>
+                    <span class="project-badge status">In development</span>
+                  </div>
+
+                  <div class="project-cover-info">
+                    <h3>Star Wars</h3>
+                    <p>Inspirated on Star Wars Saga</p>
+                  </div>
+                </div>
+
+                <div class="project-bottom">
+                  <a href="#contact" class="project-link">
+                    Ask about this project
+                  </a>
+                </div>
+              </article>
+
+              <article class="project-card carousel-slide">
+                <div class="project-cover">
+                  <img src="assets/logo.png" alt="Combat system preview">
+
+                  <div class="project-overlay"></div>
+
+                  <div class="project-badges">
+                    <span class="project-badge">System</span>
+                    <span class="project-badge status">Prototype</span>
+                  </div>
+
+                  <div class="project-cover-info">
+                    <h3>Combat System</h3>
+                    <p>Custom combos, effects and abilities.</p>
+                  </div>
+                </div>
+
+                <div class="project-bottom">
+                  <a href="#contact" class="project-link">
+                    Ask about this system
+                  </a>
+                </div>
+              </article>
+
+              <article class="project-card carousel-slide">
+                <div class="project-cover">
+                  <img src="assets/logo.png" alt="Parkour system preview">
+
+                  <div class="project-overlay"></div>
+
+                  <div class="project-badges">
+                    <span class="project-badge">Parkour</span>
+                    <span class="project-badge status">Concept</span>
+                  </div>
+
+                  <div class="project-cover-info">
+                    <h3>Parkour System</h3>
+                    <p>Wall run, ledge grab and smooth movement.</p>
+                  </div>
+                </div>
+
+                <div class="project-bottom">
+                  <a href="#contact" class="project-link">
+                    Ask about this system
+                  </a>
+                </div>
+              </article>
+
             </div>
+          </div>
 
-            <div class="project-bottom">
-              <a href="#contact" class="project-link">
-                Ask about this project
-              </a>
-            </div>
-          </article>
+          <button class="carousel-button carousel-button-right" id="carouselNext" aria-label="Next project">
+            ›
+          </button>
+
+          <div class="carousel-dots" id="carouselDots">
+            <button class="carousel-dot active" aria-label="Go to slide 1"></button>
+            <button class="carousel-dot" aria-label="Go to slide 2"></button>
+            <button class="carousel-dot" aria-label="Go to slide 3"></button>
+          </div>
 
         </div>
 
@@ -163,6 +231,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=28"></script>
+  <script src="script.js?v=33"></script>
 </body>
 </html>
