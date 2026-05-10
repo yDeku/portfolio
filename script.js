@@ -238,6 +238,92 @@ let dragDeltaX = 0;
 let dragStartTranslate = 0;
 let pointerId = null;
 
+function escapeHTML(text) {
+  return String(text || '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function getProjectInitials(title) {
+  return String(title || 'PR')
+    .split(' ')
+    .filter((word) => word.length > 0)
+    .slice(0, 2)
+    .map((word) => word[0].toUpperCase())
+    .join('');
+}
+
+function renderProjectsFromAdmin() {
+  if (!carouselTrack) return;
+
+  if (typeof getPortfolioProjects !== 'function') {
+    console.warn('projects-data.js não foi carregado antes do script.js');
+    return;
+  }
+
+  const projects = getPortfolioProjects();
+
+  carouselTrack.innerHTML = '';
+
+  projects.forEach((project) => {
+    const slide = document.createElement('article');
+    slide.className = 'carousel-slide';
+
+    const tagsHTML = Array.isArray(project.tags)
+      ? project.tags.map((tag) => `<span>${escapeHTML(tag)}</span>`).join('')
+      : '';
+
+    const imageHTML = project.image
+      ? `<img src="${escapeHTML(project.image)}" alt="${escapeHTML(project.title)}">`
+      : `<span>${escapeHTML(getProjectInitials(project.title))}</span>`;
+
+    const link = project.link && project.link.trim() !== '' ? project.link : '#';
+
+    slide.innerHTML = `
+      <div class="project-card">
+        <div class="project-image">
+          ${imageHTML}
+        </div>
+
+        <div class="project-content">
+          <div class="project-tags">
+            ${tagsHTML}
+          </div>
+
+          <h3>${escapeHTML(project.title)}</h3>
+
+          <p>${escapeHTML(project.description)}</p>
+
+          <a href="${escapeHTML(link)}" class="project-link" ${link !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''}>
+            Ver projeto
+          </a>
+        </div>
+      </div>
+    `;
+
+    carouselTrack.appendChild(slide);
+  });
+}
+
+function resetCarouselState() {
+  carouselIndex = 0;
+  carouselTimer = null;
+  slideStep = 0;
+  originalSlidesCount = 0;
+  carouselReady = false;
+  isTransitioning = false;
+
+  isDragging = false;
+  dragStartX = 0;
+  dragCurrentX = 0;
+  dragDeltaX = 0;
+  dragStartTranslate = 0;
+  pointerId = null;
+}
+
 function setupCarousel() {
   if (!carouselTrack || carouselReady) return;
 
@@ -463,6 +549,8 @@ function onCarouselPointerCancel() {
 
 if (carouselTrack && carouselWindow && carouselPrev && carouselNext) {
   window.addEventListener('load', () => {
+    resetCarouselState();
+    renderProjectsFromAdmin();
     setupCarousel();
     updateSlideStep();
     moveCarousel(false);
