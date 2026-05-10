@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel | yDeku</title>
+  <title>Admin Panel | Y D K</title>
 
-  <link rel="stylesheet" href="admin.css?v=16" />
+  <link rel="stylesheet" href="admin.css?v=20" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,51 +24,54 @@
       <div class="login-bg-blur blur-one"></div>
       <div class="login-bg-blur blur-two"></div>
 
-      <div class="login-card tilt-card" id="loginCard">
-        <div class="card-glow"></div>
+      <div class="login-card-shell" id="loginCardShell">
+        <div class="login-card tilt-card" id="loginCard">
+          <div class="card-glow"></div>
 
-        <div class="login-brand">
-          <div class="login-logo-box">
-            <img src="assets/logo.png" alt="YDK Logo">
-          </div>
+          <div class="login-brand">
+            <div class="login-logo-box">
+              <img src="assets/logo.png" alt="YDK Logo">
+            </div>
 
-          <div>
-            <span>YDK</span>
-            <strong>Admin Panel</strong>
-          </div>
-        </div>
-
-        <div class="login-title">
-          <h1>Welcome back</h1>
-          <p>Entre para gerenciar os projetos do seu portfólio.</p>
-        </div>
-
-        <form id="loginForm" class="login-form">
-          <div class="login-field">
-            <label for="passwordInput">Senha de acesso</label>
-
-            <div class="password-box">
-              <input
-                type="password"
-                id="passwordInput"
-                placeholder="Digite sua senha"
-                autocomplete="current-password"
-              />
+            <div>
+              <span>YDK</span>
+              <strong>Admin Panel</strong>
             </div>
           </div>
 
-          <button type="submit" class="login-submit">
-            Entrar no painel
-          </button>
+          <div class="login-title">
+            <p class="login-kicker">Private dashboard</p>
+            <h1>Welcome back</h1>
+            <p>Entre para gerenciar os projetos do seu portfólio.</p>
+          </div>
 
-          <span class="login-error" id="loginError">
-            Senha incorreta. Tente novamente.
-          </span>
-        </form>
+          <form id="loginForm" class="login-form">
+            <div class="login-field">
+              <label for="passwordInput">Senha de acesso</label>
 
-        <div class="login-footer">
-          <span>Private access</span>
-          <small>YDK — MCBE Developer</small>
+              <div class="password-box">
+                <input
+                  type="password"
+                  id="passwordInput"
+                  placeholder="Digite sua senha"
+                  autocomplete="current-password"
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="login-submit">
+              Entrar no painel
+            </button>
+
+            <span class="login-error" id="loginError">
+              Senha incorreta. Tente novamente.
+            </span>
+          </form>
+
+          <div class="login-footer">
+            <span>Secure access</span>
+            <small>YDK — MCBE Developer</small>
+          </div>
         </div>
       </div>
     </section>
@@ -77,35 +80,90 @@
       <aside class="sidebar dashboard-reveal">
         <div>
           <div class="brand">
-            <span class="brand-icon">◆</span>
-            <span>yDeku Admin</span>
+            <div class="brand-icon">
+              <img src="assets/logo.png" alt="YDK">
+            </div>
+
+            <div class="brand-text">
+              <strong>yDeku</strong>
+              <span>Admin System</span>
+            </div>
           </div>
 
           <nav class="menu">
-            <a href="#projects" class="active">Projetos</a>
-            <a href="#settings">Configurações</a>
+            <a href="#projects" class="active">
+              <span>◆</span>
+              Projetos
+            </a>
+
+            <a href="#settings">
+              <span>◆</span>
+              Configurações
+            </a>
           </nav>
         </div>
 
-        <button class="logout-btn" id="logoutBtn">Sair</button>
+        <div class="sidebar-bottom">
+          <div class="admin-status">
+            <span></span>
+            Online
+          </div>
+
+          <button class="logout-btn" id="logoutBtn">Sair do painel</button>
+        </div>
       </aside>
 
       <section class="content">
         <header class="topbar dashboard-reveal">
           <div>
+            <span class="page-label">Dashboard</span>
             <h1>Painel Admin</h1>
             <p>Gerencie os projetos que aparecem no seu site.</p>
           </div>
 
-          <a class="site-btn" href="index.html">Ver site</a>
+          <div class="topbar-actions">
+            <div class="live-pill">
+              <span></span>
+              Local save
+            </div>
+
+            <a class="site-btn" href="index.html">Ver site</a>
+          </div>
         </header>
+
+        <section class="stats-grid dashboard-reveal">
+          <div class="stat-card tilt-card">
+            <div class="card-glow"></div>
+            <span>Projetos</span>
+            <strong id="projectCount">0</strong>
+            <p>cards cadastrados</p>
+          </div>
+
+          <div class="stat-card tilt-card">
+            <div class="card-glow"></div>
+            <span>Status</span>
+            <strong>Active</strong>
+            <p>painel funcionando</p>
+          </div>
+
+          <div class="stat-card tilt-card">
+            <div class="card-glow"></div>
+            <span>Storage</span>
+            <strong>Local</strong>
+            <p>salvo no navegador</p>
+          </div>
+        </section>
 
         <section class="admin-grid" id="projects">
           <div class="panel form-panel tilt-card dashboard-reveal">
             <div class="card-glow"></div>
 
             <div class="panel-header">
-              <h2 id="formTitle">Adicionar projeto</h2>
+              <div>
+                <span class="panel-label">Editor</span>
+                <h2 id="formTitle">Adicionar projeto</h2>
+              </div>
+
               <p>Preencha os dados do card.</p>
             </div>
 
@@ -198,7 +256,11 @@
 
           <div class="panel list-panel dashboard-reveal">
             <div class="panel-header">
-              <h2>Projetos cadastrados</h2>
+              <div>
+                <span class="panel-label">Cards</span>
+                <h2>Projetos cadastrados</h2>
+              </div>
+
               <p>Edite, exclua ou reorganize seus cards.</p>
             </div>
 
@@ -215,7 +277,11 @@
           <div class="card-glow"></div>
 
           <div class="panel-header">
-            <h2>Configurações</h2>
+            <div>
+              <span class="panel-label">Tools</span>
+              <h2>Configurações</h2>
+            </div>
+
             <p>Ferramentas rápidas para controlar os dados salvos.</p>
           </div>
 
@@ -235,7 +301,7 @@
     </section>
   </main>
 
-  <script src="projects-data.js?v=16"></script>
-  <script src="admin.js?v=16"></script>
+  <script src="projects-data.js?v=20"></script>
+  <script src="admin.js?v=20"></script>
 </body>
 </html>
