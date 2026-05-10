@@ -16,6 +16,10 @@ const projectId = document.getElementById("projectId");
 const projectTitle = document.getElementById("projectTitle");
 const projectDescription = document.getElementById("projectDescription");
 const projectImage = document.getElementById("projectImage");
+const projectImageFile = document.getElementById("projectImageFile");
+const chooseImageBtn = document.getElementById("chooseImageBtn");
+const clearImageBtn = document.getElementById("clearImageBtn");
+const imagePreview = document.getElementById("imagePreview");
 const projectLink = document.getElementById("projectLink");
 const projectTags = document.getElementById("projectTags");
 
@@ -27,6 +31,8 @@ const emptyState = document.getElementById("emptyState");
 const exportBtn = document.getElementById("exportBtn");
 const clearBtn = document.getElementById("clearBtn");
 const exportOutput = document.getElementById("exportOutput");
+
+let selectedImageData = "";
 
 function generateId() {
   return "project-" + Date.now() + "-" + Math.floor(Math.random() * 999999);
@@ -50,10 +56,20 @@ function showToast(message) {
 }
 
 function getProjects() {
+  if (typeof getPortfolioProjects !== "function") {
+    console.error("getPortfolioProjects não foi encontrado. Verifique projects-data.js.");
+    return [];
+  }
+
   return getPortfolioProjects();
 }
 
 function saveProjects(projects) {
+  if (typeof savePortfolioProjects !== "function") {
+    console.error("savePortfolioProjects não foi encontrado. Verifique projects-data.js.");
+    return;
+  }
+
   savePortfolioProjects(projects);
 }
 
@@ -99,6 +115,32 @@ function handleLogout() {
   showLogin();
 }
 
+function setImagePreview(imageValue) {
+  if (!imagePreview) return;
+
+  if (!imageValue) {
+    imagePreview.classList.add("empty");
+    imagePreview.innerHTML = "<span>Nenhuma imagem selecionada</span>";
+    return;
+  }
+
+  imagePreview.classList.remove("empty");
+  imagePreview.innerHTML = `
+    <img src="${imageValue}" alt="Preview da imagem">
+  `;
+}
+
+function clearSelectedImage() {
+  selectedImageData = "";
+  projectImage.value = "";
+
+  if (projectImageFile) {
+    projectImageFile.value = "";
+  }
+
+  setImagePreview("");
+}
+
 function resetForm() {
   projectId.value = "";
   projectTitle.value = "";
@@ -106,6 +148,13 @@ function resetForm() {
   projectImage.value = "";
   projectLink.value = "";
   projectTags.value = "";
+  selectedImageData = "";
+
+  if (projectImageFile) {
+    projectImageFile.value = "";
+  }
+
+  setImagePreview("");
 
   formTitle.textContent = "Adicionar projeto";
   cancelEditBtn.classList.remove("show");
@@ -118,12 +167,48 @@ function formatTags(text) {
     .filter(tag => tag.length > 0);
 }
 
+function handleImageFileChange() {
+  const file = projectImageFile.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("Escolha um arquivo de imagem válido.");
+    projectImageFile.value = "";
+    return;
+  }
+
+  const maxSizeMB = 3;
+  const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+  if (file.size > maxSizeBytes) {
+    alert(`Essa imagem é muito pesada. Escolha uma imagem com até ${maxSizeMB}MB.`);
+    projectImageFile.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    selectedImageData = reader.result;
+    projectImage.value = selectedImageData;
+    setImagePreview(selectedImageData);
+    showToast("Imagem carregada!");
+  };
+
+  reader.onerror = () => {
+    alert("Não foi possível carregar essa imagem.");
+  };
+
+  reader.readAsDataURL(file);
+}
+
 function handleProjectSubmit(event) {
   event.preventDefault();
 
   const title = projectTitle.value.trim();
   const description = projectDescription.value.trim();
-  const image = projectImage.value.trim();
+  const image = selectedImageData || projectImage.value.trim();
   const link = projectLink.value.trim();
   const tags = formatTags(projectTags.value);
   const editingId = projectId.value;
@@ -279,12 +364,17 @@ function editProject(id) {
 
   if (!project) return;
 
+  const image = project.image || "";
+
   projectId.value = project.id;
   projectTitle.value = project.title;
   projectDescription.value = project.description;
-  projectImage.value = project.image || "";
+  projectImage.value = image;
+  selectedImageData = image;
   projectLink.value = project.link || "";
   projectTags.value = project.tags ? project.tags.join(", ") : "";
+
+  setImagePreview(image);
 
   formTitle.textContent = "Editar projeto";
   cancelEditBtn.classList.add("show");
@@ -342,7 +432,12 @@ function clearProjects() {
 
   if (!confirmClear) return;
 
-  saveProjects(DEFAULT_PROJECTS);
+  if (typeof DEFAULT_PROJECTS === "undefined") {
+    saveProjects([]);
+  } else {
+    saveProjects(DEFAULT_PROJECTS);
+  }
+
   exportOutput.value = "";
   resetForm();
   renderProjects();
@@ -356,4 +451,26 @@ cancelEditBtn.addEventListener("click", resetForm);
 exportBtn.addEventListener("click", exportProjects);
 clearBtn.addEventListener("click", clearProjects);
 
+if (chooseImageBtn && projectImageFile) {
+  chooseImageBtn.addEventListener("click", () => {
+    projectImageFile.click();
+  });
+
+  projectImageFile.addEventListener("change", handleImageFileChange);
+}
+
+if (clearImageBtn) {
+  clearImageBtn.addEventListener("click", clearSelectedImage);
+}
+
+if (projectImage) {
+  projectImage.addEventListener("input", () => {
+    selectedImageData = "";
+
+    const imageValue = projectImage.value.trim();
+    setImagePreview(imageValue);
+  });
+}
+
 checkLogin();
+setImagePreview("");
