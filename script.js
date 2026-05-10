@@ -1,5 +1,17 @@
-// Scroll reveal
-const revealElements = document.querySelectorAll('.reveal');
+// Reveal suave com delay
+const revealElements = document.querySelectorAll(".reveal");
+
+function setupRevealDelays() {
+  revealElements.forEach((element, index) => {
+    const parent = element.parentElement;
+    const siblings = parent ? Array.from(parent.querySelectorAll(".reveal")) : [];
+
+    const localIndex = siblings.indexOf(element);
+    const delay = Math.min(localIndex * 90, 360);
+
+    element.style.setProperty("--reveal-delay", `${delay}ms`);
+  });
+}
 
 function revealOnScroll() {
   revealElements.forEach((element) => {
@@ -7,49 +19,48 @@ function revealOnScroll() {
     const windowHeight = window.innerHeight;
 
     if (elementTop < windowHeight - 80) {
-      element.classList.add('active');
+      element.classList.add("active");
     }
   });
 }
 
-window.addEventListener('scroll', revealOnScroll);
-window.addEventListener('load', revealOnScroll);
+setupRevealDelays();
+window.addEventListener("scroll", revealOnScroll);
+window.addEventListener("load", revealOnScroll);
 
 // Menu mobile
-const menuBtn = document.getElementById('menuBtn');
-const navLinks = document.getElementById('navLinks');
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
 
 if (menuBtn && navLinks) {
-  menuBtn.addEventListener('click', (event) => {
-    event.stopPropagation();
-
-    navLinks.classList.toggle('active');
-    menuBtn.classList.toggle('active');
+  menuBtn.addEventListener("click", () => {
+    menuBtn.classList.toggle("active");
+    navLinks.classList.toggle("active");
   });
 
-  navLinks.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('active');
-      menuBtn.classList.remove('active');
+  navLinks.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      menuBtn.classList.remove("active");
+      navLinks.classList.remove("active");
     });
   });
 
-  document.addEventListener('click', (event) => {
-    const clickedInsideMenu = navLinks.contains(event.target);
+  document.addEventListener("click", (event) => {
+    const clickedMenu = navLinks.contains(event.target);
     const clickedButton = menuBtn.contains(event.target);
 
-    if (!clickedInsideMenu && !clickedButton) {
-      navLinks.classList.remove('active');
-      menuBtn.classList.remove('active');
+    if (!clickedMenu && !clickedButton) {
+      menuBtn.classList.remove("active");
+      navLinks.classList.remove("active");
     }
   });
 }
 
 // Constelação clean conectando no cursor
-const constellationCanvas = document.getElementById('constellationCanvas');
+const constellationCanvas = document.getElementById("constellationCanvas");
 
 if (constellationCanvas) {
-  const ctx = constellationCanvas.getContext('2d');
+  const ctx = constellationCanvas.getContext("2d");
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -67,9 +78,10 @@ if (constellationCanvas) {
 
   const particles = [];
 
-  const particleAmount = 50;
-  const backgroundConnectionDistance = 150;
-  const cursorConnectionDistance = 260;
+  const isMobile = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  const particleAmount = isMobile ? 24 : 50;
+  const backgroundConnectionDistance = isMobile ? 115 : 150;
+  const cursorConnectionDistance = isMobile ? 0 : 260;
   const maxCursorConnections = 4;
   const cursorHideDelay = 500;
 
@@ -120,12 +132,14 @@ if (constellationCanvas) {
   resizeCanvas();
   createParticles();
 
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     resizeCanvas();
     createParticles();
   });
 
   function updateMousePosition(event) {
+    if (isMobile) return;
+
     mouseX = event.clientX;
     mouseY = event.clientY;
     mouseActive = true;
@@ -133,10 +147,9 @@ if (constellationCanvas) {
     lastMouseMoveTime = performance.now();
   }
 
-  window.addEventListener('mousemove', updateMousePosition);
-  window.addEventListener('pointermove', updateMousePosition);
+  window.addEventListener("mousemove", updateMousePosition);
 
-  document.addEventListener('mouseleave', () => {
+  document.addEventListener("mouseleave", () => {
     mouseActive = false;
     cursorOpacity = 0;
   });
@@ -154,6 +167,8 @@ if (constellationCanvas) {
   }
 
   function updateCursorFade() {
+    if (isMobile) return;
+
     const now = performance.now();
 
     if (now - lastMouseMoveTime > cursorHideDelay) {
@@ -189,7 +204,7 @@ if (constellationCanvas) {
   }
 
   function drawCursorConnections() {
-    if (!mouseActive || cursorOpacity <= 0) return;
+    if (isMobile || !mouseActive || cursorOpacity <= 0) return;
 
     const nearestParticles = particles
       .map((particle) => {
@@ -248,406 +263,184 @@ if (constellationCanvas) {
   animateConstellation();
 }
 
-// Carrossel infinito com drag no celular e mouse
-const carouselTrack = document.getElementById('carouselTrack');
-const carouselWindow = document.getElementById('carouselWindow');
-const carouselPrev = document.getElementById('carouselPrev');
-const carouselNext = document.getElementById('carouselNext');
-const projectsCarousel = document.getElementById('projectsCarousel');
-
-let carouselIndex = 0;
-let carouselTimer = null;
-let slideStep = 0;
-let originalSlidesCount = 0;
-let carouselReady = false;
-let isTransitioning = false;
-
-let isDragging = false;
-let dragStartX = 0;
-let dragCurrentX = 0;
-let dragDeltaX = 0;
-let dragStartTranslate = 0;
-let pointerId = null;
+// Projetos + modal de detalhes
+const projectsGrid = document.getElementById("projectsGrid");
+const projectModal = document.getElementById("projectModal");
+const modalBackdrop = document.getElementById("modalBackdrop");
+const modalClose = document.getElementById("modalClose");
+const modalImage = document.getElementById("modalImage");
+const modalStatus = document.getElementById("modalStatus");
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription = document.getElementById("modalDescription");
+const modalTags = document.getElementById("modalTags");
+const modalDetailsText = document.getElementById("modalDetailsText");
+const modalFeatures = document.getElementById("modalFeatures");
+const modalLink = document.getElementById("modalLink");
 
 function escapeHTML(text) {
-  return String(text || '')
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
+  return String(text || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function getProjectInitials(title) {
-  return String(title || 'PR')
-    .split(' ')
+  return String(title || "PR")
+    .split(" ")
     .filter((word) => word.length > 0)
     .slice(0, 2)
     .map((word) => word[0].toUpperCase())
-    .join('');
+    .join("");
 }
 
-function renderProjectsFromAdmin() {
-  if (!carouselTrack) return;
-
-  if (typeof getPortfolioProjects !== 'function') {
-    console.warn('projects-data.js não foi carregado antes do script.js');
-    return;
+function getProjectsFromData() {
+  if (typeof getPortfolioProjects !== "function") {
+    console.warn("projects-data.js não foi carregado.");
+    return [];
   }
 
-  const projects = getPortfolioProjects();
+  return getPortfolioProjects();
+}
 
-  if (!Array.isArray(projects) || projects.length === 0) {
-    return;
-  }
+function renderProjects() {
+  if (!projectsGrid) return;
 
-  carouselTrack.innerHTML = '';
+  const projects = getProjectsFromData();
 
-  projects.forEach((project) => {
-    const slide = document.createElement('article');
-    slide.className = 'carousel-slide';
+  projectsGrid.innerHTML = "";
+
+  projects.forEach((project, index) => {
+    const card = document.createElement("article");
+    card.className = "project-card reveal";
+    card.style.setProperty("--reveal-delay", `${Math.min(index * 90, 360)}ms`);
+    card.tabIndex = 0;
 
     const tagsHTML = Array.isArray(project.tags)
-      ? project.tags.map((tag) => `<span>${escapeHTML(tag)}</span>`).join('')
-      : '';
+      ? project.tags.map((tag) => `<span>${escapeHTML(tag)}</span>`).join("")
+      : "";
 
     const imageHTML = project.image
       ? `<img src="${escapeHTML(project.image)}" alt="${escapeHTML(project.title)}">`
       : `<span>${escapeHTML(getProjectInitials(project.title))}</span>`;
 
-    const link = project.link && project.link.trim() !== '' ? project.link : '#';
+    card.innerHTML = `
+      <div class="project-image">
+        ${imageHTML}
+      </div>
 
-    slide.innerHTML = `
-      <div class="project-card">
-        <div class="project-image">
-          ${imageHTML}
+      <div class="project-content">
+        <div class="project-tags">
+          ${tagsHTML}
         </div>
 
-        <div class="project-content">
-          <div class="project-tags">
-            ${tagsHTML}
-          </div>
+        <h3>${escapeHTML(project.title)}</h3>
+        <p>${escapeHTML(project.description)}</p>
 
-          <h3>${escapeHTML(project.title)}</h3>
-
-          <p>${escapeHTML(project.description)}</p>
-
-          <a href="${escapeHTML(link)}" class="project-link" ${link !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''}>
-            Ver projeto
-          </a>
+        <div class="project-action">
+          Ver detalhes
         </div>
       </div>
     `;
 
-    carouselTrack.appendChild(slide);
-  });
-}
+    card.addEventListener("click", () => openProjectModal(project));
 
-function resetCarouselState() {
-  carouselIndex = 0;
-  carouselTimer = null;
-  slideStep = 0;
-  originalSlidesCount = 0;
-  carouselReady = false;
-  isTransitioning = false;
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        openProjectModal(project);
+      }
+    });
 
-  isDragging = false;
-  dragStartX = 0;
-  dragCurrentX = 0;
-  dragDeltaX = 0;
-  dragStartTranslate = 0;
-  pointerId = null;
-}
-
-function setupCarousel() {
-  if (!carouselTrack || carouselReady) return;
-
-  const originalSlides = Array.from(carouselTrack.querySelectorAll('.carousel-slide'));
-  originalSlidesCount = originalSlides.length;
-
-  if (originalSlidesCount <= 1) return;
-
-  const firstClone = originalSlides[0].cloneNode(true);
-  const secondClone = originalSlides[1].cloneNode(true);
-  const lastClone = originalSlides[originalSlidesCount - 1].cloneNode(true);
-  const beforeLastClone = originalSlides[originalSlidesCount - 2].cloneNode(true);
-
-  firstClone.classList.add('carousel-clone');
-  secondClone.classList.add('carousel-clone');
-  lastClone.classList.add('carousel-clone');
-  beforeLastClone.classList.add('carousel-clone');
-
-  carouselTrack.insertBefore(beforeLastClone, originalSlides[0]);
-  carouselTrack.insertBefore(lastClone, originalSlides[0]);
-  carouselTrack.appendChild(firstClone);
-  carouselTrack.appendChild(secondClone);
-
-  carouselIndex = 2;
-  carouselReady = true;
-
-  updateSlideStep();
-  updateActiveSlide();
-  moveCarousel(false);
-  startCarousel();
-}
-
-function updateSlideStep() {
-  if (!carouselTrack) return;
-
-  const firstSlide = carouselTrack.querySelector('.carousel-slide');
-  if (!firstSlide) return;
-
-  const trackStyle = window.getComputedStyle(carouselTrack);
-  const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || 0);
-
-  slideStep = firstSlide.offsetWidth + gap;
-}
-
-function getCenterOffset() {
-  if (!carouselTrack || !carouselWindow) return 0;
-
-  const firstSlide = carouselTrack.querySelector('.carousel-slide');
-  if (!firstSlide) return 0;
-
-  const windowWidth = carouselWindow.offsetWidth;
-  const slideWidth = firstSlide.offsetWidth;
-
-  return (windowWidth - slideWidth) / 2;
-}
-
-function getCarouselPosition(index = carouselIndex) {
-  const centerOffset = getCenterOffset();
-
-  return index * slideStep - centerOffset;
-}
-
-function setCarouselTranslate(position, animated = true) {
-  if (!carouselTrack) return;
-
-  carouselTrack.style.transition = animated
-    ? 'transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)'
-    : 'none';
-
-  carouselTrack.style.transform = `translateX(-${position}px)`;
-}
-
-function moveCarousel(animated = true) {
-  if (!carouselTrack) return;
-
-  const position = getCarouselPosition();
-  setCarouselTranslate(position, animated);
-}
-
-function updateActiveSlide() {
-  if (!carouselTrack) return;
-
-  const slides = carouselTrack.querySelectorAll('.carousel-slide');
-
-  slides.forEach((slide) => {
-    slide.classList.remove('is-active');
+    projectsGrid.appendChild(card);
   });
 
-  if (slides[carouselIndex]) {
-    slides[carouselIndex].classList.add('is-active');
-  }
+  revealOnScroll();
 }
 
-function normalizeCarouselAfterTransition() {
-  if (!carouselReady) return;
+function openProjectModal(project) {
+  if (!projectModal) return;
 
-  if (carouselIndex >= originalSlidesCount + 2) {
-    carouselIndex = 2;
-    updateActiveSlide();
-    moveCarousel(false);
-  }
+  const imageHTML = project.image
+    ? `<img src="${escapeHTML(project.image)}" alt="${escapeHTML(project.title)}">`
+    : `<span>${escapeHTML(getProjectInitials(project.title))}</span>`;
 
-  if (carouselIndex <= 1) {
-    carouselIndex = originalSlidesCount + 1;
-    updateActiveSlide();
-    moveCarousel(false);
-  }
-}
+  const tagsHTML = Array.isArray(project.tags)
+    ? project.tags.map((tag) => `<span>${escapeHTML(tag)}</span>`).join("")
+    : "";
 
-function nextCarousel() {
-  if (!carouselReady || isTransitioning || isDragging) return;
+  const features = Array.isArray(project.features) && project.features.length > 0
+    ? project.features
+    : ["Template editável", "Card personalizável", "Detalhes do projeto"];
 
-  isTransitioning = true;
-  carouselIndex++;
+  const featuresHTML = features
+    .map((feature) => `<span>${escapeHTML(feature)}</span>`)
+    .join("");
 
-  updateActiveSlide();
-  moveCarousel(true);
-}
+  modalImage.innerHTML = imageHTML;
+  modalStatus.textContent = project.status || "Projeto";
+  modalTitle.textContent = project.title || "Projeto";
+  modalDescription.textContent = project.description || "Descrição do projeto.";
+  modalTags.innerHTML = tagsHTML;
+  modalDetailsText.textContent = project.details || "Use essa área para explicar melhor o projeto, mostrar o objetivo, as mecânicas principais e o que torna esse sistema especial.";
+  modalFeatures.innerHTML = featuresHTML;
 
-function prevCarousel() {
-  if (!carouselReady || isTransitioning || isDragging) return;
-
-  isTransitioning = true;
-  carouselIndex--;
-
-  updateActiveSlide();
-  moveCarousel(true);
-}
-
-function startCarousel() {
-  stopCarousel();
-
-  carouselTimer = setInterval(() => {
-    nextCarousel();
-  }, 4300);
-}
-
-function stopCarousel() {
-  if (carouselTimer) {
-    clearInterval(carouselTimer);
-    carouselTimer = null;
-  }
-}
-
-function onCarouselPointerDown(event) {
-  if (!carouselReady || !carouselWindow) return;
-
-  isDragging = true;
-  isTransitioning = false;
-  pointerId = event.pointerId;
-
-  stopCarousel();
-
-  dragStartX = event.clientX;
-  dragCurrentX = event.clientX;
-  dragDeltaX = 0;
-  dragStartTranslate = getCarouselPosition();
-
-  carouselWindow.classList.add('dragging');
-  carouselWindow.setPointerCapture(pointerId);
-
-  setCarouselTranslate(dragStartTranslate, false);
-}
-
-function onCarouselPointerMove(event) {
-  if (!isDragging || event.pointerId !== pointerId) return;
-
-  dragCurrentX = event.clientX;
-  dragDeltaX = dragCurrentX - dragStartX;
-
-  const resistance = 0.92;
-  const nextPosition = dragStartTranslate - dragDeltaX * resistance;
-
-  setCarouselTranslate(nextPosition, false);
-}
-
-function onCarouselPointerUp(event) {
-  if (!isDragging || event.pointerId !== pointerId) return;
-
-  isDragging = false;
-
-  if (carouselWindow) {
-    carouselWindow.classList.remove('dragging');
-
-    try {
-      carouselWindow.releasePointerCapture(pointerId);
-    } catch (error) {}
+  if (project.link && project.link.trim() !== "" && project.link !== "#") {
+    modalLink.href = project.link;
+    modalLink.classList.remove("hidden");
+  } else {
+    modalLink.href = "#";
+    modalLink.classList.add("hidden");
   }
 
-  const dragLimit = Math.min(95, slideStep * 0.25);
-
-  if (dragDeltaX < -dragLimit) {
-    isTransitioning = true;
-    carouselIndex++;
-  } else if (dragDeltaX > dragLimit) {
-    isTransitioning = true;
-    carouselIndex--;
-  }
-
-  updateActiveSlide();
-  moveCarousel(true);
-
-  dragStartX = 0;
-  dragCurrentX = 0;
-  dragDeltaX = 0;
-  pointerId = null;
-
-  startCarousel();
+  projectModal.classList.remove("hidden");
+  document.body.classList.add("modal-open");
 }
 
-function onCarouselPointerCancel() {
-  if (!isDragging) return;
+function closeProjectModal() {
+  if (!projectModal) return;
 
-  isDragging = false;
-
-  if (carouselWindow) {
-    carouselWindow.classList.remove('dragging');
-  }
-
-  updateActiveSlide();
-  moveCarousel(true);
-  startCarousel();
+  projectModal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
 }
 
-if (carouselTrack && carouselWindow && carouselPrev && carouselNext) {
-  window.addEventListener('load', () => {
-    resetCarouselState();
-    renderProjectsFromAdmin();
-    setupCarousel();
-    updateSlideStep();
-    moveCarousel(false);
-  });
-
-  carouselTrack.addEventListener('transitionend', () => {
-    isTransitioning = false;
-    normalizeCarouselAfterTransition();
-  });
-
-  carouselNext.addEventListener('click', () => {
-    nextCarousel();
-    startCarousel();
-  });
-
-  carouselPrev.addEventListener('click', () => {
-    prevCarousel();
-    startCarousel();
-  });
-
-  carouselWindow.addEventListener('pointerdown', onCarouselPointerDown);
-  carouselWindow.addEventListener('pointermove', onCarouselPointerMove);
-  carouselWindow.addEventListener('pointerup', onCarouselPointerUp);
-  carouselWindow.addEventListener('pointercancel', onCarouselPointerCancel);
-  carouselWindow.addEventListener('lostpointercapture', onCarouselPointerCancel);
-
-  if (projectsCarousel) {
-    projectsCarousel.addEventListener('mouseenter', stopCarousel);
-    projectsCarousel.addEventListener('mouseleave', startCarousel);
-  }
-
-  window.addEventListener('resize', () => {
-    updateSlideStep();
-    moveCarousel(false);
-  });
+if (modalBackdrop) {
+  modalBackdrop.addEventListener("click", closeProjectModal);
 }
+
+if (modalClose) {
+  modalClose.addEventListener("click", closeProjectModal);
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeProjectModal();
+  }
+});
+
+renderProjects();
 
 // Discord copiar
-const discord = document.getElementById('discord');
+const discord = document.getElementById("discord");
 
 if (discord) {
-  discord.addEventListener('click', () => {
-    navigator.clipboard.writeText('anakinsky01');
+  discord.addEventListener("click", () => {
+    navigator.clipboard.writeText("anakinsky01");
 
-    const feedback = discord.querySelector('.contact-action');
+    const feedback = discord.querySelector(".contact-action");
+    feedback.textContent = "copiado";
 
-    if (feedback) {
-      feedback.textContent = 'copied';
-
-      setTimeout(() => {
-        feedback.textContent = 'copy';
-      }, 1500);
-    }
+    setTimeout(() => {
+      feedback.textContent = "copiar";
+    }, 1500);
   });
 }
 
 // YouTube abrir
-const youtube = document.getElementById('youtube');
+const youtube = document.getElementById("youtube");
 
 if (youtube) {
-  youtube.addEventListener('click', () => {
-    window.open('https://www.youtube.com/@ydekuh', '_blank');
+  youtube.addEventListener("click", () => {
+    window.open("https://www.youtube.com/@ydekuh", "_blank");
   });
 }
