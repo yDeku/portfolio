@@ -1,9 +1,9 @@
-
 const ADMIN_PASSWORD = "admin123";
 
 const STORAGE_KEYS = {
   logged: "ydeku_admin_logged",
-  projects: "ydeku_projects"
+  projects: "ydeku_projects",
+  initialized: "ydeku_projects_initialized"
 };
 
 const loginScreen = document.getElementById("loginScreen");
@@ -30,10 +30,18 @@ const exportBtn = document.getElementById("exportBtn");
 const clearBtn = document.getElementById("clearBtn");
 const exportOutput = document.getElementById("exportOutput");
 
+function generateId() {
+  if (window.crypto && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+
+  return "id-" + Date.now() + "-" + Math.floor(Math.random() * 999999);
+}
+
 function createDefaultProjects() {
   return [
     {
-      id: crypto.randomUUID(),
+      id: generateId(),
       title: "Parkour Addon",
       description: "Sistema de parkour para Minecraft Bedrock com pendurar em bordas, vault e wall run.",
       image: "",
@@ -41,7 +49,7 @@ function createDefaultProjects() {
       tags: ["Minecraft", "Script API", "Molang"]
     },
     {
-      id: crypto.randomUUID(),
+      id: generateId(),
       title: "Combat System",
       description: "Sistema de combate com combos, animações, efeitos e habilidades para addons.",
       image: "",
@@ -49,7 +57,7 @@ function createDefaultProjects() {
       tags: ["Combat", "Addon", "JSON"]
     },
     {
-      id: crypto.randomUUID(),
+      id: generateId(),
       title: "Portfolio Website",
       description: "Site portfólio profissional para mostrar meus sistemas, projetos e contatos.",
       image: "",
@@ -59,13 +67,36 @@ function createDefaultProjects() {
   ];
 }
 
+function showToast(message) {
+  let toast = document.querySelector(".save-toast");
+
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.className = "save-toast";
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2200);
+}
+
 function getProjects() {
   const savedProjects = localStorage.getItem(STORAGE_KEYS.projects);
+  const initialized = localStorage.getItem(STORAGE_KEYS.initialized) === "true";
 
-  if (!savedProjects) {
+  if (!savedProjects && !initialized) {
     const defaultProjects = createDefaultProjects();
     saveProjects(defaultProjects);
+    localStorage.setItem(STORAGE_KEYS.initialized, "true");
     return defaultProjects;
+  }
+
+  if (!savedProjects && initialized) {
+    return [];
   }
 
   try {
@@ -78,6 +109,7 @@ function getProjects() {
 
 function saveProjects(projects) {
   localStorage.setItem(STORAGE_KEYS.projects, JSON.stringify(projects));
+  localStorage.setItem(STORAGE_KEYS.initialized, "true");
 }
 
 function checkLogin() {
@@ -148,7 +180,7 @@ function handleProjectSubmit(event) {
   const editingId = projectId.value;
 
   const projectData = {
-    id: editingId || crypto.randomUUID(),
+    id: editingId || generateId(),
     title: projectTitle.value.trim(),
     description: projectDescription.value.trim(),
     image: projectImage.value.trim(),
@@ -171,9 +203,11 @@ function handleProjectSubmit(event) {
     });
 
     saveProjects(updatedProjects);
+    showToast("Projeto editado e salvo!");
   } else {
     projects.unshift(projectData);
     saveProjects(projects);
+    showToast("Projeto adicionado e salvo!");
   }
 
   resetForm();
@@ -197,6 +231,7 @@ function renderProjects() {
     item.className = "project-item";
 
     const thumb = createProjectThumb(project);
+
     const info = document.createElement("div");
     info.className = "project-info";
 
@@ -209,12 +244,14 @@ function renderProjects() {
     const tags = document.createElement("div");
     tags.className = "tags";
 
-    project.tags.forEach(tagText => {
-      const tag = document.createElement("span");
-      tag.className = "tag";
-      tag.textContent = tagText;
-      tags.appendChild(tag);
-    });
+    if (project.tags && project.tags.length > 0) {
+      project.tags.forEach(tagText => {
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = tagText;
+        tags.appendChild(tag);
+      });
+    }
 
     const actions = document.createElement("div");
     actions.className = "card-actions";
@@ -302,7 +339,7 @@ function editProject(id) {
   projectDescription.value = project.description;
   projectImage.value = project.image || "";
   projectLink.value = project.link || "";
-  projectTags.value = project.tags.join(", ");
+  projectTags.value = project.tags ? project.tags.join(", ") : "";
 
   formTitle.textContent = "Editar projeto";
   cancelEditBtn.classList.add("show");
@@ -324,6 +361,7 @@ function deleteProject(id) {
   saveProjects(filteredProjects);
   renderProjects();
   resetForm();
+  showToast("Projeto excluído!");
 }
 
 function moveProject(fromIndex, toIndex) {
@@ -336,6 +374,7 @@ function moveProject(fromIndex, toIndex) {
 
   saveProjects(projects);
   renderProjects();
+  showToast("Ordem atualizada!");
 }
 
 function exportProjects() {
@@ -347,10 +386,10 @@ function exportProjects() {
   navigator.clipboard
     .writeText(data)
     .then(() => {
-      alert("Dados copiados para a área de transferência.");
+      showToast("Dados copiados!");
     })
     .catch(() => {
-      alert("Os dados apareceram na caixa de texto. Copie manualmente.");
+      showToast("Copie os dados manualmente.");
     });
 }
 
@@ -359,10 +398,11 @@ function clearProjects() {
 
   if (!confirmClear) return;
 
-  localStorage.removeItem(STORAGE_KEYS.projects);
+  saveProjects([]);
   exportOutput.value = "";
   resetForm();
   renderProjects();
+  showToast("Projetos apagados!");
 }
 
 loginForm.addEventListener("submit", handleLogin);
