@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Panel | yDeku</title>
 
-  <link rel="stylesheet" href="admin.css?v=15" />
+  <link rel="stylesheet" href="admin.css?v=16" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,10 +18,15 @@
 <body>
   <main class="admin-page">
     <section class="login-screen" id="loginScreen">
+      <div class="mouse-light" id="mouseLight"></div>
+      <div class="scanline"></div>
+
       <div class="login-bg-blur blur-one"></div>
       <div class="login-bg-blur blur-two"></div>
 
-      <div class="login-card">
+      <div class="login-card tilt-card" id="loginCard">
+        <div class="card-glow"></div>
+
         <div class="login-brand">
           <div class="login-logo-box">
             <img src="assets/logo.png" alt="YDK Logo">
@@ -69,7 +74,7 @@
     </section>
 
     <section class="dashboard hidden" id="dashboard">
-      <aside class="sidebar">
+      <aside class="sidebar dashboard-reveal">
         <div>
           <div class="brand">
             <span class="brand-icon">◆</span>
@@ -86,7 +91,7 @@
       </aside>
 
       <section class="content">
-        <header class="topbar">
+        <header class="topbar dashboard-reveal">
           <div>
             <h1>Painel Admin</h1>
             <p>Gerencie os projetos que aparecem no seu site.</p>
@@ -96,7 +101,9 @@
         </header>
 
         <section class="admin-grid" id="projects">
-          <div class="panel form-panel">
+          <div class="panel form-panel tilt-card dashboard-reveal">
+            <div class="card-glow"></div>
+
             <div class="panel-header">
               <h2 id="formTitle">Adicionar projeto</h2>
               <p>Preencha os dados do card.</p>
@@ -189,7 +196,7 @@
             </form>
           </div>
 
-          <div class="panel list-panel">
+          <div class="panel list-panel dashboard-reveal">
             <div class="panel-header">
               <h2>Projetos cadastrados</h2>
               <p>Edite, exclua ou reorganize seus cards.</p>
@@ -204,7 +211,9 @@
           </div>
         </section>
 
-        <section class="panel settings-panel" id="settings">
+        <section class="panel settings-panel tilt-card dashboard-reveal" id="settings">
+          <div class="card-glow"></div>
+
           <div class="panel-header">
             <h2>Configurações</h2>
             <p>Ferramentas rápidas para controlar os dados salvos.</p>
@@ -226,7 +235,7 @@
     </section>
   </main>
 
-  <script src="projects-data.js?v=15"></script>
-  <script src="admin.js?v=15"></script>
+  <script src="projects-data.js?v=16"></script>
+  <script src="admin.js?v=16"></script>
 </body>
 </html>
