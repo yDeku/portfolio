@@ -440,6 +440,12 @@ main {
   width: 100%;
   overflow: hidden;
   padding: 10px 0 24px;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.carousel-window.dragging {
+  cursor: grabbing;
 }
 
 .carousel-window::before,
