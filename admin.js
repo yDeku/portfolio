@@ -10,6 +10,8 @@ const loginForm = document.getElementById("loginForm");
 const passwordInput = document.getElementById("passwordInput");
 const loginError = document.getElementById("loginError");
 const logoutBtn = document.getElementById("logoutBtn");
+const loginCard = document.getElementById("loginCard");
+const mouseLight = document.getElementById("mouseLight");
 
 const projectForm = document.getElementById("projectForm");
 const projectId = document.getElementById("projectId");
@@ -73,6 +75,77 @@ function saveProjects(projects) {
   savePortfolioProjects(projects);
 }
 
+/* EFEITO LUZ NO FUNDO */
+
+function setupMouseLight() {
+  if (!mouseLight) return;
+
+  window.addEventListener("pointermove", (event) => {
+    document.documentElement.style.setProperty("--mouse-x", `${event.clientX}px`);
+    document.documentElement.style.setProperty("--mouse-y", `${event.clientY}px`);
+  });
+}
+
+/* EFEITO CARD 3D */
+
+function setupTiltCards() {
+  const cards = document.querySelectorAll(".tilt-card, .project-item");
+
+  cards.forEach((card) => {
+    if (card.dataset.tiltReady === "true") return;
+
+    card.dataset.tiltReady = "true";
+
+    card.addEventListener("pointermove", (event) => {
+      if (window.matchMedia("(hover: none)").matches) return;
+
+      const rect = card.getBoundingClientRect();
+
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -7;
+      const rotateY = ((x - centerX) / centerX) * 7;
+
+      const glowX = (x / rect.width) * 100;
+      const glowY = (y / rect.height) * 100;
+
+      card.style.setProperty("--glow-x", `${glowX}%`);
+      card.style.setProperty("--glow-y", `${glowY}%`);
+
+      card.style.transform = `
+        perspective(1000px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        scale(1.015)
+      `;
+    });
+
+    card.addEventListener("pointerleave", () => {
+      card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+    });
+  });
+}
+
+function shakeLoginCard() {
+  if (!loginCard) return;
+
+  loginCard.classList.remove("shake");
+
+  void loginCard.offsetWidth;
+
+  loginCard.classList.add("shake");
+
+  setTimeout(() => {
+    loginCard.classList.remove("shake");
+  }, 450);
+}
+
+/* LOGIN */
+
 function checkLogin() {
   const isLogged = localStorage.getItem(STORAGE_KEYS.logged) === "true";
 
@@ -86,12 +159,25 @@ function checkLogin() {
 function showDashboard() {
   loginScreen.classList.add("hidden");
   dashboard.classList.remove("hidden");
+
+  dashboard.classList.remove("dashboard-ready");
+
   renderProjects();
+
+  setTimeout(() => {
+    dashboard.classList.add("dashboard-ready");
+    setupTiltCards();
+  }, 80);
 }
 
 function showLogin() {
   dashboard.classList.add("hidden");
+  dashboard.classList.remove("dashboard-ready");
   loginScreen.classList.remove("hidden");
+
+  setTimeout(() => {
+    setupTiltCards();
+  }, 80);
 }
 
 function handleLogin(event) {
@@ -108,12 +194,15 @@ function handleLogin(event) {
   }
 
   loginError.classList.add("show");
+  shakeLoginCard();
 }
 
 function handleLogout() {
   localStorage.removeItem(STORAGE_KEYS.logged);
   showLogin();
 }
+
+/* IMAGEM */
 
 function setImagePreview(imageValue) {
   if (!imagePreview) return;
@@ -203,6 +292,8 @@ function handleImageFileChange() {
   reader.readAsDataURL(file);
 }
 
+/* PROJETOS */
+
 function handleProjectSubmit(event) {
   event.preventDefault();
 
@@ -244,6 +335,7 @@ function handleProjectSubmit(event) {
   saveProjects(projects);
   resetForm();
   renderProjects();
+  setupTiltCards();
 
   showToast(editingId ? "Projeto editado e salvo!" : "Projeto criado e salvo!");
 }
@@ -263,6 +355,10 @@ function renderProjects() {
   projects.forEach((project, index) => {
     const item = document.createElement("article");
     item.className = "project-item";
+
+    const glow = document.createElement("div");
+    glow.className = "card-glow";
+    item.appendChild(glow);
 
     const thumb = document.createElement("div");
     thumb.className = "project-thumb";
@@ -347,6 +443,8 @@ function renderProjects() {
 
     projectList.appendChild(item);
   });
+
+  setupTiltCards();
 }
 
 function getInitials(text) {
@@ -412,6 +510,8 @@ function moveProject(fromIndex, toIndex) {
   showToast("Ordem atualizada!");
 }
 
+/* CONFIG */
+
 function exportProjects() {
   const projects = getProjects();
   const data = JSON.stringify(projects, null, 2);
@@ -444,6 +544,8 @@ function clearProjects() {
   showToast("Projetos resetados!");
 }
 
+/* EVENTOS */
+
 loginForm.addEventListener("submit", handleLogin);
 logoutBtn.addEventListener("click", handleLogout);
 projectForm.addEventListener("submit", handleProjectSubmit);
@@ -472,5 +574,7 @@ if (projectImage) {
   });
 }
 
+setupMouseLight();
 checkLogin();
 setImagePreview("");
+setupTiltCards();
