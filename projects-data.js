@@ -5,6 +5,9 @@ const DEFAULT_PROJECTS = [
     description: "Use este card como modelo para apresentar um projeto do seu portfólio.",
     image: "assets/logo.png",
     link: "#",
+    status: "Template",
+    details: "Aqui você pode explicar melhor o projeto, mostrar qual problema ele resolve, quais sistemas ele usa e por que ele é interessante.",
+    features: ["Template", "Projeto", "Exemplo"],
     tags: ["Template", "Projeto", "Exemplo"]
   },
   {
@@ -13,6 +16,9 @@ const DEFAULT_PROJECTS = [
     description: "Aqui você pode colocar uma descrição curta explicando o que o projeto faz.",
     image: "assets/logo.png",
     link: "#",
+    status: "Exemplo",
+    details: "Essa área é perfeita para colocar detalhes extras, como mecânicas principais, tecnologias usadas e o tipo de experiência criada.",
+    features: ["Sistema", "Addon", "Demo"],
     tags: ["Sistema", "Addon", "Demo"]
   },
   {
@@ -21,6 +27,9 @@ const DEFAULT_PROJECTS = [
     description: "Substitua esse texto depois pelo nome, imagem e detalhes do seu projeto.",
     image: "assets/logo.png",
     link: "#",
+    status: "Modelo",
+    details: "Você pode transformar este card em qualquer projeto real depois, editando o título, imagem, descrição, tags e detalhes.",
+    features: ["Minecraft", "API", "JSON"],
     tags: ["Minecraft", "API", "JSON"]
   }
 ];
