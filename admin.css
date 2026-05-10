@@ -553,15 +553,15 @@ img {
 }
 
 .dashboard-reveal {
-  opacity: 0;
-  transform: translateY(22px);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .dashboard.dashboard-ready .dashboard-reveal {
   animation: dashboardReveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.dashboard.dashboard-ready .dashboard-reveal:nth-child(1) {
+.dashboard.dashboard-ready .sidebar {
   animation-delay: 0.05s;
 }
 
@@ -582,6 +582,11 @@ img {
 }
 
 @keyframes dashboardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
   to {
     opacity: 1;
     transform: translateY(0);
