@@ -15,6 +15,36 @@ function revealOnScroll() {
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
 
+// Menu mobile
+const menuBtn = document.getElementById('menuBtn');
+const navLinks = document.getElementById('navLinks');
+
+if (menuBtn && navLinks) {
+  menuBtn.addEventListener('click', (event) => {
+    event.stopPropagation();
+
+    navLinks.classList.toggle('active');
+    menuBtn.classList.toggle('active');
+  });
+
+  navLinks.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+      menuBtn.classList.remove('active');
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    const clickedInsideMenu = navLinks.contains(event.target);
+    const clickedButton = menuBtn.contains(event.target);
+
+    if (!clickedInsideMenu && !clickedButton) {
+      navLinks.classList.remove('active');
+      menuBtn.classList.remove('active');
+    }
+  });
+}
+
 // Constelação clean conectando no cursor
 const constellationCanvas = document.getElementById('constellationCanvas');
 
@@ -64,6 +94,7 @@ if (constellationCanvas) {
   function getDistance(x1, y1, x2, y2) {
     const dx = x1 - x2;
     const dy = y1 - y2;
+
     return Math.sqrt(dx * dx + dy * dy);
   }
 
@@ -266,6 +297,10 @@ function renderProjectsFromAdmin() {
 
   const projects = getPortfolioProjects();
 
+  if (!Array.isArray(projects) || projects.length === 0) {
+    return;
+  }
+
   carouselTrack.innerHTML = '';
 
   projects.forEach((project) => {
@@ -382,6 +417,7 @@ function getCenterOffset() {
 
 function getCarouselPosition(index = carouselIndex) {
   const centerOffset = getCenterOffset();
+
   return index * slideStep - centerOffset;
 }
 
@@ -588,34 +624,6 @@ if (carouselTrack && carouselWindow && carouselPrev && carouselNext) {
   });
 }
 
-// Menu mobile
-const menuButton = document.getElementById('menuButton');
-const menuPanel = document.getElementById('menuPanel');
-
-if (menuButton && menuPanel) {
-  menuButton.addEventListener('click', () => {
-    menuPanel.classList.toggle('active');
-    menuButton.classList.toggle('active');
-  });
-
-  menuPanel.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      menuPanel.classList.remove('active');
-      menuButton.classList.remove('active');
-    });
-  });
-
-  document.addEventListener('click', (event) => {
-    const clickedInsideMenu = menuPanel.contains(event.target);
-    const clickedButton = menuButton.contains(event.target);
-
-    if (!clickedInsideMenu && !clickedButton) {
-      menuPanel.classList.remove('active');
-      menuButton.classList.remove('active');
-    }
-  });
-}
-
 // Discord copiar
 const discord = document.getElementById('discord');
 
@@ -624,11 +632,14 @@ if (discord) {
     navigator.clipboard.writeText('anakinsky01');
 
     const feedback = discord.querySelector('.contact-action');
-    feedback.textContent = 'copied';
 
-    setTimeout(() => {
-      feedback.textContent = 'copy';
-    }, 1500);
+    if (feedback) {
+      feedback.textContent = 'copied';
+
+      setTimeout(() => {
+        feedback.textContent = 'copy';
+      }, 1500);
+    }
   });
 }
 
