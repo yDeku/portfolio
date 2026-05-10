@@ -11,6 +11,7 @@ const passwordInput = document.getElementById("passwordInput");
 const loginError = document.getElementById("loginError");
 const logoutBtn = document.getElementById("logoutBtn");
 const loginCard = document.getElementById("loginCard");
+const loginCardShell = document.getElementById("loginCardShell");
 const mouseLight = document.getElementById("mouseLight");
 
 const projectForm = document.getElementById("projectForm");
@@ -29,6 +30,7 @@ const formTitle = document.getElementById("formTitle");
 const cancelEditBtn = document.getElementById("cancelEditBtn");
 const projectList = document.getElementById("projectList");
 const emptyState = document.getElementById("emptyState");
+const projectCount = document.getElementById("projectCount");
 
 const exportBtn = document.getElementById("exportBtn");
 const clearBtn = document.getElementById("clearBtn");
@@ -75,18 +77,18 @@ function saveProjects(projects) {
   savePortfolioProjects(projects);
 }
 
-/* EFEITO LUZ NO FUNDO */
+/* LUZ NO FUNDO */
 
 function setupMouseLight() {
   if (!mouseLight) return;
 
-  window.addEventListener("pointermove", (event) => {
+  window.addEventListener("mousemove", (event) => {
     document.documentElement.style.setProperty("--mouse-x", `${event.clientX}px`);
     document.documentElement.style.setProperty("--mouse-y", `${event.clientY}px`);
   });
 }
 
-/* EFEITO CARD 3D */
+/* TILT 3D */
 
 function setupTiltCards() {
   const cards = document.querySelectorAll(".tilt-card, .project-item");
@@ -115,7 +117,7 @@ function setupTiltCards() {
       card.style.setProperty("--glow-y", `${glowY}%`);
 
       card.style.transform = `
-        perspective(1000px)
+        perspective(1100px)
         rotateX(${rotateX}deg)
         rotateY(${rotateY}deg)
         scale(1.018)
@@ -123,22 +125,24 @@ function setupTiltCards() {
     });
 
     card.addEventListener("mouseleave", () => {
-      card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+      card.style.transform = "perspective(1100px) rotateX(0deg) rotateY(0deg) scale(1)";
     });
   });
 }
 
 function shakeLoginCard() {
-  if (!loginCard) return;
+  const target = loginCardShell || loginCard;
 
-  loginCard.classList.remove("shake");
+  if (!target) return;
 
-  void loginCard.offsetWidth;
+  target.classList.remove("shake");
 
-  loginCard.classList.add("shake");
+  void target.offsetWidth;
+
+  target.classList.add("shake");
 
   setTimeout(() => {
-    loginCard.classList.remove("shake");
+    target.classList.remove("shake");
   }, 450);
 }
 
@@ -342,6 +346,10 @@ function renderProjects() {
   const projects = getProjects();
 
   projectList.innerHTML = "";
+
+  if (projectCount) {
+    projectCount.textContent = projects.length;
+  }
 
   if (projects.length === 0) {
     emptyState.classList.remove("hidden");
