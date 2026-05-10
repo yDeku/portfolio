@@ -217,17 +217,26 @@ if (constellationCanvas) {
   animateConstellation();
 }
 
-// Carrossel centralizado, lado a lado e girando lentamente
+// Carrossel infinito com drag no celular e mouse
 const carouselTrack = document.getElementById('carouselTrack');
+const carouselWindow = document.getElementById('carouselWindow');
 const carouselPrev = document.getElementById('carouselPrev');
 const carouselNext = document.getElementById('carouselNext');
 const projectsCarousel = document.getElementById('projectsCarousel');
 
-let carouselIndex = 1;
+let carouselIndex = 0;
 let carouselTimer = null;
 let slideStep = 0;
 let originalSlidesCount = 0;
 let carouselReady = false;
+let isTransitioning = false;
+
+let isDragging = false;
+let dragStartX = 0;
+let dragCurrentX = 0;
+let dragDeltaX = 0;
+let dragStartTranslate = 0;
+let pointerId = null;
 
 function setupCarousel() {
   if (!carouselTrack || carouselReady) return;
@@ -238,14 +247,21 @@ function setupCarousel() {
   if (originalSlidesCount <= 1) return;
 
   const firstClone = originalSlides[0].cloneNode(true);
+  const secondClone = originalSlides[1].cloneNode(true);
   const lastClone = originalSlides[originalSlidesCount - 1].cloneNode(true);
+  const beforeLastClone = originalSlides[originalSlidesCount - 2].cloneNode(true);
 
   firstClone.classList.add('carousel-clone');
+  secondClone.classList.add('carousel-clone');
   lastClone.classList.add('carousel-clone');
+  beforeLastClone.classList.add('carousel-clone');
 
-  carouselTrack.appendChild(firstClone);
+  carouselTrack.insertBefore(beforeLastClone, originalSlides[0]);
   carouselTrack.insertBefore(lastClone, originalSlides[0]);
+  carouselTrack.appendChild(firstClone);
+  carouselTrack.appendChild(secondClone);
 
+  carouselIndex = 2;
   carouselReady = true;
 
   updateSlideStep();
@@ -267,30 +283,37 @@ function updateSlideStep() {
 }
 
 function getCenterOffset() {
-  if (!carouselTrack || !projectsCarousel) return 0;
+  if (!carouselTrack || !carouselWindow) return 0;
 
-  const windowElement = projectsCarousel.querySelector('.carousel-window');
   const firstSlide = carouselTrack.querySelector('.carousel-slide');
+  if (!firstSlide) return 0;
 
-  if (!windowElement || !firstSlide) return 0;
-
-  const windowWidth = windowElement.offsetWidth;
+  const windowWidth = carouselWindow.offsetWidth;
   const slideWidth = firstSlide.offsetWidth;
 
   return (windowWidth - slideWidth) / 2;
 }
 
-function moveCarousel(animated = true) {
-  if (!carouselTrack) return;
-
+function getCarouselPosition(index = carouselIndex) {
   const centerOffset = getCenterOffset();
-  const position = carouselIndex * slideStep - centerOffset;
+  return index * slideStep - centerOffset;
+}
+
+function setCarouselTranslate(position, animated = true) {
+  if (!carouselTrack) return;
 
   carouselTrack.style.transition = animated
     ? 'transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)'
     : 'none';
 
   carouselTrack.style.transform = `translateX(-${position}px)`;
+}
+
+function moveCarousel(animated = true) {
+  if (!carouselTrack) return;
+
+  const position = getCarouselPosition();
+  setCarouselTranslate(position, animated);
 }
 
 function updateActiveSlide() {
@@ -307,36 +330,40 @@ function updateActiveSlide() {
   }
 }
 
-function nextCarousel() {
+function normalizeCarouselAfterTransition() {
   if (!carouselReady) return;
 
-  carouselIndex++;
-  updateActiveSlide();
-  moveCarousel(true);
+  if (carouselIndex >= originalSlidesCount + 2) {
+    carouselIndex = 2;
+    updateActiveSlide();
+    moveCarousel(false);
+  }
 
-  if (carouselIndex === originalSlidesCount + 1) {
-    setTimeout(() => {
-      carouselIndex = 1;
-      updateActiveSlide();
-      moveCarousel(false);
-    }, 860);
+  if (carouselIndex <= 1) {
+    carouselIndex = originalSlidesCount + 1;
+    updateActiveSlide();
+    moveCarousel(false);
   }
 }
 
-function prevCarousel() {
-  if (!carouselReady) return;
+function nextCarousel() {
+  if (!carouselReady || isTransitioning || isDragging) return;
 
-  carouselIndex--;
+  isTransitioning = true;
+  carouselIndex++;
+
   updateActiveSlide();
   moveCarousel(true);
+}
 
-  if (carouselIndex === 0) {
-    setTimeout(() => {
-      carouselIndex = originalSlidesCount;
-      updateActiveSlide();
-      moveCarousel(false);
-    }, 860);
-  }
+function prevCarousel() {
+  if (!carouselReady || isTransitioning || isDragging) return;
+
+  isTransitioning = true;
+  carouselIndex--;
+
+  updateActiveSlide();
+  moveCarousel(true);
 }
 
 function startCarousel() {
@@ -354,11 +381,96 @@ function stopCarousel() {
   }
 }
 
-if (carouselTrack && carouselPrev && carouselNext) {
+function onCarouselPointerDown(event) {
+  if (!carouselReady || !carouselWindow) return;
+
+  isDragging = true;
+  isTransitioning = false;
+  pointerId = event.pointerId;
+
+  stopCarousel();
+
+  dragStartX = event.clientX;
+  dragCurrentX = event.clientX;
+  dragDeltaX = 0;
+  dragStartTranslate = getCarouselPosition();
+
+  carouselWindow.classList.add('dragging');
+  carouselWindow.setPointerCapture(pointerId);
+
+  setCarouselTranslate(dragStartTranslate, false);
+}
+
+function onCarouselPointerMove(event) {
+  if (!isDragging || event.pointerId !== pointerId) return;
+
+  dragCurrentX = event.clientX;
+  dragDeltaX = dragCurrentX - dragStartX;
+
+  const resistance = 0.92;
+  const nextPosition = dragStartTranslate - dragDeltaX * resistance;
+
+  setCarouselTranslate(nextPosition, false);
+}
+
+function onCarouselPointerUp(event) {
+  if (!isDragging || event.pointerId !== pointerId) return;
+
+  isDragging = false;
+
+  if (carouselWindow) {
+    carouselWindow.classList.remove('dragging');
+
+    try {
+      carouselWindow.releasePointerCapture(pointerId);
+    } catch (error) {}
+  }
+
+  const dragLimit = Math.min(95, slideStep * 0.25);
+
+  if (dragDeltaX < -dragLimit) {
+    isTransitioning = true;
+    carouselIndex++;
+  } else if (dragDeltaX > dragLimit) {
+    isTransitioning = true;
+    carouselIndex--;
+  }
+
+  updateActiveSlide();
+  moveCarousel(true);
+
+  dragStartX = 0;
+  dragCurrentX = 0;
+  dragDeltaX = 0;
+  pointerId = null;
+
+  startCarousel();
+}
+
+function onCarouselPointerCancel() {
+  if (!isDragging) return;
+
+  isDragging = false;
+
+  if (carouselWindow) {
+    carouselWindow.classList.remove('dragging');
+  }
+
+  updateActiveSlide();
+  moveCarousel(true);
+  startCarousel();
+}
+
+if (carouselTrack && carouselWindow && carouselPrev && carouselNext) {
   window.addEventListener('load', () => {
     setupCarousel();
     updateSlideStep();
     moveCarousel(false);
+  });
+
+  carouselTrack.addEventListener('transitionend', () => {
+    isTransitioning = false;
+    normalizeCarouselAfterTransition();
   });
 
   carouselNext.addEventListener('click', () => {
@@ -370,6 +482,12 @@ if (carouselTrack && carouselPrev && carouselNext) {
     prevCarousel();
     startCarousel();
   });
+
+  carouselWindow.addEventListener('pointerdown', onCarouselPointerDown);
+  carouselWindow.addEventListener('pointermove', onCarouselPointerMove);
+  carouselWindow.addEventListener('pointerup', onCarouselPointerUp);
+  carouselWindow.addEventListener('pointercancel', onCarouselPointerCancel);
+  carouselWindow.addEventListener('lostpointercapture', onCarouselPointerCancel);
 
   if (projectsCarousel) {
     projectsCarousel.addEventListener('mouseenter', stopCarousel);
