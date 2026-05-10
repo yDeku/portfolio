@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Panel | yDeku</title>
 
-  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="admin.css?v=11" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,6 +14,7 @@
     rel="stylesheet"
   />
 </head>
+
 <body>
   <main class="admin-page">
     <section class="login-screen" id="loginScreen">
@@ -102,11 +102,38 @@
 
               <div class="field">
                 <label for="projectImage">Imagem</label>
+
                 <input
                   type="text"
                   id="projectImage"
                   placeholder="Ex: assets/project.png ou URL da imagem"
                 />
+
+                <div class="image-tools">
+                  <input
+                    type="file"
+                    id="projectImageFile"
+                    accept="image/*"
+                    hidden
+                  />
+
+                  <button type="button" class="secondary-btn image-btn" id="chooseImageBtn">
+                    Escolher imagem do dispositivo
+                  </button>
+
+                  <button type="button" class="danger-btn image-btn" id="clearImageBtn">
+                    Limpar imagem
+                  </button>
+                </div>
+
+                <div class="image-preview empty" id="imagePreview">
+                  <span>Nenhuma imagem selecionada</span>
+                </div>
+
+                <small class="field-hint">
+                  Você pode usar uma URL/caminho ou escolher uma imagem do seu dispositivo.
+                  Imagens locais serão salvas como Base64.
+                </small>
               </div>
 
               <div class="field">
@@ -176,7 +203,7 @@
     </section>
   </main>
 
-   <script src="projects-data.js?v=10"></script>
-<script src="admin.js?v=10"></script>
+  <script src="projects-data.js?v=12"></script>
+  <script src="admin.js?v=12"></script>
 </body>
 </html>
