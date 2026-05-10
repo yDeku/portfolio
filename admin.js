@@ -25,6 +25,9 @@ const clearImageBtn = document.getElementById("clearImageBtn");
 const imagePreview = document.getElementById("imagePreview");
 const projectLink = document.getElementById("projectLink");
 const projectTags = document.getElementById("projectTags");
+const projectStatus = document.getElementById("projectStatus");
+const projectDetails = document.getElementById("projectDetails");
+const projectFeatures = document.getElementById("projectFeatures");
 
 const formTitle = document.getElementById("formTitle");
 const cancelEditBtn = document.getElementById("cancelEditBtn");
@@ -91,6 +94,10 @@ function setupMouseLight() {
 /* TILT 3D */
 
 function setupTiltCards() {
+  const isMobile = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+  if (isMobile) return;
+
   const cards = document.querySelectorAll(".tilt-card, .project-item");
 
   cards.forEach((card) => {
@@ -211,7 +218,7 @@ function setImagePreview(imageValue) {
 
   if (!imageValue) {
     imagePreview.classList.add("empty");
-    imagePreview.innerHTML = "<span>Nenhuma imagem selecionada</span>";
+    imagePreview.innerHTML = "<span>Nenhuma imagem escolhida ainda</span>";
     return;
   }
 
@@ -239,6 +246,9 @@ function resetForm() {
   projectImage.value = "";
   projectLink.value = "";
   projectTags.value = "";
+  projectStatus.value = "";
+  projectDetails.value = "";
+  projectFeatures.value = "";
   selectedImageData = "";
 
   if (projectImageFile) {
@@ -247,15 +257,15 @@ function resetForm() {
 
   setImagePreview("");
 
-  formTitle.textContent = "Adicionar projeto";
+  formTitle.textContent = "Criar novo projeto";
   cancelEditBtn.classList.remove("show");
 }
 
-function formatTags(text) {
+function formatList(text) {
   return text
     .split(",")
-    .map(tag => tag.trim())
-    .filter(tag => tag.length > 0);
+    .map(item => item.trim())
+    .filter(item => item.length > 0);
 }
 
 function handleImageFileChange() {
@@ -284,7 +294,7 @@ function handleImageFileChange() {
     selectedImageData = reader.result;
     projectImage.value = selectedImageData;
     setImagePreview(selectedImageData);
-    showToast("Imagem carregada!");
+    showToast("Imagem pronta para usar!");
   };
 
   reader.onerror = () => {
@@ -303,11 +313,14 @@ function handleProjectSubmit(event) {
   const description = projectDescription.value.trim();
   const image = selectedImageData || projectImage.value.trim();
   const link = projectLink.value.trim();
-  const tags = formatTags(projectTags.value);
+  const tags = formatList(projectTags.value);
+  const status = projectStatus.value.trim();
+  const details = projectDetails.value.trim();
+  const features = formatList(projectFeatures.value);
   const editingId = projectId.value;
 
   if (!title || !description) {
-    alert("Preencha pelo menos o título e a descrição.");
+    alert("Preencha pelo menos o nome e a descrição do projeto.");
     return;
   }
 
@@ -319,6 +332,9 @@ function handleProjectSubmit(event) {
     description,
     image,
     link,
+    status,
+    details,
+    features,
     tags
   };
 
@@ -339,7 +355,7 @@ function handleProjectSubmit(event) {
   renderProjects();
   setupTiltCards();
 
-  showToast(editingId ? "Projeto editado e salvo!" : "Projeto criado e salvo!");
+  showToast(editingId ? "Alterações salvas com sucesso!" : "Projeto criado com sucesso!");
 }
 
 function renderProjects() {
@@ -396,6 +412,13 @@ function renderProjects() {
     const tagsBox = document.createElement("div");
     tagsBox.className = "tags";
 
+    if (project.status) {
+      const statusTag = document.createElement("span");
+      statusTag.className = "tag";
+      statusTag.textContent = project.status;
+      tagsBox.appendChild(statusTag);
+    }
+
     if (project.tags && project.tags.length > 0) {
       project.tags.forEach(tagText => {
         const tag = document.createElement("span");
@@ -411,13 +434,13 @@ function renderProjects() {
     const editButton = document.createElement("button");
     editButton.className = "card-btn edit-btn";
     editButton.type = "button";
-    editButton.textContent = "Editar";
+    editButton.textContent = "Editar card";
     editButton.addEventListener("click", () => editProject(project.id));
 
     const deleteButton = document.createElement("button");
     deleteButton.className = "card-btn delete-btn";
     deleteButton.type = "button";
-    deleteButton.textContent = "Excluir";
+    deleteButton.textContent = "Apagar";
     deleteButton.addEventListener("click", () => deleteProject(project.id));
 
     const upButton = document.createElement("button");
@@ -477,10 +500,13 @@ function editProject(id) {
   selectedImageData = image;
   projectLink.value = project.link || "";
   projectTags.value = project.tags ? project.tags.join(", ") : "";
+  projectStatus.value = project.status || "";
+  projectDetails.value = project.details || "";
+  projectFeatures.value = project.features ? project.features.join(", ") : "";
 
   setImagePreview(image);
 
-  formTitle.textContent = "Editar projeto";
+  formTitle.textContent = "Editando projeto";
   cancelEditBtn.classList.add("show");
 
   window.scrollTo({
@@ -490,7 +516,7 @@ function editProject(id) {
 }
 
 function deleteProject(id) {
-  const confirmDelete = confirm("Tem certeza que deseja excluir este projeto?");
+  const confirmDelete = confirm("Tem certeza que quer apagar esse projeto? Essa ação não dá pra desfazer.");
 
   if (!confirmDelete) return;
 
@@ -500,7 +526,7 @@ function deleteProject(id) {
   saveProjects(filtered);
   renderProjects();
   resetForm();
-  showToast("Projeto excluído!");
+  showToast("Projeto removido do painel.");
 }
 
 function moveProject(fromIndex, toIndex) {
@@ -513,7 +539,7 @@ function moveProject(fromIndex, toIndex) {
 
   saveProjects(projects);
   renderProjects();
-  showToast("Ordem atualizada!");
+  showToast("Ordem dos projetos atualizada.");
 }
 
 /* CONFIG */
@@ -526,15 +552,15 @@ function exportProjects() {
 
   if (navigator.clipboard) {
     navigator.clipboard.writeText(data).then(() => {
-      showToast("Dados copiados!");
+      showToast("Dados copiados. Agora é só colar onde quiser.");
     });
   } else {
-    showToast("Copie os dados manualmente.");
+    showToast("Não consegui copiar sozinho. Copie o texto manualmente.");
   }
 }
 
 function clearProjects() {
-  const confirmClear = confirm("Isso vai resetar os projetos para o padrão. Continuar?");
+  const confirmClear = confirm("Isso vai voltar os projetos para o padrão. Quer continuar?");
 
   if (!confirmClear) return;
 
@@ -547,7 +573,7 @@ function clearProjects() {
   exportOutput.value = "";
   resetForm();
   renderProjects();
-  showToast("Projetos resetados!");
+  showToast("Projetos voltaram para o padrão.");
 }
 
 /* EVENTOS */
