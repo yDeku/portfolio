@@ -2,7 +2,7 @@
 const revealElements = document.querySelectorAll(".reveal");
 
 function setupRevealDelays() {
-  revealElements.forEach((element, index) => {
+  revealElements.forEach((element) => {
     const parent = element.parentElement;
     const siblings = parent ? Array.from(parent.querySelectorAll(".reveal")) : [];
 
@@ -313,8 +313,10 @@ function renderProjects() {
 
   projects.forEach((project, index) => {
     const card = document.createElement("article");
-    card.className = "project-card reveal";
-    card.style.setProperty("--reveal-delay", `${Math.min(index * 90, 360)}ms`);
+
+    // Não coloca "reveal" aqui, porque esses cards são criados depois pelo JS.
+    card.className = "project-card project-card-ready";
+    card.style.animationDelay = `${Math.min(index * 90, 360)}ms`;
     card.tabIndex = 0;
 
     const tagsHTML = Array.isArray(project.tags)
