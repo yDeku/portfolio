@@ -6,20 +6,15 @@
 
 :root {
   --bg: #020202;
-  --bg-soft: #080808;
   --card: rgba(12, 12, 12, 0.78);
-  --card-solid: #0b0b0b;
   --border: rgba(255, 255, 255, 0.09);
-  --border-red: rgba(255, 0, 0, 0.28);
   --text: #ffffff;
   --muted: #b6b6b6;
   --muted-2: #7d7d7d;
   --primary: #ff2020;
   --primary-2: #ff4b4b;
   --primary-3: #ff7373;
-  --danger: #ef4444;
   --danger-2: #ff6b6b;
-  --success: #22c55e;
   --radius: 22px;
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
 }
@@ -90,6 +85,73 @@ img {
   display: none !important;
 }
 
+/* EFEITOS GERAIS */
+
+.tilt-card {
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1);
+  transition: transform 0.18s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(
+      320px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      rgba(255, 0, 0, 0.22),
+      rgba(255, 0, 0, 0.07) 28%,
+      transparent 64%
+    );
+  transition: opacity 0.25s ease;
+}
+
+.tilt-card:hover .card-glow {
+  opacity: 1;
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) translateY(28px) scale(0.96) rotateX(8deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: perspective(1000px) translateY(0) scale(1) rotateX(0deg);
+  }
+}
+
+@keyframes wrongShake {
+  0%, 100% {
+    transform: perspective(1000px) translateX(0) rotateX(0) rotateY(0);
+  }
+
+  20% {
+    transform: perspective(1000px) translateX(-10px) rotateZ(-1deg);
+  }
+
+  40% {
+    transform: perspective(1000px) translateX(10px) rotateZ(1deg);
+  }
+
+  60% {
+    transform: perspective(1000px) translateX(-7px) rotateZ(-0.8deg);
+  }
+
+  80% {
+    transform: perspective(1000px) translateX(7px) rotateZ(0.8deg);
+  }
+}
+
+.shake {
+  animation: wrongShake 0.42s ease;
+}
+
 /* LOGIN */
 
 .login-screen {
@@ -113,6 +175,50 @@ img {
   background-size: 70px 70px;
   mask-image: radial-gradient(circle at center, black 0%, transparent 72%);
   pointer-events: none;
+}
+
+.mouse-light {
+  position: fixed;
+  left: var(--mouse-x, 50%);
+  top: var(--mouse-y, 50%);
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 0, 0, 0.18), transparent 62%);
+  filter: blur(26px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: -2;
+  opacity: 0.85;
+  transition: opacity 0.25s ease;
+}
+
+.scanline {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    transparent 45%,
+    rgba(255, 0, 0, 0.08),
+    transparent 55%,
+    transparent
+  );
+  background-size: 100% 260px;
+  animation: scanMove 4.8s linear infinite;
+  opacity: 0.55;
+}
+
+@keyframes scanMove {
+  from {
+    background-position: 0 -260px;
+  }
+
+  to {
+    background-position: 0 260px;
+  }
 }
 
 .login-bg-blur {
@@ -177,6 +283,7 @@ img {
     0 0 0 1px rgba(255, 255, 255, 0.03) inset,
     0 0 80px rgba(255, 0, 0, 0.1);
   overflow: hidden;
+  animation: cardEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .login-card::before {
@@ -213,9 +320,15 @@ img {
   pointer-events: none;
 }
 
-.login-brand {
+.login-brand,
+.login-title,
+.login-form,
+.login-footer {
   position: relative;
   z-index: 1;
+}
+
+.login-brand {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -263,8 +376,6 @@ img {
 }
 
 .login-title {
-  position: relative;
-  z-index: 1;
   margin-bottom: 28px;
 }
 
@@ -283,8 +394,6 @@ img {
 }
 
 .login-form {
-  position: relative;
-  z-index: 1;
   display: grid;
   gap: 14px;
 }
@@ -407,8 +516,6 @@ img {
 }
 
 .login-footer {
-  position: relative;
-  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -443,6 +550,42 @@ img {
   min-height: 100vh;
   display: grid;
   grid-template-columns: 280px 1fr;
+}
+
+.dashboard-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.dashboard.dashboard-ready .dashboard-reveal {
+  animation: dashboardReveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dashboard.dashboard-ready .dashboard-reveal:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.dashboard.dashboard-ready .topbar {
+  animation-delay: 0.12s;
+}
+
+.dashboard.dashboard-ready .form-panel {
+  animation-delay: 0.2s;
+}
+
+.dashboard.dashboard-ready .list-panel {
+  animation-delay: 0.28s;
+}
+
+.dashboard.dashboard-ready .settings-panel {
+  animation-delay: 0.36s;
+}
+
+@keyframes dashboardReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .sidebar {
@@ -556,18 +699,32 @@ img {
 }
 
 .panel {
+  position: relative;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background:
     linear-gradient(145deg, rgba(18, 18, 18, 0.78), rgba(4, 4, 4, 0.74));
   backdrop-filter: blur(18px);
   box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.panel:hover {
+  border-color: rgba(255, 0, 0, 0.22);
 }
 
 .form-panel,
 .list-panel,
 .settings-panel {
   padding: 24px;
+}
+
+.panel-header,
+#projectForm,
+.settings-actions,
+.export-output {
+  position: relative;
+  z-index: 1;
 }
 
 .panel-header {
@@ -738,11 +895,14 @@ img {
 /* LISTA */
 
 .project-list {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: 16px;
 }
 
 .project-item {
+  position: relative;
   display: grid;
   grid-template-columns: 92px 1fr;
   gap: 16px;
@@ -750,7 +910,8 @@ img {
   border: 1px solid var(--border);
   border-radius: 20px;
   background: rgba(0, 0, 0, 0.34);
-  transition: 0.25s ease;
+  transition: transform 0.18s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
 }
 
 .project-item:hover {
@@ -987,5 +1148,16 @@ img {
     left: 16px;
     bottom: 16px;
     text-align: center;
+  }
+}
+
+@media (hover: none) {
+  .tilt-card,
+  .project-item {
+    transform: none !important;
+  }
+
+  .card-glow {
+    display: none;
   }
 }
