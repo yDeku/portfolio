@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Panel | yDeku</title>
 
-  <link rel="stylesheet" href="admin.css?v=11" />
+  <link rel="stylesheet" href="admin.css?v=15" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet"
   />
 </head>
@@ -18,29 +18,53 @@
 <body>
   <main class="admin-page">
     <section class="login-screen" id="loginScreen">
+      <div class="login-bg-blur blur-one"></div>
+      <div class="login-bg-blur blur-two"></div>
+
       <div class="login-card">
-        <div class="login-logo">yDeku</div>
+        <div class="login-brand">
+          <div class="login-logo-box">
+            <img src="assets/logo.png" alt="YDK Logo">
+          </div>
 
-        <h1>Admin Panel</h1>
-        <p>Entre para editar os projetos do seu portfólio.</p>
+          <div>
+            <span>YDK</span>
+            <strong>Admin Panel</strong>
+          </div>
+        </div>
 
-        <form id="loginForm">
-          <label for="passwordInput">Senha</label>
-          <input
-            type="password"
-            id="passwordInput"
-            placeholder="Digite a senha"
-            autocomplete="current-password"
-          />
+        <div class="login-title">
+          <h1>Welcome back</h1>
+          <p>Entre para gerenciar os projetos do seu portfólio.</p>
+        </div>
 
-          <button type="submit">Entrar</button>
+        <form id="loginForm" class="login-form">
+          <div class="login-field">
+            <label for="passwordInput">Senha de acesso</label>
+
+            <div class="password-box">
+              <input
+                type="password"
+                id="passwordInput"
+                placeholder="Digite sua senha"
+                autocomplete="current-password"
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="login-submit">
+            Entrar no painel
+          </button>
 
           <span class="login-error" id="loginError">
-            Senha incorreta.
+            Senha incorreta. Tente novamente.
           </span>
         </form>
 
-        <small>A senha padrão é <strong>admin123</strong>. Depois você pode trocar no JS.</small>
+        <div class="login-footer">
+          <span>Private access</span>
+          <small>YDK — MCBE Developer</small>
+        </div>
       </div>
     </section>
 
@@ -86,7 +110,7 @@
                 <input
                   type="text"
                   id="projectTitle"
-                  placeholder="Ex: Parkour Addon"
+                  placeholder="Ex: Nome do projeto"
                   required
                 />
               </div>
@@ -95,7 +119,7 @@
                 <label for="projectDescription">Descrição</label>
                 <textarea
                   id="projectDescription"
-                  placeholder="Ex: Sistema de parkour para Minecraft Bedrock usando Script API."
+                  placeholder="Ex: Descrição do projeto."
                   required
                 ></textarea>
               </div>
@@ -106,7 +130,7 @@
                 <input
                   type="text"
                   id="projectImage"
-                  placeholder="Ex: assets/project.png ou URL da imagem"
+                  placeholder="Ex: assets/project.png"
                 />
 
                 <div class="image-tools">
@@ -118,7 +142,7 @@
                   />
 
                   <button type="button" class="secondary-btn image-btn" id="chooseImageBtn">
-                    Escolher imagem do dispositivo
+                    Escolher imagem
                   </button>
 
                   <button type="button" class="danger-btn image-btn" id="clearImageBtn">
@@ -131,8 +155,7 @@
                 </div>
 
                 <small class="field-hint">
-                  Você pode usar uma URL/caminho ou escolher uma imagem do seu dispositivo.
-                  Imagens locais serão salvas como Base64.
+                  Recomendado: use imagens da pasta assets, exemplo: assets/project.png
                 </small>
               </div>
 
@@ -203,7 +226,7 @@
     </section>
   </main>
 
-  <script src="projects-data.js?v=12"></script>
-  <script src="admin.js?v=12"></script>
+  <script src="projects-data.js?v=15"></script>
+  <script src="admin.js?v=15"></script>
 </body>
 </html>
