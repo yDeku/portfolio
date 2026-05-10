@@ -1156,13 +1156,3 @@ img {
   }
 }
 
-@media (hover: none) {
-  .tilt-card,
-  .project-item {
-    transform: none !important;
-  }
-
-  .card-glow {
-    display: none;
-  }
-}
