@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>YDK — MCBE Developer</title>
 
-  <link rel="stylesheet" href="style.css?v=40">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=30" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
 </head>
 
 <body>
-
   <canvas class="constellation-canvas" id="constellationCanvas"></canvas>
 
   <header class="topbar">
     <nav class="navbar">
       <a href="#home" class="brand">
-        <img src="assets/logo.png" alt="YDK Developer">
+        <img src="assets/logo.png" alt="YDK Developer" />
       </a>
 
       <ul class="nav-links" id="navLinks">
         <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#services">O que faço</a></li>
+        <li><a href="#projects">Projetos</a></li>
+        <li><a href="#contact">Contato</a></li>
       </ul>
 
       <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
@@ -35,7 +41,6 @@
   </header>
 
   <main>
-
     <section id="home" class="home">
       <div class="background-grid"></div>
       <div class="red-glow glow-one"></div>
@@ -43,174 +48,157 @@
 
       <div class="container home-content reveal">
         <div class="hero-logo-wrap">
-          <img src="assets/logo.png" alt="YDK Developer" class="hero-logo">
+          <img src="assets/logo.png" alt="YDK Developer" class="hero-logo" />
         </div>
+
+        <span class="hero-tag">MCBE Developer</span>
+
+        <h1>
+          Sistemas customizados para
+          <span>Minecraft Bedrock</span>.
+        </h1>
 
         <p class="hero-text">
-          Custom Minecraft Bedrock systems.
+          Eu crio mecânicas, interfaces, animações e sistemas personalizados usando Script API, JSON UI e Molang.
         </p>
+
+        <div class="hero-actions">
+          <a href="#projects" class="btn primary">Ver projetos</a>
+          <a href="#contact" class="btn secondary">Falar comigo</a>
+        </div>
 
         <p class="hero-subtitle">
-          MCBE · API · JSON UI · MOLANG
+          MCBE · Script API · JSON UI · Molang
         </p>
       </div>
     </section>
 
-    <section id="about" class="about-strip">
+    <section id="services" class="section services-section">
       <div class="container">
-        <div class="about-inline reveal">
-          <span>About</span>
-          <p>
-            I make Minecraft Bedrock systems.
-          </p>
+        <div class="section-header reveal">
+          <span class="section-label">O que eu faço</span>
+          <h2>Sistemas para addons e experiências customizadas.</h2>
+          <p>Foco em mecânicas visuais, jogabilidade e interfaces para Minecraft Bedrock.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card reveal">
+            <span>01</span>
+            <h3>Script API</h3>
+            <p>Sistemas com lógica, eventos, cooldowns, habilidades e mecânicas customizadas.</p>
+          </article>
+
+          <article class="service-card reveal">
+            <span>02</span>
+            <h3>JSON UI</h3>
+            <p>Interfaces personalizadas, HUDs, menus, barras e elementos visuais para o player.</p>
+          </article>
+
+          <article class="service-card reveal">
+            <span>03</span>
+            <h3>Molang & Animações</h3>
+            <p>Animações, efeitos visuais e comportamentos que deixam o addon mais profissional.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="projects" class="section">
+    <section id="projects" class="section projects-section">
       <div class="container">
-
         <div class="section-header reveal">
-          <span class="section-label">Projects</span>
-          <h2>Projects I’m making.</h2>
-          <p>Custom projects for Minecraft Bedrock.</p>
+          <span class="section-label">Projetos</span>
+          <h2>Cards do portfólio.</h2>
+          <p>Clique em um projeto para ver mais detalhes.</p>
         </div>
 
-        <div class="projects-carousel reveal" id="projectsCarousel">
-
-          <button class="carousel-button carousel-button-left" id="carouselPrev" aria-label="Previous project">
-            <span>‹</span>
-          </button>
-
-          <div class="carousel-window" id="carouselWindow">
-            <div class="carousel-track" id="carouselTrack">
-
-              <article class="carousel-slide">
-                <div class="project-card">
-                  <div class="project-image">
-                    <img src="assets/starwars-preview.png" alt="Star Wars project preview">
-                  </div>
-
-                  <div class="project-content">
-                    <div class="project-tags">
-                      <span>Project</span>
-                      <span>In development</span>
-                    </div>
-
-                    <h3>Star Wars</h3>
-                    <p>Inspirated on Star Wars Saga.</p>
-
-                    <a href="#contact" class="project-link">
-                      Ask about this project
-                    </a>
-                  </div>
-                </div>
-              </article>
-
-              <article class="carousel-slide">
-                <div class="project-card">
-                  <div class="project-image">
-                    <img src="assets/logo.png" alt="Combat system preview">
-                  </div>
-
-                  <div class="project-content">
-                    <div class="project-tags">
-                      <span>System</span>
-                      <span>Prototype</span>
-                    </div>
-
-                    <h3>Combat System</h3>
-                    <p>Custom combos, effects and abilities.</p>
-
-                    <a href="#contact" class="project-link">
-                      Ask about this system
-                    </a>
-                  </div>
-                </div>
-              </article>
-
-              <article class="carousel-slide">
-                <div class="project-card">
-                  <div class="project-image">
-                    <img src="assets/logo.png" alt="Parkour system preview">
-                  </div>
-
-                  <div class="project-content">
-                    <div class="project-tags">
-                      <span>Parkour</span>
-                      <span>Concept</span>
-                    </div>
-
-                    <h3>Parkour System</h3>
-                    <p>Wall run, ledge grab and smooth movement.</p>
-
-                    <a href="#contact" class="project-link">
-                      Ask about this system
-                    </a>
-                  </div>
-                </div>
-              </article>
-
-            </div>
-          </div>
-
-          <button class="carousel-button carousel-button-right" id="carouselNext" aria-label="Next project">
-            <span>›</span>
-          </button>
-
-        </div>
-
+        <div class="projects-grid reveal" id="projectsGrid"></div>
       </div>
     </section>
 
     <section id="contact" class="section contact-section">
       <div class="container">
-
         <div class="section-header reveal">
-          <span class="section-label">Contact</span>
-          <h2>Want to talk?</h2>
-          <p>Send me a message.</p>
+          <span class="section-label">Contato</span>
+          <h2>Quer trocar uma ideia?</h2>
+          <p>Me chama no Discord ou acompanha meu canal no YouTube.</p>
         </div>
 
         <div class="contacts reveal">
-
-          <div class="contact-card" id="discord">
-            <img src="assets/discord.png" alt="Discord" class="contact-icon">
+          <button class="contact-card" id="discord" type="button">
+            <img src="assets/discord.png" alt="Discord" class="contact-icon" />
 
             <div class="contact-info">
               <span>Discord</span>
               <strong>anakinsky01</strong>
             </div>
 
-            <small class="contact-action">copy</small>
-          </div>
+            <small class="contact-action">copiar</small>
+          </button>
 
-          <div class="contact-card" id="youtube">
-            <img src="assets/youtube.png" alt="YouTube" class="contact-icon">
+          <button class="contact-card" id="youtube" type="button">
+            <img src="assets/youtube.png" alt="YouTube" class="contact-icon" />
 
             <div class="contact-info">
               <span>YouTube</span>
               <strong>@ydekuh</strong>
             </div>
 
-            <small class="contact-action">open</small>
-          </div>
-
+            <small class="contact-action">abrir</small>
+          </button>
         </div>
-
       </div>
     </section>
-
   </main>
+
+  <div class="project-modal hidden" id="projectModal">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+
+    <article class="modal-card" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modalClose" type="button" aria-label="Fechar detalhes">
+        ×
+      </button>
+
+      <div class="modal-image" id="modalImage"></div>
+
+      <div class="modal-content">
+        <span class="modal-status" id="modalStatus">Projeto</span>
+
+        <h2 id="modalTitle">Título do projeto</h2>
+
+        <p id="modalDescription">
+          Descrição do projeto.
+        </p>
+
+        <div class="modal-tags" id="modalTags"></div>
+
+        <div class="modal-details">
+          <h3>Detalhes</h3>
+          <p id="modalDetailsText">
+            Mais informações sobre o projeto aparecem aqui.
+          </p>
+        </div>
+
+        <div class="modal-features" id="modalFeatures"></div>
+
+        <a href="#" class="modal-link hidden" id="modalLink" target="_blank" rel="noopener noreferrer">
+          Abrir projeto
+        </a>
+      </div>
+    </article>
+  </div>
 
   <footer class="footer">
     <div class="container footer-content">
-      <p>YDK — MCBE Developer</p>
-      <span>© 2026</span>
+      <div>
+        <p>YDK — MCBE Developer</p>
+        <span>Minecraft Bedrock · Script API · JSON UI · Molang</span>
+      </div>
+
+      <small>© 2026</small>
     </div>
   </footer>
 
-  <script src="projects-data.js?v=12"></script>
-  <script src="script.js?v=12"></script>
+  <script src="projects-data.js?v=30"></script>
+  <script src="script.js?v=30"></script>
 </body>
 </html>
