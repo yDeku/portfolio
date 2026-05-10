@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel | Y D K</title>
+  <title>Painel Admin | Y D K</title>
 
-  <link rel="stylesheet" href="admin.css?v=20" />
+  <link rel="stylesheet" href="admin.css?v=21" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,47 +30,47 @@
 
           <div class="login-brand">
             <div class="login-logo-box">
-              <img src="assets/logo.png" alt="YDK Logo">
+              <img src="assets/logo.png" alt="Logo YDK">
             </div>
 
             <div>
               <span>YDK</span>
-              <strong>Admin Panel</strong>
+              <strong>Painel Admin</strong>
             </div>
           </div>
 
           <div class="login-title">
-            <p class="login-kicker">Private dashboard</p>
-            <h1>Welcome back</h1>
-            <p>Entre para gerenciar os projetos do seu portfólio.</p>
+            <p class="login-kicker">Área privada</p>
+            <h1>Bem-vindo de volta</h1>
+            <p>Entre para atualizar seus projetos e deixar seu portfólio sempre do seu jeito.</p>
           </div>
 
           <form id="loginForm" class="login-form">
             <div class="login-field">
-              <label for="passwordInput">Senha de acesso</label>
+              <label for="passwordInput">Digite sua senha</label>
 
               <div class="password-box">
                 <input
                   type="password"
                   id="passwordInput"
-                  placeholder="Digite sua senha"
+                  placeholder="Sua senha de acesso"
                   autocomplete="current-password"
                 />
               </div>
             </div>
 
             <button type="submit" class="login-submit">
-              Entrar no painel
+              Acessar painel
             </button>
 
             <span class="login-error" id="loginError">
-              Senha incorreta. Tente novamente.
+              Opa, essa senha não está certa. Tenta de novo.
             </span>
           </form>
 
           <div class="login-footer">
-            <span>Secure access</span>
-            <small>YDK — MCBE Developer</small>
+            <span>Acesso seguro</span>
+            <small>YDK — Desenvolvedor MCBE</small>
           </div>
         </div>
       </div>
@@ -86,19 +86,19 @@
 
             <div class="brand-text">
               <strong>yDeku</strong>
-              <span>Admin System</span>
+              <span>Gerenciador do site</span>
             </div>
           </div>
 
           <nav class="menu">
             <a href="#projects" class="active">
               <span>◆</span>
-              Projetos
+              Meus projetos
             </a>
 
             <a href="#settings">
               <span>◆</span>
-              Configurações
+              Ferramentas
             </a>
           </nav>
         </div>
@@ -106,51 +106,51 @@
         <div class="sidebar-bottom">
           <div class="admin-status">
             <span></span>
-            Online
+            Tudo pronto
           </div>
 
-          <button class="logout-btn" id="logoutBtn">Sair do painel</button>
+          <button class="logout-btn" id="logoutBtn">Sair com segurança</button>
         </div>
       </aside>
 
       <section class="content">
         <header class="topbar dashboard-reveal">
           <div>
-            <span class="page-label">Dashboard</span>
-            <h1>Painel Admin</h1>
-            <p>Gerencie os projetos que aparecem no seu site.</p>
+            <span class="page-label">Controle do portfólio</span>
+            <h1>Seu painel</h1>
+            <p>Adicione, edite e organize os projetos que aparecem no seu site.</p>
           </div>
 
           <div class="topbar-actions">
             <div class="live-pill">
               <span></span>
-              Local save
+              Salvo neste navegador
             </div>
 
-            <a class="site-btn" href="index.html">Ver site</a>
+            <a class="site-btn" href="index.html">Abrir meu site</a>
           </div>
         </header>
 
         <section class="stats-grid dashboard-reveal">
           <div class="stat-card tilt-card">
             <div class="card-glow"></div>
-            <span>Projetos</span>
+            <span>Total de projetos</span>
             <strong id="projectCount">0</strong>
-            <p>cards cadastrados</p>
+            <p>cards no seu portfólio</p>
           </div>
 
           <div class="stat-card tilt-card">
             <div class="card-glow"></div>
-            <span>Status</span>
-            <strong>Active</strong>
-            <p>painel funcionando</p>
+            <span>Situação</span>
+            <strong>Ativo</strong>
+            <p>painel funcionando normalmente</p>
           </div>
 
           <div class="stat-card tilt-card">
             <div class="card-glow"></div>
-            <span>Storage</span>
+            <span>Onde salva</span>
             <strong>Local</strong>
-            <p>salvo no navegador</p>
+            <p>dados salvos no seu navegador</p>
           </div>
         </section>
 
@@ -160,37 +160,37 @@
 
             <div class="panel-header">
               <div>
-                <span class="panel-label">Editor</span>
-                <h2 id="formTitle">Adicionar projeto</h2>
+                <span class="panel-label">Editar card</span>
+                <h2 id="formTitle">Criar novo projeto</h2>
               </div>
 
-              <p>Preencha os dados do card.</p>
+              <p>Coloque as informações que vão aparecer no card do site.</p>
             </div>
 
             <form id="projectForm">
               <input type="hidden" id="projectId" />
 
               <div class="field">
-                <label for="projectTitle">Título</label>
+                <label for="projectTitle">Nome do projeto</label>
                 <input
                   type="text"
                   id="projectTitle"
-                  placeholder="Ex: Nome do projeto"
+                  placeholder="Ex: Parkour Addon"
                   required
                 />
               </div>
 
               <div class="field">
-                <label for="projectDescription">Descrição</label>
+                <label for="projectDescription">Descrição curta</label>
                 <textarea
                   id="projectDescription"
-                  placeholder="Ex: Descrição do projeto."
+                  placeholder="Explique rapidinho o que esse projeto faz."
                   required
                 ></textarea>
               </div>
 
               <div class="field">
-                <label for="projectImage">Imagem</label>
+                <label for="projectImage">Imagem do card</label>
 
                 <input
                   type="text"
@@ -211,30 +211,30 @@
                   </button>
 
                   <button type="button" class="danger-btn image-btn" id="clearImageBtn">
-                    Limpar imagem
+                    Remover imagem
                   </button>
                 </div>
 
                 <div class="image-preview empty" id="imagePreview">
-                  <span>Nenhuma imagem selecionada</span>
+                  <span>Nenhuma imagem escolhida ainda</span>
                 </div>
 
                 <small class="field-hint">
-                  Recomendado: use imagens da pasta assets, exemplo: assets/project.png
+                  Dica: para aparecer para todo mundo no GitHub Pages, use imagens que estejam na pasta assets.
                 </small>
               </div>
 
               <div class="field">
-                <label for="projectLink">Link</label>
+                <label for="projectLink">Link do projeto</label>
                 <input
                   type="text"
                   id="projectLink"
-                  placeholder="Ex: https://github.com/ydeku/..."
+                  placeholder="Ex: link do GitHub, vídeo ou página do projeto"
                 />
               </div>
 
               <div class="field">
-                <label for="projectTags">Tags</label>
+                <label for="projectTags">Tags do card</label>
                 <input
                   type="text"
                   id="projectTags"
@@ -244,11 +244,11 @@
 
               <div class="form-actions">
                 <button type="submit" class="primary-btn" id="saveBtn">
-                  Salvar projeto
+                  Salvar alterações
                 </button>
 
                 <button type="button" class="secondary-btn" id="cancelEditBtn">
-                  Cancelar
+                  Cancelar edição
                 </button>
               </div>
             </form>
@@ -257,18 +257,18 @@
           <div class="panel list-panel dashboard-reveal">
             <div class="panel-header">
               <div>
-                <span class="panel-label">Cards</span>
-                <h2>Projetos cadastrados</h2>
+                <span class="panel-label">Projetos salvos</span>
+                <h2>Cards do portfólio</h2>
               </div>
 
-              <p>Edite, exclua ou reorganize seus cards.</p>
+              <p>Edite, exclua ou mude a ordem dos projetos quando quiser.</p>
             </div>
 
             <div class="project-list" id="projectList"></div>
 
             <div class="empty-state hidden" id="emptyState">
-              <h3>Nenhum projeto ainda</h3>
-              <p>Adicione seu primeiro projeto pelo formulário.</p>
+              <h3>Ainda não tem nenhum projeto</h3>
+              <p>Crie seu primeiro card usando o formulário ao lado.</p>
             </div>
           </div>
         </section>
@@ -278,30 +278,30 @@
 
           <div class="panel-header">
             <div>
-              <span class="panel-label">Tools</span>
-              <h2>Configurações</h2>
+              <span class="panel-label">Backup e reset</span>
+              <h2>Ferramentas rápidas</h2>
             </div>
 
-            <p>Ferramentas rápidas para controlar os dados salvos.</p>
+            <p>Use essas opções para copiar seus dados ou voltar tudo ao padrão.</p>
           </div>
 
           <div class="settings-actions">
-            <button class="secondary-btn" id="exportBtn">Exportar dados</button>
-            <button class="danger-btn" id="clearBtn">Limpar projetos</button>
+            <button class="secondary-btn" id="exportBtn">Copiar dados salvos</button>
+            <button class="danger-btn" id="clearBtn">Resetar projetos</button>
           </div>
 
           <textarea
             id="exportOutput"
             class="export-output"
             readonly
-            placeholder="Os dados exportados vão aparecer aqui..."
+            placeholder="Quando você exportar, os dados dos projetos vão aparecer aqui..."
           ></textarea>
         </section>
       </section>
     </section>
   </main>
 
-  <script src="projects-data.js?v=20"></script>
-  <script src="admin.js?v=20"></script>
+  <script src="projects-data.js?v=21"></script>
+  <script src="admin.js?v=21"></script>
 </body>
 </html>
