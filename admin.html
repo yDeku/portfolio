@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Painel Admin | Y D K</title>
+  <title>Painel Admin | yDeku</title>
 
-  <link rel="stylesheet" href="admin.css?v=21" />
+  <link rel="stylesheet" href="admin.css?v=32" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
 
           <div class="login-brand">
             <div class="login-logo-box">
-              <img src="assets/logo.png" alt="Logo YDK">
+              <img src="assets/logo.png" alt="Logo YDK" />
             </div>
 
             <div>
@@ -81,7 +81,7 @@
         <div>
           <div class="brand">
             <div class="brand-icon">
-              <img src="assets/logo.png" alt="YDK">
+              <img src="assets/logo.png" alt="YDK" />
             </div>
 
             <div class="brand-text">
@@ -164,7 +164,7 @@
                 <h2 id="formTitle">Criar novo projeto</h2>
               </div>
 
-              <p>Coloque as informações que vão aparecer no card do site.</p>
+              <p>Coloque as informações que vão aparecer no card e no modal do site.</p>
             </div>
 
             <form id="projectForm">
@@ -240,6 +240,40 @@
                   id="projectTags"
                   placeholder="Ex: Minecraft, Script API, JSON"
                 />
+
+                <small class="field-hint">
+                  Separe cada tag por vírgula.
+                </small>
+              </div>
+
+              <div class="field">
+                <label for="projectStatus">Status do projeto</label>
+                <input
+                  type="text"
+                  id="projectStatus"
+                  placeholder="Ex: Template, Em desenvolvimento, Finalizado"
+                />
+              </div>
+
+              <div class="field">
+                <label for="projectDetails">Detalhes do projeto</label>
+                <textarea
+                  id="projectDetails"
+                  placeholder="Explique melhor o projeto, as mecânicas, objetivo e o que ele tem de especial."
+                ></textarea>
+              </div>
+
+              <div class="field">
+                <label for="projectFeatures">Pontos fortes</label>
+                <input
+                  type="text"
+                  id="projectFeatures"
+                  placeholder="Ex: Sistema editável, Animações, UI personalizada"
+                />
+
+                <small class="field-hint">
+                  Separe cada ponto por vírgula.
+                </small>
               </div>
 
               <div class="form-actions">
@@ -301,7 +335,7 @@
     </section>
   </main>
 
-  <script src="projects-data.js?v=21"></script>
-  <script src="admin.js?v=21"></script>
+  <script src="projects-data.js?v=32"></script>
+  <script src="admin.js?v=32"></script>
 </body>
 </html>
