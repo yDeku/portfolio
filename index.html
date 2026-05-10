@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YDK — MCBE Developer</title>
 
-  <link rel="stylesheet" href="style.css?v=39">
+  <link rel="stylesheet" href="style.css?v=40">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
@@ -13,26 +13,26 @@
 
   <canvas class="constellation-canvas" id="constellationCanvas"></canvas>
 
- <header class="topbar">
-  <nav class="navbar">
-    <a href="#home" class="brand">
-      <img src="assets/logo.png" alt="YDK Developer">
-    </a>
+  <header class="topbar">
+    <nav class="navbar">
+      <a href="#home" class="brand">
+        <img src="assets/logo.png" alt="YDK Developer">
+      </a>
 
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
 
-    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </nav>
-</header>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
 
   <main>
 
@@ -85,75 +85,69 @@
           <div class="carousel-window" id="carouselWindow">
             <div class="carousel-track" id="carouselTrack">
 
-              <article class="project-card carousel-slide">
-                <div class="project-cover">
-                  <img src="assets/starwars-preview.png" alt="Star Wars project preview">
-
-                  <div class="project-overlay"></div>
-
-                  <div class="project-badges">
-                    <span class="project-badge">Project</span>
-                    <span class="project-badge status">In development</span>
+              <article class="carousel-slide">
+                <div class="project-card">
+                  <div class="project-image">
+                    <img src="assets/starwars-preview.png" alt="Star Wars project preview">
                   </div>
 
-                  <div class="project-cover-info">
+                  <div class="project-content">
+                    <div class="project-tags">
+                      <span>Project</span>
+                      <span>In development</span>
+                    </div>
+
                     <h3>Star Wars</h3>
-                    <p>Inspirated on Star Wars Saga</p>
-                  </div>
-                </div>
+                    <p>Inspirated on Star Wars Saga.</p>
 
-                <div class="project-bottom">
-                  <a href="#contact" class="project-link">
-                    Ask about this project
-                  </a>
+                    <a href="#contact" class="project-link">
+                      Ask about this project
+                    </a>
+                  </div>
                 </div>
               </article>
 
-              <article class="project-card carousel-slide">
-                <div class="project-cover">
-                  <img src="assets/logo.png" alt="Combat system preview">
-
-                  <div class="project-overlay"></div>
-
-                  <div class="project-badges">
-                    <span class="project-badge">System</span>
-                    <span class="project-badge status">Prototype</span>
+              <article class="carousel-slide">
+                <div class="project-card">
+                  <div class="project-image">
+                    <img src="assets/logo.png" alt="Combat system preview">
                   </div>
 
-                  <div class="project-cover-info">
+                  <div class="project-content">
+                    <div class="project-tags">
+                      <span>System</span>
+                      <span>Prototype</span>
+                    </div>
+
                     <h3>Combat System</h3>
                     <p>Custom combos, effects and abilities.</p>
-                  </div>
-                </div>
 
-                <div class="project-bottom">
-                  <a href="#contact" class="project-link">
-                    Ask about this system
-                  </a>
+                    <a href="#contact" class="project-link">
+                      Ask about this system
+                    </a>
+                  </div>
                 </div>
               </article>
 
-              <article class="project-card carousel-slide">
-                <div class="project-cover">
-                  <img src="assets/logo.png" alt="Parkour system preview">
-
-                  <div class="project-overlay"></div>
-
-                  <div class="project-badges">
-                    <span class="project-badge">Parkour</span>
-                    <span class="project-badge status">Concept</span>
+              <article class="carousel-slide">
+                <div class="project-card">
+                  <div class="project-image">
+                    <img src="assets/logo.png" alt="Parkour system preview">
                   </div>
 
-                  <div class="project-cover-info">
+                  <div class="project-content">
+                    <div class="project-tags">
+                      <span>Parkour</span>
+                      <span>Concept</span>
+                    </div>
+
                     <h3>Parkour System</h3>
                     <p>Wall run, ledge grab and smooth movement.</p>
-                  </div>
-                </div>
 
-                <div class="project-bottom">
-                  <a href="#contact" class="project-link">
-                    Ask about this system
-                  </a>
+                    <a href="#contact" class="project-link">
+                      Ask about this system
+                    </a>
+                  </div>
                 </div>
               </article>
 
@@ -216,7 +210,7 @@
     </div>
   </footer>
 
- <script src="projects-data.js?v=11"></script>
-<script src="script.js?v=11"></script>
+  <script src="projects-data.js?v=12"></script>
+  <script src="script.js?v=12"></script>
 </body>
 </html>
