@@ -96,9 +96,7 @@ function setupTiltCards() {
 
     card.dataset.tiltReady = "true";
 
-    card.addEventListener("pointermove", (event) => {
-      if (window.matchMedia("(hover: none)").matches) return;
-
+    card.addEventListener("mousemove", (event) => {
       const rect = card.getBoundingClientRect();
 
       const x = event.clientX - rect.left;
@@ -107,8 +105,8 @@ function setupTiltCards() {
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      const rotateX = ((y - centerY) / centerY) * -7;
-      const rotateY = ((x - centerX) / centerX) * 7;
+      const rotateX = ((y - centerY) / centerY) * -8;
+      const rotateY = ((x - centerX) / centerX) * 8;
 
       const glowX = (x / rect.width) * 100;
       const glowY = (y / rect.height) * 100;
@@ -120,11 +118,11 @@ function setupTiltCards() {
         perspective(1000px)
         rotateX(${rotateX}deg)
         rotateY(${rotateY}deg)
-        scale(1.015)
+        scale(1.018)
       `;
     });
 
-    card.addEventListener("pointerleave", () => {
+    card.addEventListener("mouseleave", () => {
       card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
     });
   });
