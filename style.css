@@ -442,7 +442,30 @@ main {
   padding: 10px 0 24px;
 }
 
+.carousel-window::before,
+.carousel-window::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.carousel-window::before {
+  left: 0;
+  background: linear-gradient(to right, #030303 0%, rgba(3, 3, 3, 0.88) 30%, rgba(3, 3, 3, 0) 100%);
+}
+
+.carousel-window::after {
+  right: 0;
+  background: linear-gradient(to left, #030303 0%, rgba(3, 3, 3, 0.88) 30%, rgba(3, 3, 3, 0) 100%);
+}
+
 .carousel-track {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: stretch;
   gap: 24px;
@@ -836,6 +859,11 @@ main {
 
   .carousel-window {
     padding: 8px 0 20px;
+  }
+
+  .carousel-window::before,
+  .carousel-window::after {
+    width: 52px;
   }
 
   .carousel-track {
