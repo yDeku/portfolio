@@ -1,9 +1,7 @@
 const ADMIN_PASSWORD = "admin123";
 
 const STORAGE_KEYS = {
-  logged: "ydeku_admin_logged",
-  projects: "ydeku_projects",
-  initialized: "ydeku_projects_initialized"
+  logged: "ydeku_admin_logged"
 };
 
 const loginScreen = document.getElementById("loginScreen");
@@ -31,40 +29,7 @@ const clearBtn = document.getElementById("clearBtn");
 const exportOutput = document.getElementById("exportOutput");
 
 function generateId() {
-  if (window.crypto && crypto.randomUUID) {
-    return crypto.randomUUID();
-  }
-
-  return "id-" + Date.now() + "-" + Math.floor(Math.random() * 999999);
-}
-
-function createDefaultProjects() {
-  return [
-    {
-      id: generateId(),
-      title: "Parkour Addon",
-      description: "Sistema de parkour para Minecraft Bedrock com pendurar em bordas, vault e wall run.",
-      image: "",
-      link: "",
-      tags: ["Minecraft", "Script API", "Molang"]
-    },
-    {
-      id: generateId(),
-      title: "Combat System",
-      description: "Sistema de combate com combos, animações, efeitos e habilidades para addons.",
-      image: "",
-      link: "",
-      tags: ["Combat", "Addon", "JSON"]
-    },
-    {
-      id: generateId(),
-      title: "Portfolio Website",
-      description: "Site portfólio profissional para mostrar meus sistemas, projetos e contatos.",
-      image: "",
-      link: "index.html",
-      tags: ["HTML", "CSS", "JavaScript"]
-    }
-  ];
+  return "project-" + Date.now() + "-" + Math.floor(Math.random() * 999999);
 }
 
 function showToast(message) {
@@ -85,31 +50,11 @@ function showToast(message) {
 }
 
 function getProjects() {
-  const savedProjects = localStorage.getItem(STORAGE_KEYS.projects);
-  const initialized = localStorage.getItem(STORAGE_KEYS.initialized) === "true";
-
-  if (!savedProjects && !initialized) {
-    const defaultProjects = createDefaultProjects();
-    saveProjects(defaultProjects);
-    localStorage.setItem(STORAGE_KEYS.initialized, "true");
-    return defaultProjects;
-  }
-
-  if (!savedProjects && initialized) {
-    return [];
-  }
-
-  try {
-    return JSON.parse(savedProjects);
-  } catch (error) {
-    console.error("Erro ao carregar projetos:", error);
-    return [];
-  }
+  return getPortfolioProjects();
 }
 
 function saveProjects(projects) {
-  localStorage.setItem(STORAGE_KEYS.projects, JSON.stringify(projects));
-  localStorage.setItem(STORAGE_KEYS.initialized, "true");
+  savePortfolioProjects(projects);
 }
 
 function checkLogin() {
@@ -166,8 +111,8 @@ function resetForm() {
   cancelEditBtn.classList.remove("show");
 }
 
-function formatTags(tagsText) {
-  return tagsText
+function formatTags(text) {
+  return text
     .split(",")
     .map(tag => tag.trim())
     .filter(tag => tag.length > 0);
@@ -176,42 +121,46 @@ function formatTags(tagsText) {
 function handleProjectSubmit(event) {
   event.preventDefault();
 
-  const projects = getProjects();
+  const title = projectTitle.value.trim();
+  const description = projectDescription.value.trim();
+  const image = projectImage.value.trim();
+  const link = projectLink.value.trim();
+  const tags = formatTags(projectTags.value);
   const editingId = projectId.value;
 
-  const projectData = {
-    id: editingId || generateId(),
-    title: projectTitle.value.trim(),
-    description: projectDescription.value.trim(),
-    image: projectImage.value.trim(),
-    link: projectLink.value.trim(),
-    tags: formatTags(projectTags.value)
-  };
-
-  if (!projectData.title || !projectData.description) {
+  if (!title || !description) {
     alert("Preencha pelo menos o título e a descrição.");
     return;
   }
 
+  let projects = getProjects();
+
+  const projectData = {
+    id: editingId || generateId(),
+    title,
+    description,
+    image,
+    link,
+    tags
+  };
+
   if (editingId) {
-    const updatedProjects = projects.map(project => {
+    projects = projects.map(project => {
       if (project.id === editingId) {
         return projectData;
       }
 
       return project;
     });
-
-    saveProjects(updatedProjects);
-    showToast("Projeto editado e salvo!");
   } else {
     projects.unshift(projectData);
-    saveProjects(projects);
-    showToast("Projeto adicionado e salvo!");
   }
 
+  saveProjects(projects);
   resetForm();
   renderProjects();
+
+  showToast(editingId ? "Projeto editado e salvo!" : "Projeto criado e salvo!");
 }
 
 function renderProjects() {
@@ -230,7 +179,23 @@ function renderProjects() {
     const item = document.createElement("article");
     item.className = "project-item";
 
-    const thumb = createProjectThumb(project);
+    const thumb = document.createElement("div");
+    thumb.className = "project-thumb";
+
+    if (project.image) {
+      const img = document.createElement("img");
+      img.src = project.image;
+      img.alt = project.title;
+
+      img.onerror = () => {
+        thumb.innerHTML = "";
+        thumb.textContent = getInitials(project.title);
+      };
+
+      thumb.appendChild(img);
+    } else {
+      thumb.textContent = getInitials(project.title);
+    }
 
     const info = document.createElement("div");
     info.className = "project-info";
@@ -241,15 +206,15 @@ function renderProjects() {
     const description = document.createElement("p");
     description.textContent = project.description;
 
-    const tags = document.createElement("div");
-    tags.className = "tags";
+    const tagsBox = document.createElement("div");
+    tagsBox.className = "tags";
 
     if (project.tags && project.tags.length > 0) {
       project.tags.forEach(tagText => {
         const tag = document.createElement("span");
         tag.className = "tag";
         tag.textContent = tagText;
-        tags.appendChild(tag);
+        tagsBox.appendChild(tag);
       });
     }
 
@@ -258,25 +223,27 @@ function renderProjects() {
 
     const editButton = document.createElement("button");
     editButton.className = "card-btn edit-btn";
+    editButton.type = "button";
     editButton.textContent = "Editar";
     editButton.addEventListener("click", () => editProject(project.id));
 
     const deleteButton = document.createElement("button");
     deleteButton.className = "card-btn delete-btn";
+    deleteButton.type = "button";
     deleteButton.textContent = "Excluir";
     deleteButton.addEventListener("click", () => deleteProject(project.id));
 
     const upButton = document.createElement("button");
     upButton.className = "card-btn move-btn";
+    upButton.type = "button";
     upButton.textContent = "↑";
-    upButton.title = "Mover para cima";
     upButton.disabled = index === 0;
     upButton.addEventListener("click", () => moveProject(index, index - 1));
 
     const downButton = document.createElement("button");
     downButton.className = "card-btn move-btn";
+    downButton.type = "button";
     downButton.textContent = "↓";
-    downButton.title = "Mover para baixo";
     downButton.disabled = index === projects.length - 1;
     downButton.addEventListener("click", () => moveProject(index, index + 1));
 
@@ -287,7 +254,7 @@ function renderProjects() {
 
     info.appendChild(title);
     info.appendChild(description);
-    info.appendChild(tags);
+    info.appendChild(tagsBox);
     info.appendChild(actions);
 
     item.appendChild(thumb);
@@ -295,28 +262,6 @@ function renderProjects() {
 
     projectList.appendChild(item);
   });
-}
-
-function createProjectThumb(project) {
-  const thumb = document.createElement("div");
-  thumb.className = "project-thumb";
-
-  if (project.image) {
-    const img = document.createElement("img");
-    img.src = project.image;
-    img.alt = project.title;
-
-    img.onerror = () => {
-      thumb.innerHTML = "";
-      thumb.textContent = getInitials(project.title);
-    };
-
-    thumb.appendChild(img);
-    return thumb;
-  }
-
-  thumb.textContent = getInitials(project.title);
-  return thumb;
 }
 
 function getInitials(text) {
@@ -356,9 +301,9 @@ function deleteProject(id) {
   if (!confirmDelete) return;
 
   const projects = getProjects();
-  const filteredProjects = projects.filter(project => project.id !== id);
+  const filtered = projects.filter(project => project.id !== id);
 
-  saveProjects(filteredProjects);
+  saveProjects(filtered);
   renderProjects();
   resetForm();
   showToast("Projeto excluído!");
@@ -383,26 +328,25 @@ function exportProjects() {
 
   exportOutput.value = data;
 
-  navigator.clipboard
-    .writeText(data)
-    .then(() => {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(data).then(() => {
       showToast("Dados copiados!");
-    })
-    .catch(() => {
-      showToast("Copie os dados manualmente.");
     });
+  } else {
+    showToast("Copie os dados manualmente.");
+  }
 }
 
 function clearProjects() {
-  const confirmClear = confirm("Isso vai apagar todos os projetos salvos neste navegador. Continuar?");
+  const confirmClear = confirm("Isso vai resetar os projetos para o padrão. Continuar?");
 
   if (!confirmClear) return;
 
-  saveProjects([]);
+  saveProjects(DEFAULT_PROJECTS);
   exportOutput.value = "";
   resetForm();
   renderProjects();
-  showToast("Projetos apagados!");
+  showToast("Projetos resetados!");
 }
 
 loginForm.addEventListener("submit", handleLogin);
