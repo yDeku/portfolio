@@ -1,1 +1,181 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel | yDeku</title>
+
+  <link rel="stylesheet" href="admin.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <main class="admin-page">
+    <section class="login-screen" id="loginScreen">
+      <div class="login-card">
+        <div class="login-logo">yDeku</div>
+
+        <h1>Admin Panel</h1>
+        <p>Entre para editar os projetos do seu portfólio.</p>
+
+        <form id="loginForm">
+          <label for="passwordInput">Senha</label>
+          <input
+            type="password"
+            id="passwordInput"
+            placeholder="Digite a senha"
+            autocomplete="current-password"
+          />
+
+          <button type="submit">Entrar</button>
+
+          <span class="login-error" id="loginError">
+            Senha incorreta.
+          </span>
+        </form>
+
+        <small>A senha padrão é <strong>admin123</strong>. Depois você pode trocar no JS.</small>
+      </div>
+    </section>
+
+    <section class="dashboard hidden" id="dashboard">
+      <aside class="sidebar">
+        <div>
+          <div class="brand">
+            <span class="brand-icon">◆</span>
+            <span>yDeku Admin</span>
+          </div>
+
+          <nav class="menu">
+            <a href="#projects" class="active">Projetos</a>
+            <a href="#settings">Configurações</a>
+          </nav>
+        </div>
+
+        <button class="logout-btn" id="logoutBtn">Sair</button>
+      </aside>
+
+      <section class="content">
+        <header class="topbar">
+          <div>
+            <h1>Painel Admin</h1>
+            <p>Gerencie os projetos que aparecem no seu site.</p>
+          </div>
+
+          <a class="site-btn" href="index.html">Ver site</a>
+        </header>
+
+        <section class="admin-grid" id="projects">
+          <div class="panel form-panel">
+            <div class="panel-header">
+              <h2 id="formTitle">Adicionar projeto</h2>
+              <p>Preencha os dados do card.</p>
+            </div>
+
+            <form id="projectForm">
+              <input type="hidden" id="projectId" />
+
+              <div class="field">
+                <label for="projectTitle">Título</label>
+                <input
+                  type="text"
+                  id="projectTitle"
+                  placeholder="Ex: Parkour Addon"
+                  required
+                />
+              </div>
+
+              <div class="field">
+                <label for="projectDescription">Descrição</label>
+                <textarea
+                  id="projectDescription"
+                  placeholder="Ex: Sistema de parkour para Minecraft Bedrock usando Script API."
+                  required
+                ></textarea>
+              </div>
+
+              <div class="field">
+                <label for="projectImage">Imagem</label>
+                <input
+                  type="text"
+                  id="projectImage"
+                  placeholder="Ex: assets/project.png ou URL da imagem"
+                />
+              </div>
+
+              <div class="field">
+                <label for="projectLink">Link</label>
+                <input
+                  type="text"
+                  id="projectLink"
+                  placeholder="Ex: https://github.com/ydeku/..."
+                />
+              </div>
+
+              <div class="field">
+                <label for="projectTags">Tags</label>
+                <input
+                  type="text"
+                  id="projectTags"
+                  placeholder="Ex: Minecraft, Script API, JSON"
+                />
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="primary-btn" id="saveBtn">
+                  Salvar projeto
+                </button>
+
+                <button type="button" class="secondary-btn" id="cancelEditBtn">
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="panel list-panel">
+            <div class="panel-header">
+              <h2>Projetos cadastrados</h2>
+              <p>Edite, exclua ou reorganize seus cards.</p>
+            </div>
+
+            <div class="project-list" id="projectList"></div>
+
+            <div class="empty-state hidden" id="emptyState">
+              <h3>Nenhum projeto ainda</h3>
+              <p>Adicione seu primeiro projeto pelo formulário.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel settings-panel" id="settings">
+          <div class="panel-header">
+            <h2>Configurações</h2>
+            <p>Ferramentas rápidas para controlar os dados salvos.</p>
+          </div>
+
+          <div class="settings-actions">
+            <button class="secondary-btn" id="exportBtn">Exportar dados</button>
+            <button class="danger-btn" id="clearBtn">Limpar projetos</button>
+          </div>
+
+          <textarea
+            id="exportOutput"
+            class="export-output"
+            readonly
+            placeholder="Os dados exportados vão aparecer aqui..."
+          ></textarea>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>
