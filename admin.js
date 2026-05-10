@@ -1,4 +1,4 @@
-const ADMIN_PASSWORD = "admin123";
+const ADMIN_PASSWORD = "brnxs777";
 
 const STORAGE_KEYS = {
   logged: "ydeku_admin_logged"
