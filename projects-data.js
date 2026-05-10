@@ -1,54 +1,54 @@
 const DEFAULT_PROJECTS = [
   {
-    id: "template-1",
-    title: "Project Template",
-    description: "Project description here.",
+    id: "template-01",
+    title: "Projeto exemplo 01",
+    description: "Use este card como modelo para apresentar um projeto do seu portfólio.",
     image: "assets/logo.png",
     link: "#",
-    tags: ["Template"]
+    tags: ["Template", "Projeto", "Exemplo"]
   },
   {
-    id: "template-2",
-    title: "Project Template",
-    description: "Project description here.",
+    id: "template-02",
+    title: "Projeto exemplo 02",
+    description: "Aqui você pode colocar uma descrição curta explicando o que o projeto faz.",
     image: "assets/logo.png",
     link: "#",
-    tags: ["Template"]
+    tags: ["Sistema", "Addon", "Demo"]
   },
   {
-    id: "template-3",
-    title: "Project Template",
-    description: "Project description here.",
+    id: "template-03",
+    title: "Projeto exemplo 03",
+    description: "Substitua esse texto depois pelo nome, imagem e detalhes do seu projeto.",
     image: "assets/logo.png",
     link: "#",
-    tags: ["Template"]
+    tags: ["Minecraft", "API", "JSON"]
   }
 ];
 
-const PROJECTS_STORAGE_KEY = "ydeku_projects";
-
 function getPortfolioProjects() {
-  const savedProjects = localStorage.getItem(PROJECTS_STORAGE_KEY);
+  const savedProjects = localStorage.getItem("ydeku_projects");
 
-  if (savedProjects) {
-    try {
-      const projects = JSON.parse(savedProjects);
-
-      if (Array.isArray(projects)) {
-        return projects;
-      }
-    } catch (error) {
-      console.error("Erro ao carregar projetos salvos:", error);
-    }
+  if (!savedProjects) {
+    localStorage.setItem("ydeku_projects", JSON.stringify(DEFAULT_PROJECTS));
+    return DEFAULT_PROJECTS;
   }
 
-  return DEFAULT_PROJECTS;
+  try {
+    const projects = JSON.parse(savedProjects);
+
+    if (Array.isArray(projects)) {
+      return projects;
+    }
+
+    localStorage.setItem("ydeku_projects", JSON.stringify(DEFAULT_PROJECTS));
+    return DEFAULT_PROJECTS;
+  } catch (error) {
+    console.error("Erro ao carregar projetos:", error);
+    localStorage.setItem("ydeku_projects", JSON.stringify(DEFAULT_PROJECTS));
+    return DEFAULT_PROJECTS;
+  }
 }
 
 function savePortfolioProjects(projects) {
-  localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
-}
-
-function resetPortfolioProjects() {
-  localStorage.removeItem(PROJECTS_STORAGE_KEY);
+  localStorage.setItem("ydeku_projects", JSON.stringify(projects));
 }
