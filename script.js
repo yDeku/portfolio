@@ -41,7 +41,6 @@ if (constellationCanvas) {
   const backgroundConnectionDistance = 150;
   const cursorConnectionDistance = 260;
   const maxCursorConnections = 4;
-
   const cursorHideDelay = 500;
 
   function resizeCanvas() {
@@ -65,7 +64,6 @@ if (constellationCanvas) {
   function getDistance(x1, y1, x2, y2) {
     const dx = x1 - x2;
     const dy = y1 - y2;
-
     return Math.sqrt(dx * dx + dy * dy);
   }
 
@@ -99,7 +97,6 @@ if (constellationCanvas) {
   function updateMousePosition(event) {
     mouseX = event.clientX;
     mouseY = event.clientY;
-
     mouseActive = true;
     cursorOpacity = 1;
     lastMouseMoveTime = performance.now();
@@ -144,7 +141,6 @@ if (constellationCanvas) {
 
       for (let j = i + 1; j < particles.length; j++) {
         const p2 = particles[j];
-
         const distance = getDistance(p1.x, p1.y, p2.x, p2.y);
 
         if (distance < backgroundConnectionDistance) {
@@ -211,7 +207,6 @@ if (constellationCanvas) {
 
     updateCursorFade();
     updateParticles();
-
     drawBackgroundConnections();
     drawParticles();
     drawCursorConnections();
@@ -316,7 +311,6 @@ function nextCarousel() {
   if (!carouselReady) return;
 
   carouselIndex++;
-
   updateActiveSlide();
   moveCarousel(true);
 
@@ -333,7 +327,6 @@ function prevCarousel() {
   if (!carouselReady) return;
 
   carouselIndex--;
-
   updateActiveSlide();
   moveCarousel(true);
 
